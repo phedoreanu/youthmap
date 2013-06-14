@@ -1,4 +1,6 @@
 youthmap
 ========
 
-Idea sharing
+Idea sharing and much more!
+
+[Demo](http://me-phedoreanu.rhcloud.com/youthmap/)
