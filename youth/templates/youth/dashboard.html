@@ -1,0 +1,172 @@
+{% extends 'youth/base.html' %}
+{% load static %}
+{% load navigation %}
+
+{% block icons %}
+    <div class="industries-tabs-container container-24 marginTopMyAccount">
+        <div id="industries-tabs" class="industries-tabs block">
+            <div class="content-container container-14 marginTop">
+                {% if request.user.profile %}
+                    {% include 'youth/dashboard_header.html' with object=request.user.profile %}
+                {% else %}
+                    {% include 'youth/dashboard_header.html' with object=request.user.organisation %}
+                {% endif %}
+            </div>
+
+            <div class="content-container container-11 marginTopNoLeft ">
+                <div class="holderLeft marginLeftBtns">
+                    <div class="buttonMyAccount">
+                        <a href="{% url 'idea_add' %}" class="button {% current 'idea_add' %}">
+                            <span aria-hidden="true" class="svg" data-icon=""></span>Add an Idea</a>
+                    </div>
+                    <div class="buttonMyAccount">
+                        <a href="{% url 'project_add' %}" class="button {% current 'project_add' %}">
+                            <span aria-hidden="true" class="svg" data-icon=""></span>Add a Project</a>
+                    </div>
+                    <div class="buttonMyAccount">
+                        <a href="{% url 'organisation_add' %}" class="button {% current 'organisation_add' %}{% current 'event_add' %}{% current 'media_resource_add' %}">
+                            <span aria-hidden="true" class="svg" data-icon=""></span>Add a Resource</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block what_to_do %} {% endblock %}
+
+{% block articles %}{% endblock %}
+
+{% block content %}
+    <div class="content-container container-23 mainContainer brdLeft">
+        <div class="sidebarGray container-5">
+            <div class="blueMenu">
+                <div class="left-box browse">
+                    <!--<div class="title-bar">My Account</div>-->
+                    <ul class="side-nav">
+                        <li class="{% current 'dashboard' %}">
+                            <a href="{% url 'dashboard' %}">
+                                <span aria-hidden="true" class="svg" data-icon="&#xe01e;"></span>Dashboard
+                            </a>
+                        </li>
+                        <li class="{% current 'profile' %} {% current 'profile_edit' %} {% current 'profile_complete' %}">
+                            <a href=" {% url 'profile' %}">
+                                <span aria-hidden="true" class="svg" data-icon="&#xe002;"></span>My profile
+                            </a>
+                        </li>
+                        <!--<li class="{% current 'my_favorites' %}">
+                            <a href="{% url 'my_favorites' %}">
+                                <span aria-hidden="true" class="svg" data-icon=""></span>My favorites
+                            </a>
+                        </li>-->
+                        <li class="{% current 'my_connections_following' %} {% current 'my_connections_followers' %}">
+                            <a href="{% url 'my_connections_following' %}">
+                                <span aria-hidden="true" class="svg" data-icon="&#xe01f;"></span>My Connections
+                            </a>
+                        </li>
+                        {% comment %}<li class="{% current 'invite_fb' %} {% current 'invite_tw' %} {% current 'invite_email' %} ">
+                            <a href="{% url 'invite_fb' %}">
+                                <span aria-hidden="true" class="svg" data-icon="&#xe022;"></span>Invite Promote
+                            </a>
+                        </li>{% endcomment %}
+                        <li class="{% current 'account_settings' %}{% current 'change_email' %}{% current 'change_password' %}
+                        {% current 'account_notifications' %}{% current 'account_privacy' %}">
+                            <a href="{% url 'account_settings' %}">
+                                <span aria-hidden="true" class="svg" data-icon="&#xe011;"></span>Account
+                                Settings
+                            </a>
+                        </li>
+                        <li class="{% current 'help_me' %}">
+                            <a href="{% url 'help_me' %}">
+                                <span aria-hidden="true" class="svg" data-icon="&#xe026;"></span>Help
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!--BLUE MENU-->
+        <!-- ~~~~~ LEFT COLUMN ~~~~-->
+        <div class="content-container container-20 noMarginLeft">
+            {% block inner_content %}
+                <div class="single-company myAccount block">
+                    <div class="company-info clearfix">
+                        <div class="company-info-description">
+                            <!--<div class="block-title mainTitle centeredDiv"><h2>Geting Started</h2></div>-->
+                            <!-- DASHBOARD CONTENT -->
+                            <div class="content-container container-24">
+                                <div class="divDashboard">
+                                    <div class="content-container container-24 marginTop">
+                                        <div class="content-container container-7 alignRight marginBottomMini">
+                                            <img src="{% static 'youth/images/earth.png' %}" class="logo"
+                                                 alt="">
+                                        </div>
+                                        <div class="content-container container-17 marginLeft alignLeft">
+                                            <h2 class="textColorBlue">Make your contribution to a better
+                                                world!</h2>
+                                            <h4 style="font-weight:normal;">Add your idea, project or
+                                                resource.</h4>
+                                        </div>
+                                    </div>
+                                    <!-- ADD IDEA BTN -->
+                                    <div class="paddingLeft marginTop">
+                                        <div class="container-8 noMarginLeft">
+                                            <a href="{% url 'idea_add' %}">
+                                                <div class="recently-added aboutYouthTime dashboardLine">
+                                                    <div class="container-24">
+                                                                <span aria-hidden="true" class="svgMediu cc"
+                                                                      data-icon=""></span>
+                                                    </div>
+                                                    <div class="content-container container-24 marginTop">
+                                                        <div class="block-title2 textAlignCenter"><h2>ADD AN
+                                                            IDEA</h2></div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- ~~~~~~~ -->
+                                    <!-- ADD PROJECT BTN -->
+                                    <div class="container-8 marginLeft">
+                                        <a href="{% url 'project_add' %}">
+                                            <div class="recently-added aboutYouthTime dashboardLine">
+                                                <div class="container-24">
+                                                            <span aria-hidden="true" class="svgMediu cc"
+                                                                  data-icon=""></span>
+                                                </div>
+                                                <div class="content-container container-24 marginTop">
+                                                    <div class="block-title2 textAlignCenter"><h2>ADD A
+                                                        PROJECT</h2></div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <!-- ~~~~~~~~ -->
+                                    <!-- ADD RESOURCE BTN -->
+                                    <div class="container-8 marginLeft">
+                                        <a href="{% url 'organisation_add' %}">
+                                            <div class="recently-added aboutYouthTime dashboardLine">
+                                                <div class="container-24">
+                                                            <span aria-hidden="true" class="svgMediu cc"
+                                                                  data-icon=""></span>
+                                                </div>
+                                                <div class="content-container container-24 marginTop">
+                                                    <div class="block-title2 textAlignCenter"><h2>ADD A
+                                                        RESOURCE</h2></div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <!-- ~~~~~~~~ -->
+                                </div>
+                                <!--/End divDashboard-->
+                            </div>
+                        </div>
+                        <!--/End dashboard content-->
+                    </div>
+                </div>
+                <!--/single-company-->
+            {% endblock inner_content %}
+        </div>
+    </div>
+{% endblock content %}

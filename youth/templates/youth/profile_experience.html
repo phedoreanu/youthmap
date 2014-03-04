@@ -1,0 +1,34 @@
+{% if experiences %}
+    <div id="zl_wrapper">
+        <ul class="zl_acc">
+            {% for exp in experiences %}
+                <li>
+                    <h2>{{ exp.name_of_institution }}</h2>
+                    <span class="underTitle">
+                        <strong>Location:</strong> {{ exp.city }}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Position:</strong> {{ exp.position }}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Period:</strong> {{ exp.start_date|date }} - {{ exp.end_date|default:'present' }}</span>
+
+                    <div>
+                        <h4>Description</h4>
+                        {{ exp.description }}
+
+                        {% if exp.website %}
+                            <h4>Organisation website</h4>
+                            <a target="_blank" href="{{ exp.website }}">{{ exp.website }}</a>
+                        {% endif %}
+
+                        <div class="content-container noMarginLeft floatRight">
+                            <a href="{{ exp.get_delete_url }}" class="lightDark button2 noMarginTop marginSemiBottom">
+                                <span aria-hidden="true" class="svg" data-icon="&#xe04c;"></span>Delete</a>
+                        </div>
+                        <div class="content-container noMarginLeft floatRight">
+                            <a href="{{ exp.get_update_url }}" class="lightDark button2 noMarginTop marginSemiBottom">
+                                <span aria-hidden="true" class="svg" data-icon="&#xe049;"></span>Edit</a>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}

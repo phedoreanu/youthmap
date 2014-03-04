@@ -1,0 +1,574 @@
+/*=========================================TEASER PAGE GENERAL=======================================================================*/
+.teaserBg {
+    background-color: #34b2bf;
+
+}
+
+.block-title.landingPage.small.teaser {
+    color: white;
+    font-size: 35px;
+    font-weight: bold;
+    padding: 20px 0 30px 0;
+}
+
+.teaserWhiteBg {
+    background: url(../images/teaser/map_teaser.png) no-repeat center;
+    text-align: center;
+}
+
+.contentTeaser {
+    margin: 0 auto;
+    text-align: center;
+
+}
+
+.teaserWhiteBg img {
+    margin: 40px;
+
+}
+
+.contentTeaser img a {
+    padding: 40px;
+    width: 377px;
+    height: 69px;
+}
+
+.city {
+    width: 1030px;
+    height: 375px;
+    background: url(../images/teaser/city.png) center;
+}
+
+.teaserBlueBgTitle {
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 27px;
+    line-height: 27px;
+    font-weight: bold;
+    padding-top: 10px;
+    color: #475759;
+}
+
+.teaserText {
+    text-align: center;
+    color: #475759;
+    font-size: 15px;
+    margin: 0 0 10% 0;
+}
+
+/*=========================================END TEASER PAGE GENERAL=======================================================================*/
+
+* {
+
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+
+}
+
+header h3 {
+    width: 95%;
+    max-width: 450px;
+    color: #ddd;
+    text-align: center;
+    margin: 20px auto 20px;
+}
+
+/* === the links from where you can choose between the Sign In and Register pop-up forms === */
+#options {
+    margin: 100px auto 100px;
+    text-align: left;
+}
+
+/* === the dark full screen background, which appears on form pop-up === */
+#background-on-popup {
+    z-index: 29;
+    position: fixed;
+    display: none;
+    height: 100%;
+    width: 100%;
+    background: #000000;
+    top: 0;
+    left: 0;
+    opacity: 0.8;
+}
+
+/* === The X-mark from the top-right corner of the pop-up form, from which you can close the box === */
+div.close {
+    background: url("../images/register/closebox.png") no-repeat scroll 0 0 transparent;
+    cursor: pointer;
+    float: right;
+    height: 16px;
+    top: 28px;
+    right: 13px;
+    position: relative;
+    width: 16px;
+}
+
+/* ==== Sign-In and Register Tabs ==== */
+#sign-in-tab, #register-tab {
+    color: #4d4d4d;
+    font-size: 13px;
+    padding: 8px;
+    display: inline-block;
+    cursor: pointer;
+
+}
+
+/* ==== Wrapper of the forms ==== */
+#sign-in-form {
+    max-width: 480px;
+    min-width: 280px;
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    position: absolute;
+    display: none;
+    left: 50%;
+    top: 20%;
+    margin-left: -240px;
+    border-radius: 4px;
+    z-index: 30;
+}
+
+#register-form-teaser {
+    max-width: 350px;
+    min-width: 250px;
+    color: #fff;
+    padding: 20px;
+    margin-top: -28px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    z-index: 30;
+}
+
+/* ==== The form section styling of elements ==== */
+#form-section-teaser {
+    border-radius: 4px;
+    background: #162a2b; /* here you can change the background color of the form */
+    padding: 20px 30px 30px 30px;
+    /* IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";
+    /* IE 5-7 */
+    filter: alpha(opacity=90);
+    /* Netscape */
+    -moz-opacity: 0.9;
+    /* Safari 1.x */
+    -khtml-opacity: 0.9;
+    /* Good browsers */
+    opacity: 0.9;
+}
+
+#form-section-teaser li {
+    list-style: none;
+}
+
+#form-section-teaser label span {
+    cursor: pointer;
+    color: #000;
+    display: block;
+    margin: 5px 0;
+    font-size: 15px;
+}
+
+#form-sectionProfile {
+    padding: 30px;
+
+}
+
+#form-sectionProfile li {
+    list-style: none;
+}
+
+#form-sectionProfile label span {
+    cursor: pointer;
+    color: #000;
+    display: block;
+    margin: 5px 0;
+    font-size: 15px;
+}
+
+.left-column {
+    /* left column from the two column input row */
+    float: left;
+    width: 47%;
+
+}
+
+.right-column {
+    /* right column from the two column input row */
+    float: right;
+    width: 47%;
+
+}
+
+@media (max-width: 380px) {
+    /* takes care of the responsive behavior of the two column inputs */
+    .left-column {
+        width: 100%;
+        text-align: left;
+    }
+
+    .right-column {
+        width: 100%;
+        text-align: left;
+    }
+}
+
+@media (max-width: 480px) {
+    /* takes care of the responsive behavior of the pop-up forms */
+    #register-form-teaser, #sign-in-form {
+        margin-left: 0;
+        left: 0;
+        text-align: left;
+    }
+}
+
+#form-section-teaser select {
+    width: 100%;
+    display: inline-block;
+    padding: 4px 3px 3px 5px;
+    margin: 0 0 15px 0;
+    font: inherit;
+    outline: none; /* remove focus ring from Webkit */
+    line-height: 1.2;
+    background-image: linear-gradient(bottom, rgb(236, 236, 236) 38%, rgb(246, 246, 246) 69%);
+    background-image: -o-linear-gradient(bottom, rgb(236, 236, 236) 38%, rgb(246, 246, 246) 69%);
+    background-image: -moz-linear-gradient(bottom, rgb(236, 236, 236) 38%, rgb(246, 246, 246) 69%);
+    background-image: -webkit-linear-gradient(bottom, rgb(236, 236, 236) 38%, rgb(246, 246, 246) 69%);
+    background-image: -ms-linear-gradient(bottom, rgb(236, 236, 236) 38%, rgb(246, 246, 246) 69%);
+    color: #000;
+    border: 1px solid #c7c6c6;
+    border-radius: 5px;
+
+}
+
+#form-section-teaser select.fieldActivity {
+
+    background: #f3f3f3;
+    color: #666;
+
+}
+
+#form-section-teaser select:after {
+    background: url("../images/hover-arrow-down.png") no-repeat right #fff;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    font-size: 60%;
+    line-height: 30px;
+    padding: 0 7px;
+    /*background: #000;*/
+    color: white;
+}
+
+/* ==== Inputs and Buttons of the form, with hover and focus behavior ==== */
+#form-section-teaser input {
+    /* here you can change the properties of the input fields */
+    width: 100%;
+
+    border: 1px solid #c7c6c6;
+    background-image: linear-gradient(bottom, rgb(236, 236, 236) 38%, rgb(246, 246, 246) 69%);
+    background-image: -o-linear-gradient(bottom, rgb(236, 236, 236) 38%, rgb(246, 246, 246) 69%);
+    background-image: -moz-linear-gradient(bottom, rgb(236, 236, 236) 38%, rgb(246, 246, 246) 69%);
+    background-image: -webkit-linear-gradient(bottom, rgb(236, 236, 236) 38%, rgb(246, 246, 246) 69%);
+    background-image: -ms-linear-gradient(bottom, rgb(236, 236, 236) 38%, rgb(246, 246, 246) 69%);
+
+    margin: 0 0 15px 0;
+    padding: 8px;
+    border-radius: 5px;
+    font-size: 12px;
+    color: #000;
+}
+
+#form-section-teaser input:hover {
+    border: 1px solid #87b829;
+    -webkit-transition: border-color 0.2s ease-in-out;
+    -moz-transition: border-color 0.2s ease-in-out;
+    -o-transition: border-color 0.2s ease-in-out;
+    -ms-transition: border-color 0.2s ease-in-out;
+    transition: border-color 0.2s ease-in-out;
+}
+
+#form-section-teaser button[type="submit"] {
+    /* here you can change the properties of the submit button */
+    cursor: pointer;
+    width: 100%;
+    height: 36px;
+    line-height: 36px;
+    border: none;
+    color: #FFF;
+    margin: 15px 0 1px 0;
+    border-radius: 3px;
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    background: #94B84B;
+    -webkit-box-shadow: 0 4px 0 #729131;
+    box-shadow: 0 4px 0 #729131;
+
+}
+
+#form-section-teaser button[type="submit"]:hover {
+    background-color: #729131;
+    -webkit-transition: background 0.3s ease-in-out;
+    -moz-transition: background 0.3s ease-in-out;
+    -o-transition: background 0.3s ease-in-out;
+    -ms-transition: background 0.3s ease-in-out;
+    transition: background 0.3s ease-in-out;
+}
+
+#form-section-teaser input:focus {
+    outline: 0;
+    border: 1px solid #666;
+}
+
+#form-section-teaser input.facebook-login {
+    cursor: pointer;
+    width: 100%;
+    height: 36px;
+    border: none;
+    background: #466ab5;
+    -webkit-box-shadow: 0 4px 0 #3c5a9a;
+    box-shadow: 0 4px 0 #3c5a9a;
+    color: #fff;
+    margin: 20px 0 5px;
+    border-radius: 3px;
+    padding: 0px;
+    font-size: 14px;
+}
+
+#form-section-teaser input.facebook-login:hover {
+    background-color: #3c5a9a;
+    -webkit-transition: background 0.3s ease-in-out;
+    -moz-transition: background 0.3s ease-in-out;
+    -o-transition: background 0.3s ease-in-out;
+    -ms-transition: background 0.3s ease-in-out;
+    transition: background 0.3s ease-in-out;
+}
+
+#form-section-teaser input.google-login {
+    cursor: pointer;
+    width: 100%;
+    height: 36px;
+    border: none;
+    background: #c7362f;
+    -webkit-box-shadow: 0 4px 0 #aa251f;
+    box-shadow: 0 4px 0 #aa251f;
+    color: #FFF;
+    margin: 20px 0 5px;
+    border-radius: 3px;
+    font-size: 14px;
+    padding: 0px;
+}
+
+#form-section-teaser input.google-login:hover {
+    background-color: #aa251f;
+    -webkit-transition: background 0.3s ease-in-out;
+    -moz-transition: background 0.3s ease-in-out;
+    -o-transition: background 0.3s ease-in-out;
+    -ms-transition: background 0.3s ease-in-out;
+    transition: background 0.3s ease-in-out;
+}
+
+#form-section label.rem-me {
+    font-size: 12px;
+}
+
+/* === The section numbering from the registration form === */
+#form-section-teaser {
+
+    font-size: 13px;
+    text-align: left;
+}
+
+span.register-numbering {
+    padding: 3px 8px;
+    background-color: #fff;
+    color: #333;
+    margin-right: 10px;
+    border-radius: 3px;
+}
+
+span.stay-tuned {
+    float: left;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 22px;
+    margin: 5px 0 0 0;
+}
+
+span.stay-tuned-subtext {
+    margin-bottom: 20px;
+    float: left;
+    text-align: left;
+    font-size: 13px;
+
+}
+
+div.loader {
+    background: url("../images/register/loading.gif") no-repeat scroll 0 0 transparent;
+    height: 32px;
+    width: 32px;
+    display: none;
+    z-index: 9999;
+    top: 40%;
+    left: 50%;
+    position: absolute;
+    margin-left: -10px;
+}
+
+/* === Footer section === */
+
+/* ==== Placeholder customization ==== */
+::-webkit-input-placeholder {
+    color: #888;
+}
+
+:-moz-placeholder {
+    color: #888;
+}
+
+::-moz-placeholder {
+    color: #888;
+}
+
+:-ms-input-placeholder {
+    color: #888;
+}
+
+/* ==== End of placeholder customization ==== */
+
+/* === HTML5 validation styles === */
+#form-section-teaser input:required:valid {
+    background: #efefef url(../images/register/valid-icon.png) no-repeat 99% 50%;
+    background-position: right 6px center;
+}
+
+#form-section-teaser input:focus:invalid {
+    background: #fcc7c7 url(../images/register/invalid-icon.png) no-repeat 99% 50%;
+    background-position: right 6px center;
+}
+
+/* === Custom checkbox (Remember me checkbox) === */
+
+#checkbox li {
+    margin-top: 1px;
+    border-radius: 4px;
+    position: relative;
+    display: inline-block;
+    border: 1px solid #bebebe;
+    top: 5px;
+}
+
+#checkbox li:hover {
+    border: 1px solid #666;
+    -webkit-transition: border-color 0.2s ease-in-out;
+    -moz-transition: border-color 0.2s ease-in-out;
+    -o-transition: border-color 0.2s ease-in-out;
+    -ms-transition: border-color 0.2s ease-in-out;
+    transition: border-color 0.2s ease-in-out;
+}
+
+#checkbox li input {
+    display: none;
+}
+
+#checkbox label {
+    font-size: 14px;
+    margin-left: 6px;
+    color: #666;
+}
+
+#checkbox .selected {
+    background-color: #333;
+}
+
+#checkbox .selected span.unchecked-state {
+    display: none;
+}
+
+span.unchecked-state {
+    display: block;
+    width: 18px;
+    height: 18px;
+    color: #fff;
+    cursor: pointer;
+    background-color: #fff;
+    border-radius: 2px;
+}
+
+span.checked-state {
+    display: none;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    background-color: #fff;
+    background-image: url(../images/register/checkmark-icon.png);
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    border-radius: 2px;
+}
+
+#checkbox li.selected span.checked-state {
+    display: block;
+}
+
+/* ==== HTML5 Custom Validation Bubble for Chrome ===== */
+::-webkit-validation-bubble-message {
+    background-color: #E5534E;
+    font-size: 14px;
+    top: -4px;
+    left: 0px;
+    width: auto;
+    margin: 0;
+    border: none;
+    text-align: left;
+    display: block;
+    padding: 6px;
+    border-radius: 4px;
+
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    text-indent: -22px;
+}
+
+::-webkit-validation-bubble-message > div > div + * {
+    font-size: 16px;
+    line-height: 32px;
+    font-family: sans-serif;
+    color: #000;
+}
+
+::-webkit-validation-bubble-icon {
+    background-color: transparent;
+    padding: 0px;
+    text-indent: 0px;
+    display: inline-block;
+    position: relative;
+    background-image: none;
+    background-repeat: none;
+
+    -webkit-background-size: 100%;
+    -moz-background-size: 100%;
+    background-size: 100%;
+    float: left;
+}
+
+::-webkit-validation-bubble-arrow {
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    top: 5px;
+    color: #E5534E;
+}
+
+::-webkit-validation-bubble-arrow:before {
+    position: absolute;
+    content: "\25E4";
+}
+
+/* ==== End of validation bubbles customization ==== */

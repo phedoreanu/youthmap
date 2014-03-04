@@ -1,0 +1,12 @@
+{% block subject %}Youthmap - Forgot your password!{% endblock %}
+{% block html %}
+    <p>Hi {{ full_name }},</p>
+
+    <p>Your new password for username '{{username}}' is:
+        <span>{{ password }}</span>
+    </p>
+
+    <p>Thanks!</p>
+
+    <a href="http://www.youthmap.org/dashboard/">Log in!</a>
+{% endblock %}

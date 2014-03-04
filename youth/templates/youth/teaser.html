@@ -1,0 +1,103 @@
+{% load static %}
+<!doctype html>
+<html lang="en-US">
+<head profile="http://www.w3.org/2005/10/profile">
+    <link rel="icon" type="image/png" href="{% static 'youth/images/favicon.png' %}">
+
+    <meta charset="utf-8">
+    <title>Youth Map</title>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"/>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'youth/css/responsive-grid.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'youth/css/styles.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'youth/css/register-teaser.css' %}"/>
+
+    <script type="text/javascript" src="{% static 'youth/js/jquery-1.10.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'youth/js/jquery-video-lightning.js' %}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.get('{% url 'get_countries' %}', function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    var country = data[i];
+                    $('<option>').val(country.pk).text(country.fields.name).appendTo('#country');
+                }
+            });
+
+            $(".video-link").jqueryVideoLightning({
+                autoplay: 1,
+                backdrop_color: "#ddd",
+                backdrop_opacity: 0.6,
+                glow: 20,
+                glow_color: "#000"
+            });
+        });
+    </script>
+</head>
+<body class="teaserBg">
+<div class="teaserWhiteBg">
+    <div class="zone-content equalize zone clearfix">
+        <div class="content-container container-24 noMarginLeft">
+            <a href="{% url 'index' %}">
+                <img src="{% static 'youth/images/teaser/logo_big.png' %}"/>
+            </a>
+
+            <div class="teaserBlueBgTitle">Share ideas, projects and resources for a better world!</div>
+            <div class="teaserText">We are an online platform for social change.</div>
+
+            {% block content %}
+                <div class="city">
+                    <div class="content-container container-15">
+                        <span class="video-target" style="cursor: pointer;">
+                            <span class="video-link" data-video-id="y=AzIiaEK3Xlg">
+                                <div class="teaserPlayBtn"></div>
+                            </span>
+                        </span>
+                    </div>
+                    <div class="content-container container-9">
+                        <form id="register-form-teaser" action="{% url 'teaser' %}" method="post"
+                              autocomplete="off">
+                            {% csrf_token %}
+                            <ul id="form-section-teaser">
+                                <span class="stay-tuned">Stay Tuned!</span>
+                                <span class="stay-tuned-subtext">YouthMap platform will be launched soon and ideas will be shared instantly!</span>
+                                <li>
+                                    <label>
+                                        <input type="text" name="username" tabindex="1" pattern="[a-zA-Z0-9]{4,}"
+                                               placeholder="Username"
+                                               title="It must contain alphanumeric characters and a length of minimum 4 characters !"
+                                               required>
+                                    </label>
+                                </li>
+                                <div style="clear:both;"></div>
+                                <li>
+                                    <label>
+                                        <select id="country" name="country" tabindex="2" required>
+                                            <option value="">Select country</option>
+                                        </select>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label>
+                                        <input type="email" name="email" tabindex="3" placeholder="Your email address"
+                                               title="It must contain a valid email address e.g. 'you@provider.com' !"
+                                               required>
+                                    </label>
+                                </li>
+                                <div style="clear: both;"></div>
+                                <li>
+                                    <button name="submit" tabindex="11" type="submit" id="create-account-submit">
+                                        Keep me informed
+                                    </button>
+                                </li>
+                            </ul>
+                        </form>
+                    </div>
+                </div>
+            {% endblock content %}
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,51 @@
+{% extends 'youth/account_settings.html' %}
+{% load static %}
+{% load navigation %}
+{% load crispy_forms_tags %}
+
+{% block css %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'youth/css/accountSettingsFields.css' %}"
+          media="screen, projection"/>
+{% endblock %}
+
+{% block account_inner_content %}
+
+    <!--~~~-->
+    <div class="company-listing clearfix">
+        <div class="listing-body">
+            <div class="container-24">
+                <div class="blueTitle marginTop">Email me immediately when someone</div>
+                <div class="descriptionTitle noMarginZero"></div>
+                <div class="radio-buttons">
+                    <input type="radio" name="notifs" value="anyone">Follows my profile or when I add a new project, idea or resource<br/>
+                    <input type="radio" name="notifs" value="part-t">Don't send notification
+                </div>
+            </div>
+            <div class="container-24 marginSemiTop">
+                <button name="submit" class="small green button2 marginBottomMini marginLeft" tabindex="13"
+                        type="save" id="save" action="#">Save
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="company-listing clearfix">
+        <div class="listing-body">
+            <div class="container-24">
+                <div class="blueTitle">Newsletter</div>
+
+{#                <div class="descriptionTitle noMarginZero">I would like to receive</div>#}
+                <div class="radio-buttons">
+                    <input type="radio" name="newsletter" value="anyone">Receive newsletter<br>
+                    <input type="radio" name="newsletter" value="part-time">Don't receive newsletter
+                </div>
+            </div>
+            <div class="container-24 marginSemiTop">
+                <button name="submit" class="small green button2 marginBottomMini marginLeft" tabindex="13"
+                        type="save" id="save" action="#">Save
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock account_inner_content %}

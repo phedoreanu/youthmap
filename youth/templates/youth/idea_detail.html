@@ -1,0 +1,234 @@
+{% extends 'youth/organisations.html' %}
+{% load static %}
+{% load filters %}
+
+{% block script %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'youth/js/jquery.rater.js' %}"></script>
+
+    <script>
+        $(document).ready(function () {
+            $(function () {
+                $('#{{ idea|to_class_name }}_{{ idea.pk }}').rater({ postHref: '{% url 'rate' %}' });
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block maps %}
+    {% include 'youth/gmaps.html' with object_list=idea %}
+{% endblock maps %}
+
+{% block content %}
+    <div class="content-wrapper">
+    <div class="zone-content equalize zone clearfix">
+    <div class="content-container container-23 mainContainer">
+    <div class="content-container container-23 noMarginLeft topBar">
+        <div class="content-container container-20 noMarginLeft">
+            <div class="iconTitle"><span aria-hidden="true" class="svg" data-icon="&#xe01c;"></span>An
+                {% for label in idea.field_of_activity.all %}
+                    {{ label }}
+                {% endfor %}
+                Idea
+            </div>
+        </div>
+        <div class="content-container container-5 noMarginLeft">
+            <a href="{% url 'idea_list' %}">
+                <div class="backBtn"><span aria-hidden="true" class="svg" data-icon="&#xf0a8;"></span>Back
+                    to List
+                </div>
+            </a>
+        </div>
+    </div>
+    <!-- ~~~~~ LEFT COLUMN ~~~~-->
+    <div class="content-container container-20 noMarginLeft">
+        <div class="single-company block">
+            <div class="company-info clearfix">
+                <div class="company-info-description">
+                    <div class="breadcrumbs">
+                        <a href="{% url 'home' %}"><i>Home</i></a>
+                        <span></span>
+                        <a href="{% url 'idea_list' %}"><i>Ideas</i></a>
+                    </div>
+                    <div class="block-title mainTitle"><h2>{{ idea.title }}</h2>
+                    </div>
+                    <span class="underTitle">
+                        A{{ idea.field_of_activity.all.0.name|startswith:'I O E' }}
+                        {% for label in idea.field_of_activity.all %}
+                            <span>{{ label }}{% if not forloop.last %},{% endif %}</span>
+                        {% endfor %} Idea by
+                        {% if idea.owner.profile %}
+                            <a href="{% url 'profile' idea.owner.profile.id %}">{{ idea.owner.get_full_name }}</a>
+                        {% elif idea.owner.organisation %}
+                            <a href="{% url 'organisation' idea.owner.organisation.id %}">{{ idea.owner.organisation.title }}</a>
+                        {% endif %}
+                         | Location: <span>{{ idea.city }}</span>
+                    </span>
+
+                    {% if idea.owner == request.user %}
+                        <div class="content-container noMarginLeft marginTop2">
+                            <a href="{% url 'idea_update' idea.pk %}"
+                               class="lightDark button2 noMarginTop">
+                                <span aria-hidden="true" class="svg" data-icon=""></span>Edit this idea</a>
+                        </div>
+                    {% endif %}
+                    <!--~~~-->
+                    {% if idea.slogan%}<div class="description">
+                        <span class="descriptionTitle">Idea slogan</span><br/>
+                        {{ idea.slogan|linebreaks }}
+                    </div>{% endif %}
+
+                    {% if idea.problem_addressed%}<div class="description">
+                        <span class="descriptionTitle">Problem addressed</span><br/>
+                        {{ idea.problem_addressed|linebreaks }}
+                    </div>{% endif %}
+                    <!--~~~-->
+                    <!--~~~-->
+                    <div class="description">
+                        <span class="descriptionTitle">Description</span><br/>
+                        {{ idea.description|linebreaks }}
+                    </div>
+                    <!--~~~-->
+                    <!--~~~-->
+                    {% if idea.objectives%}<div class="description">
+                        <span class="descriptionTitle">Objectives</span><br/>
+                        {{ idea.objectives|linebreaks }}
+
+                    </div>{% endif %}
+                    <!--~~~-->
+
+                    <!--~~~-->
+                    {% if idea.background%}<div class="description">
+                        <span class="descriptionTitle">Possible partners</span><br/> 
+                        {{ idea.background|linebreaks }}
+
+                    </div>{% endif %}
+                    <!--~~~-->
+                    {% if idea.milestones%}<div class="description">
+                        <span class="descriptionTitle">Steps</span><br/>
+                        {{ idea.milestones|linebreaks }}
+
+                    </div>{% endif %}
+
+                    <div class="description">
+                        {% if idea.resources.all or idea.resources.all %}<span class="descriptionTitle">Resources</span><br/>{% endif %}
+                        <span class="underTitle resourcesTitle need">
+                            {% if idea.resources.all%}<strong>We have:</strong>{% endif %}
+                            {% for label in idea.resources.all %}
+                                <span>{{ label }}{% if not forloop.last %},{% endif %}</span>
+                            {% endfor %}
+                        </span>
+                        <br/>
+                        <span class="underTitle resourcesTitle need">
+                            {% if idea.resources_needed.all%}<strong>We need:</strong>{% endif %}
+                            {% for label in idea.resources_needed.all %}
+                                <span>{{ label }}{% if not forloop.last %},{% endif %}</span>
+                            {% endfor %}
+                        </span>
+                    </div>
+                    {% if idea.other_needs%}<div class="description">
+                        <span class="descriptionTitle">Other Needs</span><br/>
+                        {{ idea.other_needs }}
+
+                    </div>{% endif %}
+                    {% if idea.tags.all%}<div class="description">
+                        <div class="descriptionTitle">Tags</div>
+                        {% for label in idea.tags.all %}
+                            <div data-alert class="alert-box tags">{{ label }}</div>
+                        {% endfor %}
+                        <div style="clear:both;"></div>
+                        </div>
+                    {% endif %}
+                    <div style="clear:both;"></div>
+
+                    {% if idea.attachment %}
+                        <div class="description">
+                            <div class="descriptionTitle">Attachments</div>
+                            <span aria-hidden="true" class="svgfooter" data-icon="&#xe019;"></span>
+                            <a target="_blank" href="{{ idea.attachment.url }}">{{ idea.attachment }}</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <!--/single-company-->
+    </div>
+
+    <div class="sidebarGray container-5">
+        <div class="sidebarGrayContainer">
+            <h3 class="block-title">Idea Timeline</h3>
+
+{#            <div class="progress"><span class="meter"></span></div>#}
+            <div class="marunt">
+                <p>{{ idea.start_date|date }} - {{ idea.end_date|date|default:'present' }}</p>
+
+                {% if idea.start_date|timeuntil|minutes > 0 %}
+                    <p><strong>{{ idea.start_date|timeuntil }} until start</strong></p>
+                {% elif idea.end_date|timeuntil|minutes > 0 %}
+                    <p><strong>{{ idea.end_date|timeuntil }} left</strong></p>
+                {% endif %}
+
+                <p>Status:
+                    {% if idea.start_date|timeuntil|minutes > 0 %}
+                        <strong class="textColorRed">Not started</strong>
+                    {% elif idea.end_date|timeuntil|minutes == 0 %}
+                        <strong class="textColorGreen">Completed</strong>
+                    {% else %}
+                        <strong class="textColorBlue">In progress</strong>
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    {% if idea.budget%}<div class="sidebarGray container-5">
+        <div class="sidebarGrayContainer">
+            <h3 class="block-title">Budget</h3>
+
+            <div class="marunt"><p>{{ idea.budget }} €</p></div>
+        </div>
+    </div>{% endif %}
+
+    <div class="sidebarGray container-5">
+        <div class="sidebarGrayContainer">
+            <h3 class="block-title">Contact</h3>
+                        <span class="underTitle"><strong>{{ idea.owner.get_full_name }}</strong><br/>
+                            <i>{{ idea.owner.profile.title }}{{ idea.owner.organisation.title }}</i></span><br/>
+            <span class="underTitle"><strong>Email</strong><br/><i>{{ idea.owner.email }}</i></span><br/>
+{#                                    <span class="underTitle"><strong>Telephone</strong><br/><i>0040755989636</i></span> <br/>#}
+        </div>
+    </div>
+
+    <div class="sidebarGray container-5">
+        <div class="sidebarGrayContainer">
+            <h3 class="block-title">Rate this idea</h3>
+
+            <div id="{{ idea|to_class_name }}_{{ idea.pk }}" class="stat">
+                <label for="rating"></label>
+
+                <div class="statVal">
+                    <span class="ui-rater">
+                        <span class="ui-rater-starsOff" style="width:90px;">
+                            <span class="ui-rater-starsOn" style="width:63px"></span>
+                        </span>
+                        <span class="ui-rater-rating">{{ idea.rating.score }}</span>&#160;
+                        (<span class="ui-rater-rateCount">{{ idea.rating.votes }}</span>)
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="sidebarGray container-5">
+        <div class="sidebarGrayContainer">
+            <h3 class="block-title" style="margin-bottom:10px;">Share</h3>
+            <span class='st_facebook_hcount' displayText='Facebook'></span>
+            <span class='st_twitter_hcount' displayText='Tweet'></span>
+            <span class='st_linkedin_hcount' displayText='LinkedIn'></span>
+            <span class='st_email_hcount' displayText='Email'></span>
+        </div>
+    </div>
+    </div>
+    </div>
+    <!-- end of .content-container -->
+    </div><!-- end of .content-wrapper -->
+{% endblock content %}

@@ -1,0 +1,50 @@
+{% load static %}
+{% load thumbnail %}
+
+<div class="latest-activity">
+    <ul class="entries-list-activity">
+        {% for log in logs %}
+            <li class="clearfix">
+                {% if log.user.profile.photo %}
+                    {% thumbnail log.user.profile.photo '67' crop="center" format="PNG" format="PNG" as im %}
+                        <a href="{% url 'profile'  log.user.profile.id %}" class="th">
+                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                        </a>
+                    {% endthumbnail %}
+
+                {% elif log.user.organisation.photo %}
+                    {% thumbnail log.user.organisation.photo '67' crop="center" format="PNG" as im %}
+                        <a href="{% url 'organisation'  log.user.organisation.id %}" class="th">
+                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                        </a>
+                    {% endthumbnail %}
+                {% else %}
+                    <a class="th">
+                        <img src="{% static 'youth/images/members/no-pic.jpg' %}" width="40" height="40">
+                    </a>
+                {% endif %}
+
+                {% if log.user.profile %}
+                    <a href="{% url 'profile' log.user.profile.id %}" class="entry-title">
+                        <strong>{{ log.user.get_full_name }}</strong>
+                    </a>
+                {% elif log.user.organisation %}
+                    <a href="{% url 'organisation'  log.user.organisation.id %}" class="entry-title">
+                        <strong>{{ log.user.organisation.title }}</strong>
+                    </a>
+                {% endif %}
+
+                {% if log.action_flag == 2 %}
+                    has changed
+                {% elif log.action_flag == 1 %}
+                    has added
+                {% endif %}
+                {{ log.content_type }}
+                <a href="{% url 'display' log.content_type.model log.object_id %}">{{ log.object_repr }}</a>
+
+                <div class="entry-excerpt">{{ log.action_time|timesince }} ago</div>
+            </li>
+        {% endfor %}
+    </ul>
+    <div style="clear:both;"></div>
+</div>

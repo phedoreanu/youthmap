@@ -1,0 +1,79 @@
+{% extends "youth/base_site.html" %}
+{% load i18n %}
+{#{% load staticfiles %}#}
+
+{% block title %}{{ title }} {% trans 'Youth Map' %}{% endblock title %}
+
+{% block content %}
+    <div id="login-in-form">
+        <form class="alignLeft" action="{% url 'login_ajax' %}" method="post" autocomplete="off">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next }}"/>
+
+            <ul class="form-section">
+                <p><span class="register-numbering-text">LOGIN</span></p>
+
+                <div class="login-error-message" style="color: red;"></div>
+                <li>
+                    <label>
+                        <input placeholder="Username" name="username" id="username" pattern="[a-zA-Z0-9]{4,}"
+                               type="text"
+                               tabindex="4"
+                               title="It must contain the username that you have chosen at registration"
+                               required>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input placeholder="Your password" name="password" pattern=".{4,}" type="password"
+                               tabindex="5"
+                               title="It must contain the password that you have chosen at registration"
+                               required>
+                    </label>
+                </li>
+                <div id="checkbox">
+                    <li>
+                        <input name="remember_me" type="hidden" id="remember_me"/>
+                        <span class="unchecked-state" tabindex="6"></span>
+                        <span class="checked-state" tabindex="6"></span>
+                    </li>
+                    <label class="rem-me">
+                        Remember me next time
+                    </label>
+                </div>
+                <a href="#" class="show_hide" style="display: inline;">I forgot my password</a>
+                <li>
+                    <button tabindex="7" name="sign-in-submit" type="submit" id="sign-in-submit">Login</button>
+                </li>
+                <!--<li>
+                    <label class="left-column">
+                        <input type="button" class="facebook-login" value="Login with Facebook">
+                    </label>
+                    <label class="right-column">
+                        <input type="button" class="google-login" value="Login with Google">
+                    </label>
+                </li>-->
+                <div style="clear: both;"></div>
+            </ul>
+        </form>
+        <!-- END OF SIGN IN FORM -->
+
+        <!-- SHOW / HIDE recover password -->
+        <form id="recover-email-form" action="{% url 'forgot' %}" method="post" autocomplete="off">
+            {% csrf_token %}
+            <div class="slidingDiv">
+                <a href="#" class="show_hide close">(X) Cancel</a>
+                <span>I FORGOT MY PASSWORD</span>
+                <label>
+                    <input type="email" name="email" tabindex="8" placeholder="Your email address"
+                           title="It must contain a valid email address e.g. 'someone@provider.com' !" required>
+                </label>
+                <button class="lightDark button2 noMarginTop marginSemiBottom" name="sign-in-submit"
+                        type="submitRecovery"
+                        id="recovery">Send
+                </button>
+            </div>
+            <!-- End show hide recovery -->
+        </form>
+    </div>
+{% endblock content %}

@@ -1,0 +1,59 @@
+{% extends 'youth/resources.html' %}
+{% load static %}
+
+{#{% block maps %}#}
+{#    {% include 'youth/gmaps.html' with object_list=mediaresource_list %}#}
+{#{% endblock maps %}#}
+
+{% block extra_action %}
+    <div class="content-container container-20 noMarginLeft">
+        <div class="iconTitleRes"><span aria-hidden="true" class="svg" data-icon=""></span>Resources</div>
+    </div>
+
+    <div class="container-5 noMarginLeft">
+        <a href="{% url 'media_resource_add' %}">
+            <div class="addBtn"><span aria-hidden="true" class="svg" data-icon=""></span>Add New Media</div>
+        </a>
+    </div>
+{% endblock extra_action %}
+
+{% block inner_list %}
+    {% for mr in mediaresource_list %}
+        <div class="company-listing clearfix">
+            <div class="listing-body">
+                {% comment %}<div class="container-3 noMargin">
+                    <div class="iconTh"><img src="{% static 'youth/images/iconTh/video.png' %}"/></div>
+                </div>{% endcomment %}
+                <div class="container-21 marginLeft">
+                    <div class="listing-title">
+                        <a href="{% url 'mediaresource' mr.id %}">
+                            {{ mr.title }}
+                        </a> <br/>
+                         <span class="underTitle location">
+                             <a target="_blank" style="margin:0 !important;" href="{{ mr.link }}">{{ mr.link }}</a>
+                         </span>
+                    </div>
+                    <div class="listing-text">
+                        {{ mr.description|truncatechars:290 }}
+                    </div>
+                    <span class="listing-read-more"><a href="{% url 'mediaresource' mr.id %}">
+                        <span aria-hidden="true" class="svg" data-icon="&#xf0a9;"></span>More</a></span>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    {% if is_paginated %}
+        <div class="pagination">
+            <div class="pagination-buttons">
+                {% for page in page_obj.paginator.page_range %}
+                    <a {% if page_obj.number == page %}class="current-page"{% endif %}
+                       href="{% url 'media' %}?page={{ page }}">
+                        {{ page }}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="separator"></div>
+    {% endif %}
+{% endblock %}

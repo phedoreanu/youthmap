@@ -1,0 +1,135 @@
+{% extends "youth/home.html" %}
+{% load filters %}
+
+{% block title %}Preview your event{% endblock %}
+
+{% block what_to_do %}{% endblock %}
+
+{% block articles %}{% endblock %}
+
+{% block content %}
+    <form method="post" class="add-idea">
+        {% csrf_token %}
+        <div class="content-wrapper">
+            <div class="zone-content equalize zone clearfix">
+                <div class="content-container container-23 mainContainer">
+                    <div class="content-container container-23 noMarginLeft topBar">
+                        <div class="content-container container-20 noMarginLeft">
+                            <div class="iconTitle"><span aria-hidden="true" class="svg" data-icon="&#xe00c;"></span>
+                                A
+                                {% for label in  form|selected_labels:'field_of_activity' %}
+                                    {{ label }}
+                                {% endfor %}
+                                Event
+                            </div>
+                        </div>
+                        <div class="content-container container-5 noMarginLeft">
+                            <div class="backBtn"><span aria-hidden="true" class="svg" data-icon="&#xf0a8;"></span>
+                                <input class="button success submit" type="submit" value="Edit" name="edit">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ~~~~~ LEFT COLUMN ~~~~-->
+                    <div class="content-container container-20 noMarginLeft">
+                        <div class="single-company block">
+                            <div class="company-info clearfix">
+                                <div class="company-info-description">
+                                    <div class="breadcrumbs">
+                                        <a href="{% url 'home' %}"><i>Home</i></a>
+                                        <span></span>
+                                        <a href="{% url 'events' %}"><i>Events</i></a>
+                                    </div>
+
+                                    <div class="company-listingResDetail clearfix">
+                                        <div class="listing-body">
+                                            <div class="container-20 noMarginLeft">
+                                                <div class="block-title mainTitle"><h2>{{ form.title.value }}</h2></div>
+                                                {#                                            <div class="slogan">This organisation slogan goes here</div>#}
+                                                <div class="holderLeft">
+                                                    <div class="underTitle location">Location:<a
+                                                            href="#">{{ form|selected_label:'city' }}</a></div>
+                                                    <div class="underTitle location">Field of activity:
+                                                        {% for label in form|selected_labels:'field_of_activity' %}
+                                                            <span>{{ label }}{% if not forloop.last %},{% endif %}</span>
+                                                        {% endfor %}
+                                                    </div>
+                                                    <div class="underTitle date"><strong>{{ form.start_date.value }}
+                                                        - {{ form.end_date.value }}</strong><br></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="description">
+                                        <span class="descriptionTitle">Description</span><br/>
+                                        {{ form.description.value }}
+                                    </div>
+
+                                    <div class="description">
+                                        <span class="descriptionTitle">Program</span><br/>
+                                        {{ form.program.value }}
+                                    </div>
+
+                                    <div class="description">
+                                        <span class="descriptionTitle">Guests</span><br/>
+                                        {{ form.guests.value }}
+                                    </div>
+                                    <!--~~~-->
+                                    <!--~~~-->
+                                    <div class="description">
+                                        <span class="descriptionTitle">Participants</span><br/>
+                                        {{ form.participants.value }}
+                                    </div>
+                                    <!--~~~-->
+
+                                    <!--~~~-->
+                                    <div class="description">
+                                        <span class="descriptionTitle">Partners</span><br/>
+                                        {{ form.partners.value }}
+                                    </div>
+                                    <!--~~~-->
+                                    <div class="description">
+                                        <span class="descriptionTitle">Website</span><br/>
+                                        {{ form.link.value|urlize }}
+                                    </div>
+
+                                    <div class="description">
+                                        <input class="button success submit" type="submit" value="Save event" name="save">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/single-company-->
+                    </div>
+
+                    <div class="sidebarGray container-5">
+                        <div class="sidebarGrayContainer">
+                            <h3 class="block-title" style="margin-bottom:10px;"><a href="#">Share</a></h3>
+                            <!-- Twiter share -->
+                            <a href="https://twitter.com/share" class="twitter-share-button" data-via="twitterapi"
+                               data-lang="en">Tweet</a>
+                            <script>!function (d, s, id) {
+                                var js, fjs = d.getElementsByTagName(s)[0];
+                                if (!d.getElementById(id)) {
+                                    js = d.createElement(s);
+                                    js.id = id;
+                                    js.src =
+                                            "https://platform.twitter.com/widgets.js";
+                                    fjs.parentNode.insertBefore(js, fjs);
+                                }
+                            }(document, "script", "twitter-wjs");</script>
+
+                            <!-- LinkedIn share -->
+                            <script type="text/javascript" src="http://platform.linkedin.com/in.js"></script>
+                            <script type="in/share" data-url="<?php the_permalink(); ?>" data-counter="right"></script>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- end of .content-container -->
+        </div>
+        <!-- end of .content-wrapper -->
+        {% for field in form %}{{ field.as_hidden }}{% endfor %}
+    </form>
+{% endblock content %}

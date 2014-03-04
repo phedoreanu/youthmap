@@ -1,0 +1,74 @@
+{% extends 'youth/dashboard.html' %}
+{% load static %}
+{% load navigation %}
+
+{% block css %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'youth/css/zocial.css' %}" media="screen, projection"/>
+{% endblock %}
+
+{% block script %}
+    {{ block.super }}
+    <script type="text/javascript" src="http://connect.facebook.net/en_US/all.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            FB.init({
+                appId: '1238773419595699',
+                cookie: true,
+                status: true,
+                xfbml: true
+            });
+
+
+            $('#facebook-invite').click(function () {
+                FB.ui({
+                    method: 'apprequests',
+                    message: 'Share your ideas, projects or resources on YouthMap. Join NOW a fast growing community'
+                });
+            });
+        });
+    </script>
+
+{% endblock %}
+
+
+{% block inner_content %}
+    <div class="companies-listings block brdLeft">
+        <!--TITLE BAR-->
+        <div class="content-container container-23 noMarginLeft topBarRes">
+            <a href="{% url 'invite_fb' %}">
+                <div class="myAccountTopBarMenuBtn {% current 'invite_fb' %}">
+                    <span aria-hidden="true" class="svg" data-icon=""></span>INVITE FACEBOOK FRIENDS
+                </div>
+            </a>
+            <a href="{% url 'invite_tw' %}">
+                <div class="myAccountTopBarMenuBtn {% current 'invite_tw' %}">
+                    <span aria-hidden="true" class="svg" data-icon=""></span>INVITE TWITTER FOLLOWERS
+                </div>
+            </a>
+            <a href="{% url 'invite_email' %}">
+                <div class="myAccountTopBarMenuBtn {% current 'invite_email' %}">
+                    <span aria-hidden="true" class="svg" data-icon=""></span>ENTER EMAIL ADDRESS
+                </div>
+            </a>
+        </div>
+        <!--END TITLE BAR-->
+    </div>
+
+    <div class="content-container container-23 noMarginLeftZero">
+        {% block zocial_content %}
+            <div class="centeredDiv invitePromote marginTop noPadding">
+                <img src="{% static 'youth/images/fb.png' %}" class="logo" alt="">
+
+                <div class="block-title invitePromote marginTop"><h3>Link your accounts to invite your friends on
+                    Facebook to follow you on Youth Map</h3></div>
+            </div>
+
+            <!--~~~-->
+            <div class="centeredDiv noMarginZero">
+                <a id="facebook-invite" class="zocial facebook">Sign in with Facebook</a>
+            </div>
+            <!--~~~-->
+        {% endblock %}
+    </div>
+{% endblock inner_content %}

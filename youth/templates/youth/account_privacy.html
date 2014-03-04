@@ -1,0 +1,43 @@
+{% extends 'youth/account_settings.html' %}
+{% load static %}
+{% load navigation %}
+{% load crispy_forms_tags %}
+
+{% block css %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'youth/css/accountSettingsFields.css' %}"
+          media="screen, projection"/>
+{% endblock %}
+
+{% block account_inner_content %}
+    <div class="company-listing clearfix">
+        <div class="listing-body">
+            <div class="container-24">
+                <div class="blueTitle marginTop">Delete your YouthMap account</div>
+                <div class="listing-text">
+                    <strong>What it means when you delete YouthMap account</strong><br>
+                    Deleting your account is permanent<br>
+                    All of your content will be deleted<br>
+                    All of your information, including comments, messages, discussions, posts etc, will be deleted.<br>
+                    No one will have access to your profile or your projects ever again.
+                </div>
+
+                <form method="post" action="{% url 'deactivate' %}">  
+                    {% csrf_token %}
+                    <div class="radio-buttons">
+                        <label>
+                            <input type="radio" name="agree" value="1">
+                            <span>I agree with the <a style="color:#98b709;" href="http://youthmap.org/terms/">Terms and Conditions</a> and want to delete my account permanently.</span>
+                        </label>
+                    </div>
+                    <div class="container-24 marginSemiTop">
+                        <button name="submit" class="large red button2 marginBottomMini marginLeft" tabindex="13"
+                                type="save" id="save" action="#">DELETE MY ACCOUNT
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+{% endblock account_inner_content %}

@@ -1,0 +1,8 @@
+{% block subject %}Youthmap - Contact Message from {{ full_name }}{% endblock %}
+{% block html %}
+    <p>Dear youthmap admin, </p>
+
+    <p>{{ full_name }} has sent you this message:</p>
+
+    <p>{{ message }}</p>
+{% endblock %}

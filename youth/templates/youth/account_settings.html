@@ -1,0 +1,68 @@
+{% extends 'youth/dashboard.html' %}
+{% load static %}
+{% load navigation %}
+{% load crispy_forms_tags %}
+
+{% block css %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'youth/css/accountSettingsFields.css' %}"
+          media="screen, projection"/>
+{% endblock %}
+
+{% block inner_content %}
+    <div class="companies-listings block brdLeft">
+
+        <!--TITLE BAR-->
+        <div class="content-container container-23 noMarginLeft topBarRes ">
+            <a href="{% url 'account_settings' %}">
+                <div class="myAccountTopBarMenuBtn {% current 'account_settings' %}{% current 'change_email' %}{% current 'change_password' %}">ACCOUNT SETTINGS</div>
+            </a>
+            <!--<a href="{% url 'account_notifications' %}">
+                <div class="myAccountTopBarMenuBtn {% current 'account_notifications' %}">NOTIFICATIONS</div>
+            </a>-->
+            <a href="{% url 'account_privacy' %}">
+                <div class="myAccountTopBarMenuBtn {% current 'account_privacy' %}">PRIVACY</div>
+            </a>
+        </div>
+        <!--END TITLE BAR-->
+
+        {% block account_inner_content %}
+            <div class="company-listing clearfix">
+            <div class="listing-body">
+                <div class="container-24">
+                    <div class="blueTitle marginTop">Change email</div>
+                    <div class="underTitle">Curent email is: <strong>{{ request.user.email }}</strong></div>
+                    {% if email_success_message %}
+                        <div class="underTitle">{{ email_success_message }}</div>{% endif %}
+                </div>
+                <div class="container-24">
+                    <form id="change-email-form" action="{% url 'change_email' %}" method="post"
+                          autocomplete="off">
+                        <ul class="form-section-accountSettings">
+                            {% crispy email_form %}
+                        </ul>
+                        <input type="submit" class="small green button2 marginBottomMini" value="Save"/>
+                    </form>
+                </div>
+            </div>
+            </div>
+
+            <div class="company-listing clearfix">
+                <div class="listing-body">
+                    <div class="container-24">
+                        <div class="blueTitle marginTop">Change password</div>
+                        {% if pass_success_message %}
+                            <div class="underTitle">{{ pass_success_message }}</div>{% endif %}
+                    </div>
+                    <div class="container-24">
+                        <form id="change-password-form" action="{% url 'change_password' %}" method="post"
+                              autocomplete="off">
+                            <ul class="form-section-accountSettings">
+                                {% crispy password_form %}
+                            </ul>
+                            <input type="submit" class="small green button2 marginBottomMini" value="Save"/>
+                        </form>
+                    </div>
+                </div>
+            </div></div>{% endblock account_inner_content %}
+{% endblock inner_content %}

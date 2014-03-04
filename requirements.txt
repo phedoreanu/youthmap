@@ -1,0 +1,11 @@
+Django
+MySQL-python
+pillow
+South
+django-suit
+django-crispy-forms
+django-cities-light
+django-select2
+sorl-thumbnail
+django-ratings
+django-templated-email

@@ -1,0 +1,64 @@
+{% extends 'youth/idea_form.html' %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+{% load filters %}
+{% load navigation %}
+
+{% block css %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'youth/css/addResourcesForms.css' %}"
+          media="screen, projection"/>
+{% endblock %}
+
+{% block inner_content %}
+    <div class="content-container container-23 noMarginLeft topBarRes">
+        <div class="myAccountTopBarMenuBtn activeAddResource"><span aria-hidden="true" class="svg" data-icon=""></span>
+            ADD A RESOURCE
+        </div>
+    </div>
+
+    <div class="companies-listings block brdLeft">
+        <!--GREY MENU-->
+        <div class="sidebarGray container-7 marginTop">
+            <div class="greyMenu">
+                <div class="left-box browseGrey">
+                    <ul class="side-nav-grey">
+                        <li class="{% current 'organisation_add' %}"><a href="{% url 'organisation_add' %}">
+                            <span aria-hidden="true" class="svg" data-icon=""></span> Add an Organisation</a>
+                        </li>
+                        <li class="{% current 'event_add' %}"><a href="{% url 'event_add' %}">
+                            <span aria-hidden="true" class="svg" data-icon=""></span> Add an Event</a>
+                        </li>
+                        <li class="{% current 'media_resource_add' %}"><a href="{% url 'media_resource_add' %}">
+                            <span aria-hidden="true" class="svg" data-icon=""></span> Add Media Resource</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!--GREY MENU-->
+        <!--~~~-->
+        <div class="company-listing clearfix">
+            <div class="listing-body">
+                <div class="container-18 paddingLeft">
+                    <div class="container-24 noMarginLeft marginTop">
+                        <div class="blueTitle">
+                            {% if form.instance.id == None %} Add {% else %} EDIT {% endif %}
+                            a{{ form.model_name|startswith:'I O E' }} {{ form.model_name }}
+                        </div>
+                    </div>
+
+                     <form id="add-resource" method="post" autocomplete="off">
+                         <ul id="addResourcesForms">
+                             {% crispy form %}
+                         </ul>
+                     </form>
+                </div>
+
+            </div>
+            <!--content-24-->
+        </div>
+        <!--~~~-->
+    </div>
+{% endblock inner_content %}

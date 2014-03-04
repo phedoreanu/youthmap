@@ -1,0 +1,18 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block extrahead %}
+    <link rel="icon" type="image/png" href="{% static 'youth/images/environment_map_.png' %}">
+{% endblock %}
+
+
+{% block title %}{{ title }} | {% trans 'Youthmap admin' %}{% endblock %}
+
+{% block branding %}
+    {% trans 'Youthmap admin' %}
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block footer %} {% endblock %}

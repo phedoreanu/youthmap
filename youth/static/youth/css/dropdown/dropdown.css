@@ -1,0 +1,306 @@
+/*@import url('demo.css');*/
+/*@import url('font-awesome.css');*/
+
+/* GLOBALS */
+
+
+.wrapper-demo:after {
+    clear: both;
+    content: "";
+    display: table;
+}
+
+
+.invisible {
+	display:none;
+	}
+/* Choose an action dropdown*/
+
+.wrapper-dropdown-2 {
+    /* Size and position */
+    position: relative; /* Enable absolute positionning for children and pseudo elements */
+    margin:30px 0;
+	height:30px;
+    padding:3px 0 0 6px;
+	font-size:13px;
+    /* Styles */
+    background: #fff;
+    border-left: 5px solid grey;
+    cursor: pointer;
+    outline: none;
+	/*z-index:100;*/
+	border:1px solid #c4c8cc;
+	border-radius:5px;
+	text-align:left;
+}
+
+.wrapper-dropdown-2:after {
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    margin-top: -3px;
+    border-width: 6px 6px 0 6px;
+    border-style: solid;
+    border-color: grey transparent;
+
+}
+
+.wrapper-dropdown-2 .dropdownMe {
+  /* Size & position */
+    position: absolute;
+    top: 100%;
+    left:0px;
+    right: 0px;
+
+    /* Styles */
+    background: white;
+	border:1px solid #c4c8cc;
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+    list-style: none;
+
+    /* Hiding */
+    opacity: 0;
+    pointer-events: none;
+}
+
+.wrapper-dropdown-2 ul {
+  margin:0;
+  padding:0;
+}
+
+.wrapper-dropdown-2 .dropdownMe li a {
+    display: block;
+    text-decoration: none;
+	font-weight:bold;
+    border-left: 5px solid;
+    padding: 10px;
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+}
+
+.wrapper-dropdown-2 .dropdownMe li:nth-child(1) a { 
+    border-left-color: #e66f97;
+	color:#e66f97;
+}
+
+.wrapper-dropdown-2 .dropdownMe li:nth-child(2) a {
+    border-left-color: #876aa0;
+	color:#876aa0;
+}
+
+.wrapper-dropdown-2 .dropdownMe li:nth-child(3) a {
+    border-left-color: #72a5d2;
+	color:#72a5d2;
+}
+
+.wrapper-dropdown-2 .dropdownMe li:nth-child(1) a:hover { 
+	background-color:#ec749c;
+	color:#fff;
+}
+
+.wrapper-dropdown-2 .dropdownMe li:nth-child(2) a:hover {
+	color:#fff;
+	background-color:#876aa0;
+}
+
+.wrapper-dropdown-2 .dropdownMe li:nth-child(3) a:hover {
+	color:#fff;
+	background-color:#72a5d2;
+}
+
+
+
+
+.wrapper-dropdown-2 .dropdownMe li i {
+    margin-right: 5px;
+    color: inherit;
+    vertical-align: middle;
+}
+
+/* Hover state */
+
+.wrapper-dropdown-2 .dropdownMe li:hover a {
+    color: inherit;
+}
+
+/* Active state */
+
+.wrapper-dropdown-2.active:after {
+    border-width: 0 6px 6px 6px;
+}
+
+.wrapper-dropdown-2.active .dropdownMe {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* No CSS3 support */
+
+.no-opacity       .wrapper-dropdown-2 .dropdownMe,
+.no-pointerevents .wrapper-dropdown-2 .dropdownMe {
+    display: none;
+    opacity: 1; /* If opacity support but no pointer-events support */
+    pointer-events: auto; /* If pointer-events support but no pointer-events support */
+}
+
+.no-opacity       .wrapper-dropdown-2.active .dropdownMe,
+.no-pointerevents .wrapper-dropdown-2.active .dropdownMe {
+    display: block;
+}
+
+/* Top Submenu*/
+.top_submenu {
+	margin-top:25px;
+    float:right;
+	font-size:13px;
+}
+
+.top_submenu a {
+	margin-right:10px;
+    color:#4e4d4d;
+}
+.wrapper-dropdown-top_submenu {
+    /* Size and position */
+    position: relative; /* Enable absolute positionning for children and pseudo elements */
+    margin:5px 10px 10px 10px;
+	height:30px;
+	width:100%;
+    padding:6px 0 0 6px;
+	font-size:13px;
+    /* Styles */
+    cursor: pointer;
+    outline: none;
+	z-index:100;
+	border-radius:5px;
+}
+
+/*.wrapper-dropdown-top_submenu:after {
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    margin-top: -3px;
+    border-width: 6px 6px 0 6px;
+    border-style: solid;
+    border-color: grey transparent;
+
+}*/
+
+.wrapper-dropdown-top_submenu .dropdownMe {
+  /* Size & position */
+    position: absolute;
+    top: 100%;
+    left:0px;
+    right: 0px;
+
+    /* Styles */
+    background: white;
+	border:1px solid #c4c8cc;
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+    list-style: none;
+
+    /* Hiding */
+    opacity: 0;
+    pointer-events: none;
+}
+
+.wrapper-dropdown-top_submenu .dropdownMe li a {
+    display: block;
+    text-decoration: none;
+	font-weight:bold;
+    border-left: 5px solid;
+    padding: 10px;
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+}
+
+.wrapper-dropdown-top_submenu .dropdownMe li:nth-child(1) a { 
+    border-left-color: #e66f97;
+	color:#e66f97;
+}
+
+.wrapper-dropdown-top_submenu .dropdownMe li:nth-child(2) a {
+    border-left-color: #876aa0;
+	color:#876aa0;
+}
+
+.wrapper-dropdown-top_submenu .dropdownMe li:nth-child(3) a {
+    border-left-color: #72a5d2;
+	color:#72a5d2;
+}
+
+.wrapper-dropdown-top_submenu .dropdownMe li:nth-child(1) a:hover { 
+	background-color:#ec749c;
+	color:#fff;
+}
+
+.wrapper-dropdown-top_submenu .dropdownMe li:nth-child(2) a:hover {
+	color:#fff;
+	background-color:#876aa0;
+}
+
+.wrapper-dropdown-top_submenu .dropdownMe li:nth-child(3) a:hover {
+	color:#fff;
+	background-color:#72a5d2;
+}
+
+
+
+
+.wrapper-dropdown-top_submenu .dropdownMe li i {
+    margin-right: 5px;
+    color: inherit;
+    vertical-align: middle;
+}
+
+/* Hover state */
+
+.wrapper-dropdown-top_submenu .dropdownMe li:hover a {
+    color: inherit;
+}
+
+/* Active state */
+
+.wrapper-dropdown-top_submenu.active:after {
+    border-width: 0 6px 6px 6px;
+}
+
+.wrapper-dropdown-top_submenu.active .dropdownMe {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* No CSS3 support */
+
+.no-opacity       .wrapper-dropdown-top_submenu .dropdownMe,
+.no-pointerevents .wrapper-dropdown-top_submenu .dropdownMe {
+    display: none;
+    opacity: 1; /* If opacity support but no pointer-events support */
+    pointer-events: auto; /* If pointer-events support but no pointer-events support */
+}
+
+.no-opacity       .wrapper-dropdown-top_submenu.active .dropdownMe,
+.no-pointerevents .wrapper-dropdown-top_submenu.active .dropdownMe {
+    display: block;
+}
+
+

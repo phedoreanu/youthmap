@@ -1,0 +1,420 @@
+{% extends 'youth/base.html' %}
+{% load i18n %}
+{% load staticfiles %}
+{% load navigation %}
+{% load filters %}
+{% load thumbnail %}
+
+{% block title %}{{ title }} {% trans 'Youth Map' %}{% endblock title %}
+
+{% block css %}
+    {{ block.super }}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'youth/css/jquery.mCustomScrollbar.css' %}"/>
+{% endblock %}
+
+{% block script %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'youth/js/foundation.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'youth/js/jquery.mCustomScrollbar.min.js' %}"></script>
+    <script>
+        $(document).ready(function () {
+            $(this).foundation();
+
+            {% if logs|length > 5 %}
+                $("#asd").addClass('customScroll').mCustomScrollbar({
+                    advanced: {
+                        updateOnContentResize: true
+                    }
+                });
+            {% endif %}
+
+            {% if ideas|length > 3 %}
+                $("#asd2").addClass('customScroll').mCustomScrollbar({
+                    advanced: {
+                        updateOnContentResize: true
+                    }
+                });
+            {% endif %}
+
+            {% if projects|length > 3 %}
+                $("#asd3").addClass('customScroll').mCustomScrollbar({
+                    advanced: {
+                        updateOnContentResize: true
+                    }
+                });
+            {% endif %}
+
+            {% if resources|length > 3 %}
+                $("#asd4").addClass('customScroll').mCustomScrollbar({
+                    advanced: {
+                        updateOnContentResize: true
+                    }
+                });
+            {% endif %}
+        });
+    </script>
+{% endblock script %}
+
+{% block maps %}
+    {% include 'youth/gmaps.html' with object_list=resources %}
+{% endblock maps %}
+
+{% block content %}
+    <div class="content-container container-17">
+    <!-- TABS-->
+    <div class="section-container tabs" data-section="tabs">
+    <section>
+        <p class="title" data-section-title>
+            <a href="#"><span aria-hidden="true" class="svg" data-icon="&#xe010;"></span>Welcome</a></p>
+
+        <div class="content" data-section-content>
+            <!--===== DIV INTRO ===========================-->
+            <div class="content-container container-24 welcomeBorder noMarginZero fullWidth">
+                <div class="content-container container-5 marginTop">
+                    <a class="thbig"><img src="{% static 'youth/images/bigLeftPicture/welcome.jpg' %}"></a>
+                </div>
+                <!--~~~-->
+                <div class="content-container container-19 marginTop">
+                    <div class="welcome block">
+                        <div class="block-title">
+                            <h2>Welcome to YouthMap</h2>
+                        </div>
+                        <div class="welcome-text">Our mission is to empower young people to bring positive impact by
+                            becoming active players in the society. With YouthMap is easy to connect ideas with
+                            resources to build projects and bring a change in the world. The platform acts also as a
+                            sharing tool for inspirational ideas and resources. By becoming part of it you become part
+                            of the international community that aims at making the world better.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--=====LATEST ACTIVITY ===========================-->
+            <!--~~ title ~~-->
+            {% if logs %}
+                <!--=====CUSTOM SCROLL BAR =========-->
+                <div id="asd">
+                    <div class="content-container container-24 marginTop2">
+                        <div class="block-title2">
+                            <h2>Latest activity</h2>
+                        </div>
+                    </div>
+
+                    {% include 'youth/latest_activity.html' %}
+                </div>
+            {% endif %}
+            <!--~~ /title ~~-->
+            <!--===== END LATEST ACTIVITY ============-->
+        </div>
+
+    </section>
+    <!--========================================== TAB 2 ===========================================-->
+    <section>
+        <p class="title" data-section-title><a href="#"><span aria-hidden="true" class="svg"
+                                                              data-icon="&#xe01c;"></span>Latest Ideas</a></p>
+
+        <div class="content" data-section-content>
+            <div class="content-container container-24 welcomeBorder ideas noMargin fullWidth">
+                <div class="content-container container-5 marginTop">
+                    <a class="thbig"><img src="{% static 'youth/images/bigLeftPicture/sample.jpg' %}"></a>
+                </div>
+                <!--~~~-->
+                <div class="content-container container-19 marginTop">
+                    <div class="welcome block">
+                        <div class="block-title">
+                            <h2>Youth Map ideas</h2>
+                        </div>
+                        <div class="welcome-text">Ideas make the world change because everything starts from ideas. Here
+                            you can see the latest ideas posted by other people. Find one which suits you well and… turn
+                            it into reality!
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% if ideas %}
+                <!--~~~-->
+                <div id="asd2">
+                    <div class="content-container container-24 marginTop2">
+                        <div class="block-title2">
+                            <h2>Latest Ideas</h2>
+                        </div>
+                    </div>
+
+                    {% for idea in ideas %}
+                        <div class="company-listing clearfix">
+                            <div class="listing-body">
+                                <div class="listing-title">
+                                    <a href="{{ idea.get_absolute_url }}">{{ idea.title }}</a>
+                                </div>
+                                <span class="underTitle">An
+                                    {% for label in idea.field_of_activity.all %}
+                                        <span>{{ label }}{% if not forloop.last %},{% endif %}</span>
+                                    {% endfor %}
+                                    Idea by
+                                    {% if idea.owner.profile %}
+                                        <a href="{% url 'profile' idea.owner.profile.id %}">{{ idea.owner.get_full_name }}</a>
+                                    {% elif idea.owner.organisation %}
+                                        <a href="{% url 'organisation' idea.owner.organisation.id %}">{{ idea.owner.organisation.title }}</a>
+                                    {% endif %}
+                                     | Location: {{ idea.city }}
+                                </span>
+
+                                <div class="listing-text">{{ idea.description|truncatechars:290 }}</div>
+                                <span class="listing-read-more">
+                                    <a href="{% url 'idea' idea.id %}">
+                                        <span aria-hidden="true" class="svg" data-icon="&#xf0a9;"></span>
+                                        More
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                    {% endfor %}</div>{% endif %}
+            <!--~~~-->
+        </div>
+    </section>
+
+    <!--========================================== TAB 3 ===========================================-->
+    <section>
+        <p class="title" data-section-title><a href="#"><span aria-hidden="true" class="svg"
+                                                              data-icon="&#xe006;"></span>Latest Projects</a></p>
+
+        <div class="content" data-section-content>
+            <div class="content-container container-24 welcomeBorder projects noMargin fullWidth">
+                <div class="content-container container-5 marginTop">
+                    <a class="thbig"><img src="{% static 'youth/images/bigLeftPicture/student.jpg' %}"></a>
+                </div>
+                <!--~~~-->
+                <div class="content-container container-19 marginTop">
+                    <div class="welcome block">
+                        <div class="block-title">
+                            <h2>Youth Map projects</h2>
+                        </div>
+                        <div class="welcome-text">Projects involve ideas and resources. Here you can see the latest
+                            entries with other people’s projects. Search and find the project which fits you well and
+                            bring your own contribution to it!
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% if projects %}
+                <div id="asd3">
+                    <div class="content-container container-24 marginTop2">
+                        <div class="block-title2">
+                            <h2>Latest projects</h2>
+                        </div>
+                    </div>
+
+                    {% for project in projects %}
+                        <div class="company-listing clearfix">
+                            <div class="listing-body">
+                                <!--<div class="listing-rating"><span aria-hidden="true" class="svg" data-icon="&#xe00f;"></span></div>-->
+                                <div class="listing-title">
+                                    <a href="{{ project.get_absolute_url }}">{{ project.title }}</a>
+                                </div>
+                                <span class="underTitle">A
+                                    {% for label in project.field_of_activity.all %}
+                                        <span>{{ label }}{% if not forloop.last %},{% endif %}</span>
+                                    {% endfor %}
+                                    Project by
+                                    {% if project.owner.profile %}
+                                        <a href="{% url 'profile' project.owner.profile.id %}">{{ project.owner.get_full_name }}</a>
+                                    {% elif project.owner.organisation %}
+                                        <a href="{% url 'organisation' project.owner.organisation.id %}">{{ project.owner.organisation.title }}</a>
+                                    {% endif %} | Location: <span>{{ project.city }}</span>
+                                </span>
+
+                                <div class="listing-text">{{ project.description|truncatechars:290 }}</div>
+                                <span class="listing-read-more">
+                                    <a href="{% url 'project' project.id %}">
+                                        <span aria-hidden="true" class="svg" data-icon="&#xf0a9;"></span>More
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <!--========================================== TAB 4 ===========================================-->
+    <section>
+        <p class="title" data-section-title><a href="#">
+            <span aria-hidden="true" class="svg" data-icon="&#xe00c;"></span>Latest Resources</a></p>
+
+        <div class="content" data-section-content>
+            <div class="content-container container-24 welcomeBorder projects noMargin fullWidth">
+                <div class="content-container container-5 marginTop">
+                    <a class="thbig"><img src="{% static 'youth/images/bigLeftPicture/resources.jpg' %}"></a>
+                </div>
+                <!--~~~-->
+                <div class="content-container container-19 marginTop">
+                    <div class="welcome block">
+                        <div class="block-title">
+                            <h2>Youth Map Resources</h2>
+                        </div>
+                        <div class="welcome-text">Resources are always needed for any social change. Here you can find
+                            the latest resources posted by other people. Bring your own contribution to the list by
+                            sharing your resources as well!
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% if resources %}
+                <div id="asd4">
+                    <div class="content-container container-24 marginTop2">
+                        <div class="block-title2">
+                            <h2>Latest resources</h2>
+                        </div>
+                    </div>
+                    {% for resource in resources %}
+                        {% if resource|to_class_name == 'Organisation' %}
+                            <div class="company-listing clearfix">
+                                <div class="listing-body">
+                                    <div class="listing-title">
+                                        <a href="{% url 'organisation' resource.id %}">
+                                            {{ resource.title }} - {{ resource|to_class_name }}
+                                        </a>
+                                    </div>
+
+                                    <span class="underTitle">
+                                        A{{ resource.field_of_activity.all.0.name|startswith:'I O E' }}
+                                        {% for label in resource.field_of_activity.all %}
+                                            <span>{{ label }}{% if not forloop.last %},{% endif %}</span>
+                                        {% endfor %}
+                                        {{ resource.other_field_of_activity }}
+                                        | Location: <span> {{ resource.city }}</span>
+                                    </span>
+
+                                    <div class="listing-text">{{ resource.values|truncatechars:290 }}</div>
+                                    <span class="listing-read-more">
+                                        <a href="{% url 'organisation' resource.id %}">
+                                            <span aria-hidden="true" class="svg" data-icon="&#xf0a9;"></span>More
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+                        {% elif resource|to_class_name == 'Event' %}
+                            <div class="company-listing clearfix">
+                                <div class="listing-body">
+                                    <div class="container-3 noMargin">
+                                        <a href="{{ resource.get_absolute_url }}">
+                                            <div class="calendar">{{ resource.start_date|date:'M' }}
+                                                <p>{{ resource.start_date|date:'d' }}</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="container-21 marginLeft marginBottomMini">
+                                        <div class="listing-title">
+                                            <a href="{% url 'event' resource.id %}">
+                                                {{ resource.title }}</a>
+                                        </div>
+                                        <div class="holderLeft">
+                                            <div class="underTitle date lineHeight"><strong>{{ resource.start_date|date }}
+                                                - {{ resource.end_date|date|default:'present' }}</strong><br/></div>
+                                            <div class="underTitle lineHeight">Location:<span>{{ resource.city }}</span>
+                                            </div>
+                                            <div class="underTitle lineHeight ">Field of activity:
+                                                {% for item in resource.field_of_activity.all %}
+                                                    <span>{{ item }}{% if not forloop.last %},{% endif %}</span>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% elif resource|to_class_name == 'MediaResource' %}
+                            <div class="company-listing clearfix">
+                                <div class="listing-body">
+                                    {% comment %}<div class="container-3 noMargin">
+                                        <a href="{{ resource.link }}" target="_blank">
+                                            <div class="iconTh"><img
+                                                    src="{% static 'youth/images/iconTh/video.png' %}"/>
+                                            </div>
+                                        </a>
+                                    </div>{% endcomment %}
+                                    <div class="container-24 marginLeft">
+                                        <div class="listing-title">
+                                            <a href="{% url 'media_resource_update' resource.id %}">
+                                                {{ resource.name }}
+                                            </a>
+
+                                            <div class="underTitle location">
+                                                <a target="_blank" href="{{ resource.link }}">{{ resource.link }}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}</div>{% endif %}
+        </div>
+    </section>
+    </div>
+    <!--==================== /TABS ===========================-->
+    <!-- END TABS-->
+    <!-- START RESOURCES DATA BASE-->
+    <div class="container-13 noMarginLeft">
+        <div class="recently-added aboutYouthTime">
+            <div class="container-24">
+                <span aria-hidden="true" class="svgMediu" data-icon="&#xe03f;"></span>
+            </div>
+
+            <div class="container-24">
+                <div class="block-title2 aboutYouthTime">
+                    <a target="_blank" href="http://youth-time.org/npe"><h2>Youth Time's next events</h2></a>
+                </div>
+                <div class="welcome-text panelText">
+                    New Paradigm of Education: European dialogue, Paris conference 26-27th Nov. 2013
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end of RESOURCES DATABASE -->
+
+    <!-- Second left panel -->
+    <div class="container-13 noMarginLeft">
+        <div class="recently-added aboutYouthTime resourcesDatabase">
+            <div class="container-24">
+                <span aria-hidden="true" class="svgMediu" data-icon="&#xe028;"></span>
+            </div>
+
+            <div class="container-24">
+                <div class="block-title2 aboutYouthTime">
+                    <a target="_blank" href="http://youth-time.org/about-us"><h2>Who is Youth Time movement?</h2></a>
+                </div>
+                <div class="welcome-text panelText">Youth Map is created by Youth Time international movement.</div>
+            </div>
+        </div>
+    </div>
+    </div>
+{% endblock content %}
+
+{% block what_to_do %}
+    <div class="whatToDo marginSemiBottom">
+        <div class="whatToDoTitle"><h2>What to do next?</h2></div>
+        <p>Take action and help our community to grow!</p>
+
+        <div id="dd" class="wrapper-dropdown-2" tabindex="1">Choose an action
+            <ul class="dropdownMe">
+                <li><a href="{% url 'idea_add' %}">
+                    <span aria-hidden="true" class="svg" data-icon="&#xe00f;"></span>
+                    Add an idea</a>
+                </li>
+                <li><a href="{% url 'project_add' %}">
+                    <span aria-hidden="true" class="svg" data-icon="&#xe00f;"></span>
+                    Add a project</a>
+                </li>
+                <li><a href="{% url 'organisation_add' %}">
+                    <span aria-hidden="true" class="svg" data-icon="&#xe00f;"></span>
+                    Add a resource</a>
+                </li>
+            </ul>
+
+        </div>
+
+        <img src="{% static 'youth/images/sliders/img1.png' %}"/>
+    </div>
+{% endblock %}
+

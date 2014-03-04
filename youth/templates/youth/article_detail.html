@@ -1,0 +1,96 @@
+{% extends 'youth/resources.html' %}
+{% load static %}
+{% load thumbnail %}
+
+{#{% block maps %}#}
+{#    {% include 'youth/gmaps.html' with object_list=idea %}#}
+{#{% endblock maps %}#}
+
+{% block content %}
+    <div class="content-wrapper">
+        <div class="zone-content equalize zone clearfix">
+            <!-- COLOANA STANGA-->
+            <div class="content-container container-17">
+                <!-- TABS-->
+                <div class="section-container tabs" data-section="tabs" style="">
+                    <section class="active">
+                        <div class="recently-added noMarginZero">
+                            <div class="single-company block noBorder">
+                                <div class="company-info clearfix">
+                                    <div class="company-info-description">
+                                        <div class="block-title mainTitle marginTop2">
+                                            <h2>{{ article }}</h2>
+                                        </div>
+
+                                        {% if article.photo %}
+                                            {% thumbnail article.photo '100' format="PNG" as im %}
+                                                <div class="thbig thhuge">
+                                                    <img src="{{ im.url }}" width="{{ im.width }}"
+                                                         height="{{ im.height }}">
+                                                </div>
+                                            {% endthumbnail %}
+                                        {% endif %}
+                                        <!--~~~-->
+                                        <div class="description">
+                                            <span class="descriptionTitle">Description</span><br>
+                                            {{ article.description }}
+                                        </div>
+
+                                        <div class="description">
+                                            <span class="descriptionTitle">Tags</span><br>
+                                            {% for tag in article.tags.all %}
+                                                <div data-alert class="alert-box tags">{{ tag }}</div>
+                                            {% endfor %}
+                                        </div>
+                                        <!--~~~-->
+                                        <div style="clear:both;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <!-- end of COLOANA STANGA -->
+
+            <!--==================== SIDEBAR ===========================-->
+            <div class="sidebar-container container-7">
+                <div class="recently-added noMargin">
+                    <div class="block-title2 recentAdded">
+                        <h3>Recent Articles</h3>
+                    </div>
+                    <ul class="entries-list">
+                        {% for article in article_list %}
+                            <li class="clearfix">
+                                {% if article.photo %}
+                                    {% thumbnail article.photo '100' crop="center" format="PNG" as im %}
+                                        <a href="{{ article.get_absolute_url }}" class="thumbnail">
+                                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                                        </a>
+                                    {% endthumbnail %}
+                                {% else %}
+                                    <a href="{{ article.get_absolute_url }}" class="thumbnail">
+                                        <img src="{% static 'youth/images/no-pic-article.jpg' %}" width="44"
+                                             height="44">
+                                    </a>
+                                {% endif %}
+
+                                <div class="entry-excerpt">
+                                    <a href="{{ article.get_absolute_url }}" class="entry-title">{{ article }}</a><br/>
+
+                                    <div class="entry-title more">
+                                        <a href="{{ article.get_absolute_url }}">
+                                            <span aria-hidden="true" class="svg" data-icon="&#xf0a9;"></span>
+                                            Read more</a>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <!-- end of .Latest Articles -->
+        </div>
+        <!-- end of .content-container -->
+    </div>
+{% endblock content %}

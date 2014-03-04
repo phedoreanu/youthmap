@@ -1,0 +1,495 @@
+{% extends 'youth/profile.html' %}
+{% load static %}
+{% load filters %}
+{% load thumbnail %}
+{% load crispy_forms_filters %}
+
+{% block css %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'youth/select2/css/select2.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'youth/css/register.css' %}"/>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>
+{% endblock %}
+
+{% block script %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'youth/js/jquery.zlab.zlightaccordion-1.0-min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'youth/iCheck/jquery.icheck.min.js' %}"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#zl_wrapper').zLightAccordion({
+                sectionTextColor: '#6daa38',
+                sectionActiveTextColor: '#6daa38',
+                {#                iconSwitchUrl: 'ch_right_green.png',#}
+                {#                iconSwitchUrl2: 'ch_down_green.png',#}
+                iconHeaderUrl: 'gear.png',
+                headerBcolor: '#97ce68',
+                headerFontSize: '16px',
+                headerPadding: '15px',
+                accordionWidth: '100%'
+            });
+            $('#zl_wrapper1').zLightAccordion({
+                sectionTextColor: '#6daa38',
+                sectionActiveTextColor: '#6daa38',
+                {#                iconSwitchUrl: 'ch_right_green.png',#}
+                {#                iconSwitchUrl2: 'ch_down_green.png',#}
+                iconHeaderUrl: 'gear.png',
+                headerBcolor: '#97ce68',
+                headerFontSize: '16px',
+                headerPadding: '15px',
+                accordionWidth: '100%'
+            });
+
+            var status = 0;
+            $('#add-experience').click(function (e) {
+                if (status == 0) {
+                    $("#add-experience-form").fadeIn(300);
+                    $("#background-on-popup").css("opacity", "0.7").fadeIn(300);
+                    status = 1;
+                    $('#company').focus();
+                }
+            });
+
+            $('#add-education').click(function (e) {
+                if (status == 0) {
+                    $("#add-education-form").fadeIn(300);
+                    $("#background-on-popup").css("opacity", "0.7").fadeIn(300);
+                    status = 1;
+                    $('#company').focus();
+                }
+            });
+
+            var default_datepicker_options = {
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: 'dd/mm/yy',
+                yearRange: '1950:2014',
+                firstDay: 1
+            };
+            $("#exp_start_date").datepicker(default_datepicker_options);
+            $("#exp_end_date").datepicker(default_datepicker_options);
+            $("#edu_start_date").datepicker(default_datepicker_options);
+            $("#edu_end_date").datepicker(default_datepicker_options);
+
+            $.get('{% url 'get_countries' %}', function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    var country = data[i];
+                    $('<option>').val(country.pk).text(country.fields.name).appendTo('#country');
+                    $('<option>').val(country.pk).text(country.fields.name).appendTo('#edu_country');
+                }
+            });
+
+            $.get('{% url 'get_diplomas' %}', function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    var diploma = data[i];
+                    $('<option>').val(diploma.pk).text(diploma.fields.type).appendTo('#diploma');
+                }
+            });
+
+            $.get('{% url 'get_specialties' %}', function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    var speciality = data[i];
+                    $('<option>').val(speciality.pk).text(speciality.fields.name).appendTo('#speciality');
+                }
+            });
+
+            $('#country').change(function (e) {
+                $.get('/cities/' + this.value, function (data) {
+                    $('#city').empty();
+                    for (var i = 0; i < data.length; i++) {
+                        var city = data[i];
+                        $('<option>').val(city.pk).text(city.fields.name).appendTo('#city');
+                    }
+                });
+            });
+
+            $('#edu_country').change(function (e) {
+                $.get('/cities/' + this.value, function (data) {
+                    $('#edu_city').empty();
+                    for (var i = 0; i < data.length; i++) {
+                        var city = data[i];
+                        $('<option>').val(city.pk).text(city.fields.name).appendTo('#edu_city');
+                    }
+                });
+            });
+
+            $("div.close").click(function () {
+                disablePopup();  // function to close pop-up forms
+            });
+
+            $("#background-on-popup").click(function () {
+                disablePopup();  // function to close pop-up forms
+            });
+
+            function disablePopup() {
+                if (status == 1) {
+                    $("#add-experience-form").fadeOut("normal");
+                    $("#add-education-form").fadeOut("normal");
+                    $("#background-on-popup").fadeOut("normal");
+                    status = 0;
+                }
+            }
+
+            $('.pop-up-form').submit(function (e) {
+                e.preventDefault();
+                $.post($(this).attr('action'), $(this).serialize(), function (response, status) {
+                    if (response.message == 'ok') {
+                        window.location = response.redirect;
+                    } else {
+                        $(response.element_id).text(response.message);
+                    }
+                });
+            });
+
+            $('input[type=radio]').iCheck({
+                radioClass: 'iradio_square-blue'
+            });
+
+            {% for label in form.instance.field_of_activity.all %}
+                {% if label|safe == 'Other' %}
+                    $('#other-div').show();
+                {% endif %}
+            {% endfor %}
+
+            $('#id_field_of_activity').on('change', function (e, choice) {
+                var data = $(this).select2('data');
+                var other = false;
+                $.each(data, function (index, element) {
+                    if (element.text.toLowerCase() == 'other') {
+                        other = true;
+                    }
+                });
+                if (other) {
+                    $('#other-div').show();
+                } else {
+                    $('#other-div').hide();
+                    $('#id_other_field_of_activity').val('');
+                }
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block innner_profile_content %}
+    <div class="company-listing clearfix">
+        <div class="listing-body">
+            <div class="editing-btns">
+                <a href="{% url 'profile_edit' %}">
+                    <div class="profileStepActiveNormalLeft">1.Basic Profile</div>
+                </a>
+                <a href="{% url 'profile_complete' %}">
+                    <div class="profileStepActiveRight">2.Complete your profile</div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <form id="complete-profile-form" method="post" autocomplete="off" action="{% url 'profile_complete' %}">
+        {% csrf_token %}
+        <div class="company-listing clearfix">
+            <div class="listing-body">
+                <div class="container-24">
+                    <div class="blueTitle">Personal Information</div>
+                    <div class="underTitle">Write a few words that describes you the most / About me</div>
+                    {{ form.about_me }}
+                </div>
+            </div>
+        </div>
+        <!--~~~-->
+        <!--~~~-->
+        <div class="company-listing clearfix">
+            <div class="listing-body">
+                <div class="container-24">
+{#                    <div class="blueTitle">Personal Informations</div>#}
+                    <div class="underTitle">Choose an activity field where you are most experienced</div>
+                </div>
+                <div class="container-24 paddingLeft marginBottomMedium">
+                    <div class="fieldTitle">Activity field</div>
+                    {{ form.field_of_activity }}
+                </div>
+                <div id="other-div" class="container-24 paddingLeft marginBottomMedium" style="display: none;">
+                    <ul id="form-section-myAccount">
+                        <li>
+                            <label class="marginSemiTop">
+                                <div class="fieldTitleAdd">Other field of activity</div>
+                                {{ form.other_field_of_activity }}
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!--~~~-->
+        <!--~~~-->
+        <div class="company-listing clearfix">
+            <div class="listing-body">
+                <div class="container-24 marginSemiBottom">
+                    <div class="content-container container-18 noMarginLeft">
+                        <div class="blueTitle">Professional experience</div>
+                    </div>
+                    <div class="content-container noMarginLeft floatRight">
+                        <a id="add-experience" class="medium green button2 noMarginTop marginSemiBottom">
+                            <span aria-hidden="true" class="svg" data-icon="&#xe00f;"></span>
+                            Add experience
+                        </a>
+                    </div>
+                </div>
+
+                <div class="container-24 marginSemiBottom">
+                    <div class="container_p">
+
+                        {% include 'youth/profile_experience.html' with experiences=form.instance.experience_set.all %}
+
+                    </div>
+                    <!-- container close-->
+                </div>
+                <!-- end <!-- ACCORDEON open -->
+            </div>
+        </div>
+        <!--~~~-->
+
+        <!--~~~-->
+        <div class="company-listing clearfix">
+            <div class="listing-body">
+                <div class="container-24 marginSemiBottom">
+                    <div class="content-container container-20 noMarginLeft">
+                        <div class="blueTitle">Education</div>
+                    </div>
+                    <div class="content-container noMarginLeft floatRight">
+                        <a id="add-education" class="medium green button2 noMarginTop marginSemiBottom">
+                            <span aria-hidden="true" class="svg" data-icon="&#xe00f;"></span>
+                            Add education
+                        </a>
+                    </div>
+                </div>
+                <!-- ACCORDEON open -->
+                <div class="container-24 marginSemiBottom">
+                    <div class="container_p">
+
+                        {% include 'youth/profile_education.html' with educations=form.instance.education_set.all %}
+
+                    </div>
+                    <!-- container close-->
+                </div>
+                <!-- end <!-- ACCORDEON open -->
+            </div>
+        </div>
+        <!--~~~-->
+        <div class="company-listing clearfix">
+            <div class="listing-body">
+                <div class="container-24">
+                    <div class="blueTitle">Future plans</div>
+                    <div class="underTitle">Describe what you plan to achive in the future</div>
+                    {{ form.future_plans }}
+                </div>
+            </div>
+        </div>
+        <!--~~~-->
+        <div class="company-listing clearfix">
+            <div class="listing-body">
+                <div class="container-24">
+                    <ul id="form-section-myAccount">
+                        {#                            <div class="underTitle"><strong>Visible to</strong></div>#}
+                        {{ form.privacy|as_crispy_field:'youthmap' }}
+                    </ul>
+
+                    <div class="centeredDiv">
+                        <button class="medium green button2 save marginSemiTop" type="submit" id="complete">
+                            SAVE
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+
+    <form id="add-experience-form" class="pop-up-form" method="post" autocomplete="off"
+          action="{% url 'add_experience' %}">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{% url 'profile_complete' %}"/>
+
+        <div class="close"></div>
+        <!-- close button of the register form -->
+        <ul class="form-section">
+            <p><span class="register-numbering-text">Add experience</span></p>
+            <li>
+                <label>
+                    <div class="fieldTitleAdd">Name of the company</div>
+                    <input type="text" id="name_of_institution" name="name_of_institution" tabindex="1" required
+                           title="Please enter the name of the employer">
+                </label>
+            </li>
+            <li>
+                <label class="left-column">
+                    <div class="fieldTitleAdd">Position</div>
+                    <input type="text" name="position" id="position" tabindex="2" required
+                           title="Please enter the name of the position">
+                </label>
+                <label class="right-column">
+                    <div class="fieldTitleAdd">Field of activity</div>
+                    <select id="field_of_activity" name="field_of_activity" required tabindex="3">
+                        <option value="">---Select---</option>
+                    </select>
+                </label>
+            </li>
+
+            <div style="clear: both;"></div>
+            <li>
+                <label class="left-column">
+                    <div class="fieldTitleAdd">Location</div>
+                    <select id="country" name="country" required tabindex="4">
+                        <option value="">---Select country---</option>
+                    </select>
+                </label>
+            </li>
+
+            <li>
+                <label class="right-column">
+                    <div class="fieldTitleAdd">&nbsp;</div>
+                    <select id="city" name="city" required tabindex="5">
+                        <option value="">---Select city---</option>
+                    </select>
+                </label>
+            </li>
+
+            <li>
+                <label class="left-column marginSemiTop">
+                    <div class="fieldTitleAdd">Start Date</div>
+                    <input class="inputIconCalendar" type="text" id="exp_start_date" name="start_date" required
+                           tabindex="6"/>
+                </label>
+            </li>
+            <li>
+                <label class="right-column marginSemiTop">
+                    <div class="fieldTitleAdd">End Date</div>
+                    <input class="inputIconCalendar" type="text" id="exp_end_date" name="end_date" tabindex="7"/>
+                </label>
+            </li>
+            <li>
+                <label>
+                    <div class="fieldTitleAdd">Description</div>
+                    <textarea class="textarea" name="description" required tabindex="8"></textarea>
+                </label>
+            </li>
+            <li>
+                <label>
+                    <div class="fieldTitleAdd">Company website</div>
+                    <input type="url" name="website"
+                           title="Please enter the link of the website" tabindex="9">
+                </label>
+            </li>
+            <li>
+                <button name="submit" class="medium green button2 save marginSemiTop" tabindex="10"
+                        type="add" id="add-experience-submit">Save
+                </button>
+            </li>
+        </ul>
+    </form>
+    <div id="background-on-popup"></div>
+
+    <form id="add-education-form" class="pop-up-form" action="{% url 'add_education' %}" method="post"
+          autocomplete="off">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{% url 'profile_complete' %}"/>
+
+        <div class="close"></div>
+        <!-- close button of the register form -->
+        <ul class="form-section">
+            <p><span class="register-numbering-text">Add Education</span></p>
+            <li>
+                <label>
+                    <div class="fieldTitleAdd">Institution name</div>
+                    <input type="text" name="institution_name" tabindex="11"
+                           title="Please enter the name of the institution"
+                           required>
+                </label>
+            </li>
+            <li>
+                <label class="left-column">
+                    <div class="fieldTitleAdd">Obtained Diploma</div>
+                    <select id="diploma" name="diploma" required  tabindex="12">
+                        <option value="">Select</option>
+                    </select>
+                </label>
+            </li>
+            <li>
+                <label class="right-column">
+                    <div class="fieldTitleAdd">Speciality</div>
+                    <select id="speciality" name="speciality" required  tabindex="13">
+                        <option value="">Select</option>
+                    </select>
+                </label>
+            </li>
+
+            <div style="clear: both;"></div>
+            <li>
+                <label class="left-column marginSemiTop">
+                    <div class="fieldTitleAdd">Location</div>
+                    <select id="edu_country" name="country" required  tabindex="14">
+                        <option value="">---Select country---</option>
+                    </select>
+                </label>
+            </li>
+
+
+            <li>
+                <label class="right-column marginSemiTop">
+                    <div class="fieldTitleAdd">&nbsp;</div>
+                    <select id="edu_city" name="city" required  tabindex="15">
+                        <option value="">---Select city---</option>
+                    </select>
+                </label>
+            </li>
+
+
+            <li>
+                <label class="left-column marginSemiTop">
+                    <div class="fieldTitleAdd">Start Date</div>
+                    <input class="inputIconCalendar" type="text" id="edu_start_date"
+                           name="start_date" required  tabindex="16"/>
+                </label>
+            </li>
+            <li>
+                <label class="right-column marginSemiTop">
+                    <div class="fieldTitleAdd">End Date</div>
+                    <input class="inputIconCalendar" type="text"  tabindex="17"
+                           id="edu_end_date" name="end_date"/>
+                </label>
+            </li>
+            <li>
+                <label>
+                    <div class="fieldTitleAdd">Qualifications</div>
+                    <textarea class="textarea" name="qualifications" tabindex="18"></textarea>
+                </label>
+            </li>
+            <li>
+                <label>
+                    <div class="fieldTitleAdd">Skills and competences you developed</div>
+                    <textarea class="textarea" name="skills" tabindex="19"></textarea>
+                </label>
+            </li>
+            <li>
+                <label>
+                    <div class="fieldTitleAdd">What courses helped you in your current activity</div>
+                    <textarea class="textarea" name="courses" tabindex="20"></textarea>
+                </label>
+            </li>
+            <li>
+                <label>
+                    <div class="fieldTitleAdd">Official Website</div>
+                    <input type="url" name="official_website"  tabindex="21"
+                           title="Please enter the link of the website">
+                </label>
+            </li>
+
+            <li>
+                <button name="submit" class="medium green button2 save marginSemiTop" type="add"
+                        id="add-experience" action="details.html">Save
+                </button>
+            </li>
+        </ul>
+    </form>
+
+{% endblock innner_profile_content %}

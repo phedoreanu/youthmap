@@ -1,0 +1,37 @@
+.select2-choices {
+    border-radius: 3px !important;
+}
+
+.select2-container-multi.select2-container-active .select2-choices {
+    border: 1px solid #69b43c !important;
+}
+
+.select2-container-multi .select2-choices {
+    border: 1px solid #ccc !important;
+}
+
+.select2-drop {
+    border-left: 1px solid #69b43c !important;
+    border-right: 1px solid #69b43c !important;
+}
+
+.select2-drop-active {
+    margin-top: -3px !important;
+    border-bottom: 1px solid #69b43c !important;
+
+}
+
+.select2-drop-above {
+    margin-top: 4px !important;
+    border-bottom: 0 !important;
+    border-top: 1px solid #69b43c !important;
+}
+
+.select2-input {
+    border: 0 !important;
+}
+
+.select2-container-multi .select2-choices {
+    height: 2% !important;
+    /*height: 27px;*/
+}

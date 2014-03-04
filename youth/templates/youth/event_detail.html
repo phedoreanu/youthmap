@@ -1,0 +1,159 @@
+{% extends 'youth/resources.html' %}
+{% load static %}
+{% load filters %}
+
+{% block maps %}
+    {% include 'youth/gmaps.html' with object_list=event %}
+{% endblock maps %}
+
+{% block content %}
+    <div class="content-wrapper">
+        <div class="zone-content equalize zone clearfix">
+            <div class="content-container container-23 mainContainer">
+                <div class="content-container container-23 noMarginLeft topBar">
+                    <div class="content-container container-20 noMarginLeft">
+                        <div class="iconTitle"><span aria-hidden="true" class="svg" data-icon="&#xe01c;"></span>
+                            A{{ event.field_of_activity.all.0.name|startswith:'I O E' }}
+                            {% for label in event.field_of_activity.all %}
+                                {{ label }}
+                            {% endfor %}
+                            Event
+                        </div>
+                    </div>
+                    <div class="content-container container-5 noMarginLeft">
+                        <a href="{% url 'events' %}">
+                            <div class="backBtn"><span aria-hidden="true" class="svg" data-icon="&#xf0a8;"></span>Back
+                                to List
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <!-- ~~~~~ LEFT COLUMN ~~~~-->
+                <div class="content-container container-20 noMarginLeft">
+                    <div class="single-company block">
+                        <div class="company-info clearfix">
+                            <div class="company-info-description">
+                                <div class="breadcrumbs">
+                                    <a href="{% url 'home' %}"><i>Home</i></a>
+                                    <span></span>
+                                    <a href="{% url 'events' %}"><i>Events</i></a>
+                                </div>
+
+
+                                <div class="company-listingResDetail clearfix">
+                                    <div class="listing-body">
+                                        <div class="container-20 noMarginLeft">
+                                            <div class="block-title mainTitle"><h2>{{ event.title }}</h2></div>
+
+                                            <div class="holderLeft">
+                                                <div class="underTitle location lineHeight">
+                                                    Location:<span>{{ event.city }}</span>
+                                                </div>
+                                                <div class="underTitle location lineHeight">Field of activity:
+                                                    {% for label in event.field_of_activity.all %}
+                                                        <span>{{ label }}{% if not forloop.last %},{% endif %}</span>
+                                                    {% endfor %}
+                                                </div>
+                                                <div class="underTitle date lineHeight">
+                                                    <strong>{{ event.start_date|date }}
+                                                        - {{ event.end_date|date|default:'present' }}</strong><br></div>
+                                            </div>
+                                            <br/>
+                                            <br/>
+                                            <br/>
+                                            {% if event.owner == request.user %}
+                                                <div class="content-container noMarginLeft marginTop2">
+                                                    <a href="{% url 'event_update' event.pk %}"
+                                                       class="lightDark button2 noMarginTop">
+                                                        <span aria-hidden="true" class="svg" data-icon=""></span>Edit
+                                                        this
+                                                        event</a>
+                                                </div>{% endif %}
+                                        </div>
+                                        <div class="container-4">
+                                            <div class="calendar">{{ event.start_date|date:'M' }}
+                                                <p>{{ event.start_date|date:'d' }}</p></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="description">
+                                    <span class="descriptionTitle">Description</span><br/>
+                                    {{ event.description }}
+                                </div>
+
+                                {% if event.program %}
+                                    <div class="description">
+                                        <span class="descriptionTitle">Program</span><br/>
+                                        {{ event.program }}
+                                    </div>{% endif %}
+
+                                {% if event.guests %}
+                                    <div class="description">
+                                        <span class="descriptionTitle">Guests</span><br/>
+                                        {{ event.guests }}
+                                    </div>{% endif %}
+                                <!--~~~-->
+                                <!--~~~-->
+                                {% if event.participants %}
+                                    <div class="description">
+                                        <span class="descriptionTitle">Participants</span><br/>
+                                        {{ event.participants }}
+                                    </div>{% endif %}
+                                <!--~~~-->
+
+                                <!--~~~-->
+                                {% if event.partners %}
+                                    <div class="description">
+                                        <span class="descriptionTitle">Partners</span><br/>
+                                        {{ event.partners }}
+                                    </div>{% endif %}
+                                <!--~~~-->
+
+
+                                {% if event.link %}
+                                    <div class="description">
+                                    <span class="descriptionTitle">Website</span><br/>
+                                    {{ event.link|urlize }}
+                                    </div>{% endif %}
+
+                                {% if event.attachment %}
+                                    <div class="description">
+                                        <div class="descriptionTitle">Attachments</div>
+                                        <span aria-hidden="true" class="svgfooter" data-icon="&#xe019;"></span>
+                                        <a target="_blank"
+                                           href="{{ event.attachment.url }}">{{ event.attachment }}</a>
+                                    </div>
+                                {% endif %}
+
+                                {% if event.tags.all %}
+                                    <div class="description">
+                                    <div class="descriptionTitle">Tags</div>
+                                    {% for label in event.tags.all %}
+                                        <div data-alert class="alert-box tags">{{ label }}</div>
+                                    {% endfor %}
+                                    <div style="clear:both;"></div>
+                                    </div>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+                    <!--/single-company-->
+                </div>
+
+                <div class="sidebarGray container-5">
+                    <div class="sidebarGrayContainer">
+                        <h3 class="block-title" style="margin-bottom:10px;">Share</h3>
+                        <span class='st_facebook_hcount' displayText='Facebook'></span>
+                        <span class='st_twitter_hcount' displayText='Tweet'></span>
+                        <span class='st_linkedin_hcount' displayText='LinkedIn'></span>
+                        <span class='st_email_hcount' displayText='Email'></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end of .content-container -->
+    </div><!-- end of .content-wrapper -->
+{% endblock content %}

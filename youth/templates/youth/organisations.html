@@ -1,0 +1,147 @@
+{% extends 'youth/home.html' %}
+{% load static %}
+{% load navigation %}
+{% load filters %}  
+{% load thumbnail %}
+
+{% block maps %}
+    {% include 'youth/gmaps.html' with object_list=organisation_list %}
+{% endblock maps %}
+
+{% block what_to_do %}{% endblock %}
+
+{% block articles %}{% endblock %}
+
+{% block content %}
+    <div class="content-container container-24 contentRes">
+
+        <!-- COLOANA STANGA-->
+
+        {#            <div class="content-container container-24 contentRes">#}
+        <!--TITLE BAR-->
+        <div class="content-container container-23 noMarginLeft topBarRes">
+            {% block extra_action %}
+                <div class="content-container container-20 noMarginLeft">
+                    <div class="iconTitleRes"><span aria-hidden="true" class="svg" data-icon="&#xe00c;"></span>Resources
+                    </div>
+                </div>
+                {% comment %}<div class="content-container container-5 noMarginLeft">
+                    <a href="{% url 'organisation_add' %}">
+                        <div class="addBtn"><span aria-hidden="true" class="svg" data-icon="&#xe00f;"></span>
+                            Add an organisation
+                        </div>
+                    </a>
+                </div>{% endcomment %}
+            {% endblock %}
+        </div>
+
+        <!--END TITLE BAR-->
+        <!--BLUE MENU-->
+        <div class="sidebarGray container-5">
+            <div class="blueMenuRes">
+                <div class="left-boxRes browseRes">
+                    <ul class="side-navRes">
+                        <li class="{% current 'organisations' %}"><a href="{% url 'resources' %}">Organisations
+                            Catalog</a></li>
+                        <li class="{% current 'member_list' %}"><a href="{% url 'member_list' %}">YouthMap
+                            Members</a></li>
+                        <li class="{% current 'events' %}"><a href="{% url 'events' %}">Events</a>
+                        </li>
+                        <li class="{% current 'media' %}"><a href="{% url 'media' %}">New Media</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!--/BLUE MENU-->
+        <!--RESOURCES CONTENT-->
+        <div class="content-container container-20 noMarginLeft">
+            <div class="companies-listings block brdLeft">
+                {% block inner_list %}
+                    {% for o in organisation_list %}
+                        <div class="company-listing clearfix">
+                            <div class="listing-body">
+                                {% if o.photo %}
+                                    {% thumbnail o.photo '100' crop="center" format="PNG" as im %}
+                                        <div class="container-4 noMargin">
+                                            <a href="{% url 'organisation' o.id %}"
+                                               class="thbig noMrg userMyAccountPic">
+                                                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                                            </a>
+                                        </div>
+                                    {% endthumbnail %}
+                                {% else %}
+                                    <div class="container-4 noMargin">
+                                        <a href="{% url 'organisation' o.id %}"
+                                           class="thbig marginBtm userMyAccountPic">
+                                            <img src="{% static 'youth/images/members/no-pic.jpg' %}">
+                                        </a>
+                                    </div>
+                                {% endif %}
+                                <div class="container-20 marginLeft">
+                                    <div class="listing-title">
+                                        <a href="{% url 'organisation' o.id %}">
+                                            <h6>{{ o.title }}</h6>
+                                        </a>
+                                    </div>
+
+                                    <div class="underTitle location lineHeight">Field of activity:
+                                        {% for item in o.field_of_activity.all %}
+                                            <span>{{ item }}{% if not forloop.last %},{% endif %}</span>
+                                        {% endfor %}
+                                        <span>{{ o.other_field_of_activity }}</span>
+                                    </div>
+
+                                    <div class="holderLeft">
+                                        <div class="underTitle location lineHeight">Location: <span>{{ o.city }}</span>
+                                        </div>
+                                        <div class="underTitle location lineHeight">Year of
+                                            foundation: <span>{{ o.year }}</span></div>
+                                    </div>
+                                    <div class="holderLeft">
+                                        <div class="underTitle location lineHeight">
+                                            <span aria-hidden="true" class="svgSemi" data-icon="&#xf0f6;"></span>
+                                            Projects completed: <span>{{ o.owner.project_set.count }}</span>
+                                        </div>
+                                        <div class="underTitle location lineHeight">
+                                            <span aria-hidden="true" class="svgSemi" data-icon="&#xe042;"></span>
+                                            Followers: <span>{{ o.owner.followers_set.count }}</span>
+                                        </div>
+                                        <div class="underTitle location lineHeight">
+                                            <span aria-hidden="true" class="svgSemi" data-icon="&#xe02c;"></span>
+                                            Members: <span>{{ o.number_of_members }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="listing-text">{{ o.values|truncatechars:300 }}
+                                        <span class="listing-read-more">
+                                            <a href="{% url 'organisation' o.id %}">
+                                                <span aria-hidden="true" class="svg"
+                                                      data-icon="&#xf0a9;"></span>
+                                                More</a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                    {% if is_paginated %}
+                        <div class="pagination">
+                            <div class="pagination-buttons">
+                                {% for page in page_obj.paginator.page_range %}
+                                    <a {% if page_obj.number == page %}class="current-page"{% endif %}
+                                       href="{% url 'organisations' %}?page={{ page }}">
+                                        {{ page }}
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="separator"></div>
+                    {% endif %}
+                {% endblock %}
+
+            </div>
+            <!--END COMPANIES LISTINGS-->
+        </div>
+        <!--END RESOURCES CONTENT-->
+    </div>
+{% endblock content %}

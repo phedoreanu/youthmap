@@ -1,0 +1,97 @@
+{% extends 'youth/resources.html' %}
+{% load static %}
+{% load thumbnail %}
+
+
+{% block css %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'youth/css/addIdeaForms.css' %}"/>
+{% endblock %}
+
+{% block maps %}
+    {% include 'youth/gmaps.html' %}
+{% endblock maps %}
+
+{% block icons %}
+
+{% endblock %}
+
+{% block content %}
+    <div class="content-container container-23 mainContainer" style="min-height: 563px;">
+        <div class="content-container container-23 noMarginLeft topBar">
+            <div class="content-container container-20 noMarginLeft">
+                <div class="iconTitle"><span aria-hidden="true" class="svg" data-icon=""></span>Contact YouthMap</div>
+            </div>
+            <div class="content-container container-5 noMarginLeft">
+
+            </div>
+        </div>
+        <!-- ~~~~~ LEFT COLUMN ~~~~-->
+        <div class="content-container container-20 noMarginLeft">
+            <div class="single-company block">
+                <div class="company-info clearfix">
+                    <div class="company-info-description">
+                        <div class="container-19 noMarginLeft">
+                            <div class="breadcrumbs">
+                                <a href="{% url 'home' %}"><i>Home</i></a>
+                                <span></span>
+                                <a href="{% url 'contact' %}"><i>Contact Us</i></a>
+                            </div>
+                        </div>
+                        <div class="container-6">
+
+                        </div>
+                        <div class="block-title mainTitle"><h2>Contact YouthMap</h2></div>
+                        <form id="contact" action="{% url 'send_contact' %}" method="post" autocomplete="off">
+                            {% csrf_token %}
+                            <ul id="addIdeaForms">
+                                <li>
+                                    <label>
+                                        <div class="fieldTitle">Your full name<strong class="field_required">*</strong>
+                                        </div>
+                                        <input type="text" name="full_name" title="Add your name" required>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label>
+                                        <div class="fieldTitle">Your email address<strong
+                                                class="field_required">*</strong></div>
+                                        <input type="email" name="email" tabindex="3" placeholder=""
+                                               title="It must contain a valid email address e.g. 'someone@provider.com' !"
+                                               required="">
+                                    </label>
+
+                                </li>
+                                <div style="clear: both;"></div>
+                                <li>
+                                    <label>
+                                        <div class="fieldTitle">Message<strong class="field_required">*</strong></div>
+                                        <textarea class="textarea" rel="tooltip" name="message" required></textarea>
+                                    </label>
+                                </li>
+
+                            </ul>
+                            <button name="submit" class="medium green button2 save" tabindex="11" type="add"
+                                    id="add-experience">SEND
+                            </button>
+                            <!--~~~-->
+                        </form><br/><br/>
+                        <!-- END OF REGISTER FORM -->
+                    </div>
+                </div>
+            </div>
+            <!--/single-company-->
+        </div>
+
+        <div class="sidebarGray container-5">
+            <div class="sidebarGrayContainer">
+                <h3 class="block-title">Contact</h3>
+                <span class="underTitle"><strong>{{ about.contact_title }}</strong></span><br>
+                <span class="underTitle"><i>{{ about.contact_name }}</i></span>
+                <span class="underTitle"><i>{{ about.contact_email }}</i></span>
+                <span class="underTitle"><i>{{ about.contact_phone }}</i></span><br><br><br>
+                <a href="{% url 'about' %}" class="medium button2">About YouthMap</a>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

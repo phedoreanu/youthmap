@@ -1,0 +1,148 @@
+.customSelect { 
+	position: relative;			
+	font-size: 12px;
+	font-family: "Lucida Grande", Arial, Helvetica, sans-serif; 
+	float: left;
+	margin-right: 10px;
+}		
+.customSelect .selectedValue {
+  position: relative;
+	font-family: "Titillium Web";
+	font-size: 1em;
+	color: #999999;
+	background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAxIDEiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPg0KPGxpbmVhckdyYWRpZW50IGlkPSJnNDIiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjAlIiB5Mj0iMTAwJSI+DQo8c3RvcCBzdG9wLW9wYWNpdHk9Ii44IiBzdG9wLWNvbG9yPSIjMTkxOTE5IiBvZmZzZXQ9IjAiLz48c3RvcCBzdG9wLW9wYWNpdHk9Ii41IiBzdG9wLWNvbG9yPSIjNDE0MTQxIiBvZmZzZXQ9IjEiLz4NCjwvbGluZWFyR3JhZGllbnQ+DQo8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2c0MikiIC8+DQo8L3N2Zz4=);
+	background: linear-gradient(top, rgba(25, 25, 25, 0.8), rgba(65, 65, 65, 0.5));
+	background: -moz-linear-gradient(top, rgba(25, 25, 25, 0.8), rgba(65, 65, 65, 0.5));
+	background: -webkit-linear-gradient(top, rgba(25, 25, 25, 0.8), rgba(65, 65, 65, 0.5));
+	background: -ms-linear-gradient(top, rgba(25, 25, 25, 0.8), rgba(65, 65, 65, 0.5));
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(25, 25, 25, 0.8)), to(rgba(65, 65, 65, 0.5)));
+	padding: 10px 9px;
+	font-size:14px;
+	cursor: pointer;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	border-bottom: 1px solid #7d7d7d;
+	border-radius: 5px;
+	box-shadow: 0 3px 5px rgba(0, 0, 0, 0.7) inset;
+	margin: 10px 2% 20px 0;
+}.customSelect .moreBtn {
+ position: absolute;
+		float: none;
+		top: 3px;
+		right: 1px;
+		width: 30px;
+		height: 34px;
+		background: url(../images/dropdown-arrow.png) no-repeat;
+}
+
+.customSelect .selectList {
+  z-index: 100;
+  width:97%;
+  position: absolute;
+  left: -999em;
+  top: -999em;
+  padding: 5px 0;
+  margin: 11px 0 0;
+  list-style: none;
+  max-height: 500px;
+  background-color: #343434;
+  -webkit-border-bottom-right-radius: 3px;
+-webkit-border-bottom-left-radius: 3px;
+-moz-border-radius-bottomright: 3px;
+-moz-border-radius-bottomleft: 3px;
+border-bottom-right-radius: 3px;
+border-bottom-left-radius: 3px;color: #98b709;
+ 
+ 
+}
+
+.customSelect.select-open .selectList {
+	left: 0 !important;
+	top: 41px;
+}
+.customSelect .selectList dl {
+	background: none;	
+}
+.customSelect .selectList dl.defaultScrollbar {
+	overflow-x: hidden;
+	overflow-y: scroll;	
+}
+.customSelect dl, .customSelect dd {
+	margin: 0;
+}
+.customSelect dd {
+	zoom: 1;
+	cursor: pointer;
+}
+.customSelect .selected {
+	
+	text-decoration: none;	
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0);
+}
+.customSelect .selectList dd.hovered {
+	width:97%;
+	background: #354B36;
+	color: #A9D659;
+}
+.customSelect dt {
+	font-weight: bold;
+	font-style: italic;
+	padding: 2px 10px 2px 6px;
+}	
+.customSelect dd {
+	padding:9px 10px;
+} 
+.hasJS select.custom {
+	position: absolute;
+	left: -999em;
+}
+.customSelect.focused .selectedValue {
+	box-shadow: 0 0 2px #00aedb;
+}
+.customSelect.disabled .selectedValue {
+	border: 1px solid #ccc;
+	color: #ccc;
+	cursor: default;
+}
+.customSelect .caret {
+	display: inline-block;
+	width: 0;
+	height: 0;
+	margin: 9% 3%;
+	vertical-align: top;
+	border-top: 5px solid #fff;
+	border-right: 5px solid transparent;
+	border-left: 5px solid transparent;
+	content: "";
+}
+.customSelect .selectValueWrap .caret {
+	position: absolute;
+	top: 12px;
+	right: 10px;
+	cursor: pointer;
+}
+.customSelect .jspPane {
+	overflow-x: hidden;
+}
+.customSelect .jspVerticalBar {
+	background: none;
+	width: 8px;
+}
+.customSelect .jspHorizontalBar {
+	height: 0;
+	overflow: hidden;
+}
+.customSelect .jspTrack {
+	background: none;
+	right: 5px;
+	border-radius: 5px;
+}
+.customSelect .jspDrag {
+	border-radius: 5px;
+	color: #ffffff;
+	opacity: .5;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+	
+}

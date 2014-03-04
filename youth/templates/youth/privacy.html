@@ -1,0 +1,87 @@
+{% extends 'youth/resources.html' %}
+{% load static %}
+{% load thumbnail %}
+
+
+{% block css %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'youth/css/addIdeaForms.css' %}"/>
+{% endblock %}
+
+{% block maps %}
+    {% include 'youth/gmaps.html' %}
+{% endblock maps %}
+
+{% block icons %}
+
+{% endblock %}
+
+{% block content %}
+    <div class="content-container container-23 mainContainer" style="min-height: 563px;">
+        <div class="content-container container-23 noMarginLeft topBar">
+            <div class="content-container container-20 noMarginLeft">
+                <div class="iconTitle"><span aria-hidden="true" class="svg" data-icon=""></span>Privacy policy</div>
+            </div>
+            <div class="content-container container-5 noMarginLeft">
+
+            </div>
+        </div>
+        <!-- ~~~~~ LEFT COLUMN ~~~~-->
+        <div class="content-container container-24 noMarginLeft">
+            <div class="single-company block noBorder">
+                <div class="company-info clearfix">
+                    <div class="company-info-description">
+                        <div class="container-24 noMarginLeft">
+                            <div class="breadcrumbs">
+                                <a href="{% url 'home' %}"><i>Home</i></a>
+                                <span></span>
+                                <a href="{% url 'privacy' %}"><i>Privacy policy</i></a>
+                            </div>
+                        </div>
+                        <div class="container-6">
+
+                        </div>
+                        <div class="block-title mainTitle"><h2>Privacy policy</h2></div>
+                        <div class="description">
+
+                            <p style="text-align: justify;"><strong>PRIVACY POLICY</strong></p>
+<p style="text-align: justify;">Date of release: 1/24/2014<strong> <br /></strong></p>
+<p style="text-align: justify;">This site is owned and operated by Youth Time International Movement (&ldquo;Organization&rdquo;). This page sets forth the Privacy Policy (the "Policy") for the website at <a href="http://www.youthmap.org/">www.youthmap.org</a> (the &ldquo;Site&rdquo;, "We", "Us"), and the service owned and operated by the Organization (together with the Site, the &ldquo;Service&rdquo;). </p>
+<p style="text-align: justify;">We take the responsibility of having your personal information very seriously. We use your personal information only for providing and improving the Service. We treat your personal information as we would and do treat our own. By using the Service, you consent to the collection and use of information in accordance with this Policy. </p>
+<p style="text-align: justify;"><strong>COLLECTION OF INFORMATION</strong></p>
+<p style="text-align: justify;">We may collect and process the following information about you: </p>
+<ul style="text-align: justify;">
+<li>information (such as your name, email and postal address, telephone number, sex, and country of residence, education, profession) that you provide by completing forms on the Site, including if you register as a user of the Service, subscribe to our newsletter, upload or submit any material through the Site, or request any information;</li>
+<li>your log-in and password details in connection with the account sign-in process;</li>
+<li>details of any requests made by you through the Service;</li>
+<li>communications you send to us, for example to report a problem or to submit queries, concerns, or comments regarding the Service or its content;</li>
+<li>information that you post to the Site in the form of comments or contributions to discussions and IP addresses.</li>
+</ul>
+<p style="text-align: justify;"><strong>USES OF YOUR PERSONAL INFORMATION</strong></p>
+<p style="text-align: justify;">We will use the personal information you provide to: </p>
+<ul style="text-align: justify;">
+<li>identify you when you sign-in to your account;</li>
+<li>enable us to provide you with the Services;</li>
+<li>send you information we think you may find useful or which you have requested from us;</li>
+<li>present projects to you when you use the Service which we believe will be of interest based on your geographic location and previous use of the Service;</li>
+<li>administer your account with us;</li>
+<li>enable us to contact you regarding any question you make through the Service;</li>
+<li>analyze the use of the Service and the people visiting to improve our content and Services; and</li>
+<li>use for other purposes that we may disclose to you when we request your information.<strong> <br /></strong></li>
+</ul>
+<p style="text-align: justify;"><strong>THIRD-PARTY SERVICES</strong></p>
+<p style="text-align: justify;">We never disclose any personal information (including name, age or email address) related to your account to a third party without your permission. </p>
+<p style="text-align: justify;"><strong>TECHNOLOGY</strong></p>
+<p style="text-align: justify;">Cookies are small pieces of information which are issued to your computer when you visit a website and which store and sometimes track information about your use of the Service. Youth Map uses cookies to help recognize you as a repeat visitor, to improve the quality of our Service, and to try and make your browsing experience meaningful. When you enter our Site, our web server sends a cookie to your computer which allows us to recognize your computer but not specifically who is using it. By associating the identification numbers in the cookies with other customer information when, for example, you log-in to the Service, then we know that the cookie information relates to you. Some of the cookies used by our Service are served by us, and some are served by third parties who are delivering services on our behalf. </p>
+<p style="text-align: justify;">Most web browsers automatically accept cookies but, if you prefer, you can change your browser to prevent that or to notify you each time a cookie is set. You can also learn more about cookies by visiting <a href="http://www.allaboutcookies.org">www.allaboutcookies.org</a> which includes additional useful information on cookies and how to block cookies using different browsers. By blocking or deleting cookies used on our Service, you may not be able to take full advantage of our Service. </p>
+<p style="text-align: justify;"><strong>MINORS</strong></p>
+<p style="text-align: justify;">We do not seek to obtain nor do we wish to receive Personal Information directly from minors; however, we cannot always determine the age of persons who access and use our Site. If a minor (as defined by applicable law) provides us with his/her data without parental or guardian consent, we encourage the parent or guardian to contact us to have this information removed and to unsubscribe the minor from future Youth Map communications.</p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/single-company-->
+        </div>
+    </div>
+{% endblock content %}

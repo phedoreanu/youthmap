@@ -1,0 +1,472 @@
+{% load static %}
+<!doctype html>
+<html lang="en-US">
+<head>
+    <link rel="icon" type="image/png" href="{% static 'youth/images/environment_map_.png' %}">
+
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"/>
+
+    <title>{% block title %}Youth Map{% endblock title %}</title>
+
+    <link rel="shortcut icon" href="{% static 'youth/images/favicon.ico' %}" type="image/x-icon" >
+    <link rel="icon" href="{% static 'youth/images/favicon.ico' %}" type="image/x-icon" >
+    {#    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">#}
+    {#    <link rel="stylesheet" type="text/css" href="{% static 'youth/css/jquery-ui-1.10.3.custom.min.css' %}"/>#}
+    <link rel="stylesheet" type="text/css" href="{% static 'youth/css/icomoon.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'youth/css/jquery-selectbox.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'youth/iCheck/skins/square/blue.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'youth/css/responsive-grid.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'youth/css/styles.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'youth/css/responsive.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'youth/css/register.css' %}" media="screen, projection"/>
+
+    <!--[if lt IE 9]>
+			<link rel="stylesheet" href="css/styles-ie8-and-down.css" />
+		<![endif]-->
+    {% block css %}{% endblock css %}
+
+    <script type="text/javascript" src="{% static 'youth/js/jquery-1.10.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'youth/js/jquery-ui-1.10.3.custom.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'youth/js/jquery.cookie.js' %}"></script>
+    <script type="text/javascript" src="{% static 'youth/js/signup.js' %}"></script>
+
+    <script type="text/javascript">var switchTo5x = true;</script>
+    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+    <script type="text/javascript">stLight.options({publisher: "960cc551-5c8a-47f8-b39e-c512c74f52e8", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var bodyHeight = $('body').height();
+            var winHeight = $(window).height();
+            if (winHeight > bodyHeight) {
+                $('footer#colophon').css('position', 'absolute').css('bottom', 0);
+            }
+        });
+    </script>
+
+    {% if not user.is_authenticated %}
+        <script type="text/javascript" src="{% static 'youth/js/registerPopUp.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'youth/js/register.js' %}"></script>
+        <script type="text/javascript" src="{% static 'youth/iCheck/jquery.icheck.min.js' %}"></script>
+    {% endif %}
+
+    {% block script %}{% endblock script %}
+</head>
+<body>
+<div id="page">
+<!-- header -->
+<header class="section">
+<!-- Header-wrapper -->
+<div class="header-wrapper">
+<div class="zone-header zone clearfix">
+<div class="header-left container-10">
+    <div class="logo block">
+        <a href="{% url 'home' %}"><img src="{% static 'youth/images/logo.png' %}" alt=""/></a>
+    </div>
+</div>
+
+<div class="header-left container-5 noMarginLeft marginTop">
+    <div class="textAlignCenter">
+        <a href="http://www.youth-time.org/" target="_blank">
+            <img src="{% static 'youth/images/partners/ytm.png' %}" alt=""/>
+        </a>
+    </div>
+</div>
+
+<div class="header-right container-10 noMarginLeft">
+<div class="user-links alignRight">
+{% if user.is_authenticated %}
+    <div class="login signedIn">
+        Welcome <a href="{% url 'dashboard' %}" id="login-link">{{ user.username }}</a>
+    </div>
+    <div class="register">
+        <a href="{% url 'logout' %}" id="register-link" class="register-link">
+            <span aria-hidden="true" class="svg" data-icon="&#xe002;"></span>
+            Log Out</a>
+    </div>
+{% else %}
+    <a id="sign-in-tab">
+        <span aria-hidden="true" class="svg" data-icon="&#xe002;"></span>
+        Login</a>
+
+    <a id="register-tab" class="user-links">
+        <span aria-hidden="true" class="svg" data-icon="&#xe001;"></span>
+        Register</a>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.alignLeft').submit(function (e) {
+                e.preventDefault();
+                $.post($(this).attr('action'), $(this).serialize(), function (response, status) {
+                    if (response.message == 'ok') {
+                        window.location = response.redirect;
+                    } else {
+                        $(response.element_id).text(response.message);
+                    }
+                });
+            });
+
+            $.get('{% url 'get_activities' %}', function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    var activity = data[i];
+                    $('<option>').val(activity.pk).text(activity.fields.name).appendTo('#activity');
+                }
+            });
+
+            $.get('{% url 'get_countries' %}', function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    var country = data[i];
+                    $('<option>').val(country.pk).text(country.fields.name).appendTo('#country');
+                }
+            });
+
+            $('#country').change(function (e) {
+                $.get('/cities/' + this.value, function (data) {
+                    $('#city').empty();
+                    for (var i = 0; i < data.length; i++) {
+                        var city = data[i];
+                        $('<option>').val(city.pk).text(city.fields.name).appendTo('#city');
+                    }
+                });
+            });
+
+            $('input[type=radio]').iCheck({
+                {#                checkboxClass: 'icheckbox_square-blue',#}
+                radioClass: 'iradio_square-blue',
+                {#                increaseArea: '20%'#}
+            });
+
+            $('#id_status_0').on('ifChecked', function(event){
+                $('#title-input').attr('placeholder', 'Your title (ex. Vounteer, General director)');
+                $('#first_name').attr('placeholder', 'First Name');
+                $('#last_name').attr('placeholder', 'Last Name');
+                $('#reg_username').attr('placeholder', 'Username');
+            });
+            $('#id_status_1').on('ifChecked', function(event){
+                $('#title-input').attr('placeholder', 'Organisation Name');
+                $('#first_name').attr('placeholder', 'Personal First Name');
+                $('#last_name').attr('placeholder', 'Personal Last Name');
+                $('#reg_username').attr('placeholder', 'Personal Username');
+            });
+
+
+            $('#activity').on('change', function (e) {
+                if ($(this).find('option:selected').text().toLowerCase().trim() == 'other') {
+                    $(this).parents('li').after('<li id="other-li"><label>' +
+                            '<input name="other" pattern="[a-zA-Z ]{2,}" placeholder="Please complete your field of activity"' +
+                            'title="It must contain only letters and a length of minimum 2 characters!!" required />' +
+                            '</label></li>')
+                } else {
+                    $('#other-li').empty().hide();
+                }
+            });
+
+            $(".slidingDiv").hide();
+            $(".show_hide").show();
+            $('.show_hide').click(function () {
+                $(".slidingDiv").slideToggle();
+            });
+
+            $('.unchecked-state').click(function () {
+                $('#remember_me').val(1);
+            });
+
+            $('.checked-state').click(function () {
+                $('#remember_me').val(null);
+            });
+
+            $('.rem-me').click(function () {
+                if($('#remember_me').val()) {
+                    $('.checked-state').trigger('click');
+                } else {
+                    $('.unchecked-state').trigger('click');
+                }
+            });
+        });
+    </script>
+
+    <div id="sign-in-form">
+        <form class="alignLeft" action="{% url 'login_ajax' %}" method="post" autocomplete="off">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{% url 'home' %}"/>
+
+            <div class="close"></div>
+            <ul class="form-section">
+                <p><span class="register-numbering-text">LOGIN</span></p>
+
+                <div class="login-error-message" style="color: red;"></div>
+                <li>
+                    <label>
+                        <input placeholder="Username" name="username" id="username" pattern="[a-zA-Z0-9]{4,}"
+                               type="text"
+                               tabindex="4"
+                               title="It must contain the username that you have chosen at registration"
+                               required>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input placeholder="Your password" name="password" pattern=".{4,}" type="password"
+                               tabindex="5"
+                               title="It must contain the password that you have chosen at registration"
+                               required>
+                    </label>
+                </li>
+                <div id="checkbox">
+                    <li>
+                        <input name="remember_me" type="hidden" id="remember_me" />
+                        <span class="unchecked-state" tabindex="6"></span>
+                        <span class="checked-state" tabindex="6"></span>
+                    </li>
+                    <label class="rem-me">
+                        Remember me next time
+                    </label>
+                </div>
+                <a href="#" class="show_hide" style="display: inline;">I forgot my password</a>
+                <li>
+                    <button tabindex="7" name="sign-in-submit" type="submit" id="sign-in-submit">Login</button>
+                </li>
+                <!--<li>
+                    <label class="left-column">
+                        <input type="button" class="facebook-login" value="Login with Facebook">
+                    </label>
+                    <label class="right-column">
+                        <input type="button" class="google-login" value="Login with Google">
+                    </label>
+                </li>-->
+                <div style="clear: both;"></div>
+            </ul>
+        </form>
+        <!-- END OF SIGN IN FORM -->
+
+        <!-- SHOW / HIDE recover password -->
+        <form id="recover-email-form" action="{% url 'forgot' %}" method="post" autocomplete="off">
+            {% csrf_token %}
+            <div class="slidingDiv">
+                <a href="#" class="show_hide close">(X) Cancel</a>
+                <span>I FORGOT MY PASSWORD</span>
+                <label>
+                    <input type="email" name="email" tabindex="8" placeholder="Your email address"
+                           title="It must contain a valid email address e.g. 'someone@provider.com' !" required>
+                </label>
+                <button class="lightDark button2 noMarginTop marginSemiBottom" name="sign-in-submit"
+                        type="submitRecovery"
+                        id="recovery">Send
+                </button>
+            </div>
+            <!-- End show hide recovery -->
+        </form>
+    </div>
+
+    <form id="register-form" class="pop-up-form alignLeft" action="{% url 'register_ajax' %}" method="post"
+          autocomplete="off">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{% url 'home' %}"/>
+
+        <div class="close"></div>
+        <!-- close button of the register form -->
+        <ul class="form-section">
+            <p><span class="register-numbering-text">Register on Youth Map</span></p>
+
+            <div id="register-error-message" style="color: red;"></div>
+
+            <li>
+                <label class="left-column">
+                    <input checked id="id_status_0" name="status" type="radio" value="1">
+                    <span style="margin:5px 0 0 30px;">Individual</span>
+                </label>
+                <label class="right-column">
+                    <input id="id_status_1" name="status" type="radio" value="2">
+                    <span style="margin:5px 0 0 30px;">Organisation</span>
+                </label>
+            </li>
+            <li>
+                <label class="left-column">
+                    <input type="text" name="first_name" id="first_name" tabindex="9" pattern="[a-zA-Z ]{2,}"
+                           placeholder="First name" required
+                           title="It must contain only letters and a length of minimum 2 characters!">
+                </label>
+                <label class="right-column">
+                    <input type="text" id="last_name" name="last_name" tabindex="10" pattern="[a-zA-Z ]{2,}"
+                           placeholder="Last name"
+                           title="It must contain only letters and a length of minimum 2 characters!"
+                           required>
+                </label>
+            </li>
+            <li>
+                <label>
+                    <input type="text" id="reg_username" name="username" tabindex="11" pattern="[a-zA-Z0-9]{6,}"
+                           placeholder="Username"
+                           title="It must contain alphanumeric characters and a length of minimum 6 characters !"
+                           required>
+                </label>
+            </li>
+            <li>
+                <label>
+                    <input id="title-input" type="text" name="title" pattern="[a-zA-Z ]{2,}" tabindex="12"
+                           placeholder="Your title (ex. Vounteer, General director)"
+                           title="It must contain only letters and a length of minimum 2 characters!!"
+                           required>
+                </label>
+            </li>
+            <div style="clear: both;"></div>
+            <li>
+                <label class="left-column">
+                    <select id="country" name="country" tabindex="13" required>
+                        <option value="">Select country</option>
+                    </select>
+                </label>
+            </li>
+            <li>
+                <label class="right-column" tabindex="14">
+                    <select id="city" name="city" required>
+                        <option value="">Select City</option>
+                    </select>
+                </label>
+            </li>
+            <li>
+                <label>
+                    <select id="activity" name="activity" class="fieldActivity" tabindex="15" required>
+                        <option value="">Field of activity</option>
+                    </select>
+                </label>
+            </li>
+            <li>
+                <label>
+                    <input type="email" name="email" tabindex="16" placeholder="Your email address"
+                           title="It must contain a valid email address e.g. 'someone@provider.com' !"
+                           required>
+                </label>
+            </li>
+            <li>
+                <label>
+                    <input type="password" name="password" tabindex="17" pattern=".{6,}"
+                           placeholder="Please enter your password"
+                           title="It can contain all types of characters and a length of minimum 6 characters!"
+                           required>
+                </label>
+            </li>
+            <div style="clear: both;"></div>
+            <li>
+                <button name="submit" tabindex="18" type="submit" id="create-account-submit">
+                    Create Account
+                </button>
+            </li>
+        </ul>
+    </form>
+    <!-- END OF REGISTER FORM -->
+    <div id="background-on-popup"></div>
+{% endif %}
+</div>
+</div>
+</div>
+<!-- end of .zone-header -->
+</div>
+<!-- end of .header-wrapper -->
+</header>
+
+{% block outter_content %}
+
+{% endblock outter_content %}
+
+<section class="section content">
+    {% block body %}
+        {% block menu %}
+
+        {% endblock %}
+
+        {% block content %}
+
+        {% endblock %}
+    {% endblock body %}
+</section>
+</div>
+<!-- Footer -->
+
+<footer id="colophon">
+    <div class="section">
+        <div class="footer-wrapper">
+            <div class="zone-footer zone clearfix">
+                <div class="footer-container container-24">
+                    <div class="website-short-description block">
+                        <a href="{% url 'home' %}">
+                            <img src="{% static 'youth/images/logofooter.png' %}" alt="Youth Map" title="Youth Map"
+                                 class="logo"/>
+                        </a>
+                        <span class="created">
+                            Created by <a href="http://www.youth-time.org/" target="_blank">Youth Time Movement</a>
+                        </span>
+
+                        <div class="marginTop2">
+                            <span class='st_facebook_hcount' displayText='Facebook'></span>
+                            <span class='st_twitter_hcount' displayText='Tweet'></span>
+                            <span class='st_linkedin_hcount' displayText='LinkedIn'></span>
+                            <span class='st_email_hcount' displayText='Email'></span>
+                        </div>
+                        <!-- end share -->
+                    </div>
+                    <div class="recent-posts block">
+                        <h3 class="title">About YouthMap</h3>
+                        <ul>
+                            <li><a href="{% url 'about' %}">About us</a></li>
+                            <!--<li><a href="{% url 'youthmap_calendar' %}">Upcoming events</a></li>--> 
+                            <li><a href="{% url 'idea_list' %}">Ideas</a></li>
+                            <li><a href="{% url 'project_list' %}">Projects</a></li>
+                            <li><a href="{% url 'resources' %}">Resources</a></li>
+                            <li><a href="{% url 'contact' %}">Contact us</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="recent-posts block">
+                        <h3 class="title">Let's get in touch</h3>
+
+                        <div class="social">
+                            <a href="http://www.facebook.com/YouthMap" target="_blank">
+                                <span aria-hidden="true" class="svgfooter" data-icon="&#xe007;"></span></a>
+                            <a href="https://twitter.com/Youth_Map" target="_blank">
+                                <span aria-hidden="true" class="svgfooter" data-icon="&#xe008;"></span></a>
+                            <a href="http://cz.linkedin.com/pub/youth-map/85/3a3/127" target="_blank">
+                                <span aria-hidden="true" class="svgfooter" data-icon="&#xe00b;"></span></a>
+                            {#                        <a href="#"><span aria-hidden="true" class="svgfooter" data-icon="&#xe009;"></span></a>#}
+                            {#                        <a href="https://www.youtube.com">#}
+                            {#                            <span aria-hidden="true" class="svgfooter" data-icon="&#xe00a;"></span></a>#}
+                        </div>
+                        
+
+                        
+                    </div>
+
+                    <div class="recent-posts block">
+                        <h3 class="title">Newsletter Sign Up</h3>
+                            <div id="signup">
+                            <form id="newsletter_form" method="post" action="{% url 'newsletter_ajax' %}">
+                                {% csrf_token %}
+                                <input type="email" name="newsletter" id="newsletter" placeholder="Enter your email">
+                                <input type="submit" name="newsletter_submitbtn" id="newsletter_submitbtn" value=">"
+                                       class="submit-btn">
+                            </form>
+                        </div><br/><br/>
+                        <div class="copyright">YouthMap 2014 © All Rights Reserved. <br/><a href="{% url 'terms' %}">Terms
+                            and conditions</a>&nbsp;|&nbsp;<a href="{% url 'privacy' %}">Privacy policy</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end of .zone-footer -->
+    </div>
+    <!-- end of .footer-wrapper -->
+</footer>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-47482397-1', 'youthmap.org');
+  ga('send', 'pageview');
+
+</script> 
+</body>
+</html>

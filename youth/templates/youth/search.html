@@ -1,0 +1,109 @@
+{% extends 'youth/base.html' %}
+{% load static %}
+{% load navigation %}
+{% load filters %}
+{% load thumbnail %}
+
+{% block script %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'youth/js/jquery.zlab.zlightaccordion-1.0-min.js' %}"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#zl_wrapper').zLightAccordion({
+                sectionTextColor: '#6daa38',
+                sectionActiveTextColor: '#6daa38',
+                iconSwitchUrl: 'ch_right_green.png',
+                iconSwitchUrl2: 'ch_down_green.png',
+                iconHeaderUrl: 'gear.png',
+                headerBcolor: '#97ce68',
+                headerFontSize: '16px',
+                headerPadding: '15px',
+                accordionWidth: '100%'
+            });
+        });
+    </script>
+
+{% endblock %}
+
+{% block articles %}
+
+{% endblock %}
+
+{% block icons %}
+    <div class="industries-tabs-container container-24 marginTopMyAccount">
+        <div id="industries-tabs" class="industries-tabs block">
+            <div class="content-container container-14 marginTop">
+                <div class="holderLeft">
+                    <div class="block-title2 userName"><h3>Search results for</h3></div>
+                    <div class="title">{{ query_string|safe }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="content-container container-23 mainContainer">
+        <div class="content-container container-23 noMarginLeft topBar marginBottomMini">
+            <div class="content-container container-20 noMarginLeft">
+                <div class="iconTitle"><span aria-hidden="true" class="svg" data-icon=""></span>
+                    {{ result_list|length }} Result{{ result_list|length|pluralize }} found
+                </div>
+            </div>
+        </div>
+        <!-- ~~~~~ LEFT COLUMN ~~~~-->
+        <div class="content-container">
+            <div class="single-company block noBorderZero noPadding">
+                <div class="company-info clearfix fromMyAccount">
+                    <div class="company-info-description">
+
+                        {% regroup result_list by class_name as grouped_list %}
+
+                        <div class="company-listing clearfix">
+                            <div class="listing-body">
+                                <div class="container-24 marginSemiBottom noMarginLeft">
+                                    <div class="container_p">
+                                        <div id="zl_wrapper">
+                                            <ul class="zl_acc">
+                                                {% for group in grouped_list %}
+                                                    <li>
+                                                    <h2 class="grayText" style="">{{ group.list|length }} Result{{ group.list|length|pluralize }} found in "{{ group.grouper }}"</h2>
+
+                                                    <div style="display: none;">
+                                                        <!--##continut acordion###-->
+                                                        {% for item in group.list %}
+                                                            <div class="company-listing clearfix">
+                                                            <div class="listing-title">
+                                                                <a href="{{ item.get_absolute_url }}">{{ item.title }}</a>
+                                                            </div>
+                                                            <span class="underTitle">Posted in
+                                                                {% for label in item.field_of_activity.all %}
+                                                                   <a>{{ label }}</a>
+                                                                {% endfor %}by
+                                                                <a href="#">{{ item.owner.get_full_name }}{{ item.user.get_full_name }}</a> | Location: {{ item.city }}
+                                                            </span>
+
+                                                            <div class="listing-text">{{ item.description }}
+                                                                <span class="listing-read-more">
+                                                                    <a href="{{ item.get_absolute_url }}">
+                                                                        <span aria-hidden="true" class="svg" data-icon=""></span>More</a>
+                                                                </span>
+                                                            </div>
+                                                            </div>
+                                                        {% endfor %}
+                                                    </div>
+                                                </li>{% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/single-company-->
+        </div>
+    </div>
+{% endblock content %}

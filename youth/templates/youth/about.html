@@ -1,0 +1,124 @@
+{% extends 'youth/resources.html' %}
+{% load static %}
+{% load thumbnail %}
+
+{% block maps %}
+    {% include 'youth/gmaps.html' %}
+{% endblock maps %}
+
+{% block icons %}
+
+{% endblock %}
+
+{% block content %}
+    <div class="content-wrapper">
+        <div class="zone-content equalize zone clearfix">
+            <div class="content-container container-23 mainContainer" style="min-height: 563px;">
+
+
+                <div class="content-container container-23 noMarginLeft topBar">
+                    <div class="content-container container-20 noMarginLeft">
+                        <div class="iconTitle"><span aria-hidden="true" class="svg" data-icon=""></span>About YouthMap
+                        </div>
+                    </div>
+                    <div class="content-container container-5 noMarginLeft">
+
+                    </div>
+                </div>
+                <!-- ~~~~~ LEFT COLUMN ~~~~-->
+                <div class="content-container container-20 noMarginLeft">
+                    <div class="single-company block">
+                        <div class="company-info clearfix">
+                            <div class="company-info-description">
+                                <div class="container-19 noMarginLeft">
+                                    <div class="breadcrumbs">
+                                        <a href="{% url 'home' %}"><i>Home</i></a>
+                                        <span></span>
+                                        <a href="{% url 'about' %}"><i>About Us</i></a>
+                                    </div>
+                                </div>
+                                <div class="container-6">
+
+                                </div>
+                                <div class="block-title mainTitle"><h2>About YouthMap</h2></div>
+
+                                <!--~~~-->
+                                <div class="description">
+                                   YouthMap is a social project developed by <a style="color:#06F; font-weight:bold;" href="http://youth-time.org/about-us">Youth Time NGO</a> located in Prague, Czech Republic. It appeared from the need to empower NGOs and various social active people (volunteers, trainers, Universities etc) with the right tools to be more effective in their projects. Basically the idea is quite simple: let’s make a platform where young people come and can find other young people to make projects. We believe that this is our contribution to make a better world.<br /><br />
+
+YouthMap’s philosophy emerges from Youth Time’s <a style="color:#06F; font-weight:bold;" href="http://youth-time.org/manifesto">values</a>. We believe that a shift from one paradigm to another one is necessary in the society. A change in the system must take place. Old “values” such as competition, consumerism, greedy and selfishness which are still guiding our economy, social and political life including education, should fade away and let new values step in: cooperation, dialogue, solidarity. For example we believe that education should focus more on creating a human personality rather than an individual preoccupied on competition and profit.<br /><br />
+
+In this context YouthMap’s mission is to connect people who want to change the world for better.<br /><br />
+
+Our team consists of staff and volunteers of Youth Time movement as well as enthusiastic supporters. We are all here to run this project for you. Hope you will find on YouthMap what you are looking for. See you online!<br /><br /><br /><br /><br /><br /><br /><br />
+
+                                </div>
+                                <div style="clear:both;"></div>
+                                <!--~~~-->
+                            </div>
+                        </div>
+                    </div>
+                    <!--/single-company-->
+                </div>
+                <div class="sidebarGray container-5">
+                    <div class="sidebarGrayContainer">
+                        <h3 class="block-title">Contact</h3>
+                        <span class="underTitle"><strong>{{ about.contact_title }}</strong></span><br>
+                        <span class="underTitle"><i>{{ about.contact_name }}</i></span>
+                        <span class="underTitle"><i>{{ about.contact_email }}</i></span>
+                        <span class="underTitle"><i>{{ about.contact_phone }}</i></span><br><br><br>
+
+                        <a class="medium button2" href="{% url 'contact' %}">
+                            <span aria-hidden="true" class="svgSemi4Btn" data-icon="&#xe024;"></span>
+                            Send us an email
+                        </a>
+                    </div>
+                </div>
+
+                <div class="sidebarGray container-5">
+                    <div class="sidebarGrayContainer">
+                        <h3 class="block-title" style="margin-bottom:10px;">Share</h3>
+
+                        <div class="st_facebook_hcount" displaytext="Facebook" st_processed="yes"><span
+                                style="text-decoration:none;color:#000000;display:inline-block;cursor:pointer;"
+                                class="stButton"><span><span class="stMainServices st-facebook-counter"
+                                                             style="background-image: url(http://w.sharethis.com/images/facebook_counter.png);">&nbsp;<img
+                                src="http://w.sharethis.com/images/check-big.png"
+                                style="position: absolute; top: -7px; right: -7px; width: 19px; height: 19px; max-width: 19px; max-height: 19px; display: none;"></span><span
+                                class="stArrow"><span class="stButton_gradient stHBubble"
+                                                      style="display: inline-block;"><span
+                                class="stBubble_hcount">0</span></span></span></span></span></div>
+                        <span class="st_twitter_hcount" displaytext="Tweet" st_processed="yes"><span
+                                style="text-decoration:none;color:#000000;display:inline-block;cursor:pointer;"
+                                class="stButton"><span><span class="stMainServices st-twitter-counter"
+                                                             style="background-image: url(http://w.sharethis.com/images/twitter_counter.png);">&nbsp;<img
+                                src="http://w.sharethis.com/images/check-big.png"
+                                style="position: absolute; top: -7px; right: -7px; width: 19px; height: 19px; max-width: 19px; max-height: 19px; display: none;"></span><span
+                                class="stArrow"><span class="stButton_gradient stHBubble"
+                                                      style="display: inline-block;"><span
+                                class="stBubble_hcount">0</span></span></span></span></span></span>
+                        <span class="st_linkedin_hcount" displaytext="LinkedIn" st_processed="yes"><span
+                                style="text-decoration:none;color:#000000;display:inline-block;cursor:pointer;"
+                                class="stButton"><span><span class="stMainServices st-linkedin-counter"
+                                                             style="background-image: url(http://w.sharethis.com/images/linkedin_counter.png);">&nbsp;<img
+                                src="http://w.sharethis.com/images/check-big.png"
+                                style="position: absolute; top: -7px; right: -7px; width: 19px; height: 19px; max-width: 19px; max-height: 19px; display: none;"></span><span
+                                class="stArrow"><span class="stButton_gradient stHBubble"
+                                                      style="display: inline-block;"><span
+                                class="stBubble_hcount">0</span></span></span></span></span></span>
+                        <span class="st_email_hcount" displaytext="Email" st_processed="yes"><span
+                                style="text-decoration:none;color:#000000;display:inline-block;cursor:pointer;"
+                                class="stButton"><span><span class="stMainServices st-email-counter"
+                                                             style="background-image: url(http://w.sharethis.com/images/email_counter.png);">&nbsp;<img
+                                src="http://w.sharethis.com/images/check-big.png"
+                                style="position: absolute; top: -7px; right: -7px; width: 19px; height: 19px; max-width: 19px; max-height: 19px; display: none;"></span><span
+                                class="stArrow"><span class="stButton_gradient stHBubble"
+                                                      style="display: inline-block;"><span
+                                class="stBubble_hcount">0</span></span></span></span></span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end of .content-container -->
+    </div>
+{% endblock content %}

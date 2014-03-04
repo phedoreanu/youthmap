@@ -1,0 +1,411 @@
+/* Sections */
+.section-container, .section-container.auto {
+    padding: 0;
+    display: block;
+    border-top: none;
+}
+
+.section-container section,
+.section-container .section, .section-container.auto section,
+.section-container.auto .section {
+    position: relative;
+}
+
+.section-container section .title,
+.section-container .section .title, .section-container.auto section .title,
+.section-container.auto .section .title {
+    top: 0;
+    cursor: pointer;
+    width: 100%;
+    margin: 0;
+}
+
+.section-container section .title a,
+.section-container .section .title a, .section-container.auto section .title a,
+.section-container.auto .section .title a {
+    padding: 11px 0;
+    display: inline-block;
+    font-size: 0.688em;
+    white-space: nowrap;
+    font-size: 12px;
+    color: #fff;
+    font-weight: 500;
+    font-family: "Titillium Web";
+}
+
+.section-container section .content,
+.section-container .section .content, .section-container.auto section .content,
+.section-container.auto .section .content {
+    display: none;
+    padding: 0;
+    background-color: white;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.section-container section .content > *:last-child,
+.section-container .section .content > *:last-child, .section-container.auto section .content > *:last-child,
+.section-container.auto .section .content > *:last-child {
+    margin-bottom: 0;
+}
+
+.section-container section .content > *:first-child,
+.section-container .section .content > *:first-child, .section-container.auto section .content > *:first-child,
+.section-container.auto .section .content > *:first-child {
+    padding-top: 0;
+}
+
+.section-container section .content > *:last-child,
+.section-container .section .content > *:last-child, .section-container.auto section .content > *:last-child,
+.section-container.auto .section .content > *:last-child {
+    padding-bottom: 0;
+}
+
+.section-container section.active .content,
+.section-container .section.active .content, .section-container.auto section.active .content,
+.section-container.auto .section.active .content {
+    display: block;
+}
+
+.section-container section.active .title a,
+.section-container .section.active .title a, .section-container.auto section.active .title a,
+.section-container.auto .section.active .title a {
+    background: url(../images/bgGreen.png) center center;
+    color: #464747;
+    font-weight: bold;
+}
+
+.section-container.tabs section.active:nth-of-type(1n+2) .title a,
+.section-container.tabs .section.active:nth-of-type(1n+2) .title a {
+    background: url(../images/bgPinkLight.png) center center;
+    color: #471c36;
+    font-weight: bold;
+    overflow: hidden;
+}
+
+.section-container.tabs section.active:nth-of-type(1n+3) .title a,
+.section-container.tabs .section.active:nth-of-type(1n+3) .title a {
+    background: url(../images/bgPurpleLight.png) center center;
+    color: #471c36;
+    font-weight: bold;
+    overflow: hidden;
+}
+
+.section-container.tabs {
+    border: 0;
+    text-transform: uppercase;
+    position: relative;
+    text-align: center;
+}
+
+.section-container.tabs section,
+.section-container.tabs.section {
+    padding-top: 0;
+    border: 0;
+    position: static;
+}
+
+.section-container.tabs section .title,
+.section-container.tabs .section .title {
+    width: 25%;
+    height: 40px;
+    border: 1px solid #cac8c8;
+    border-right: 0;
+    border-bottom: 0;
+    position: absolute;
+    z-index: 1;
+    overflow: hidden;
+    font-size: 18px;
+}
+
+.section-container.tabs section:nth-of-type(1n+2) .title.expanded,
+.section-container.tabs .section:nth-of-type(1n+2) .title.expanded {
+    width: 75.2%;
+    -webkit-border-top-right-radius: 3px;
+    -moz-border-radius-topright: 3px;
+    border-top-right-radius: 3px;
+    border: 1px solid #ccc;
+    pointer-events: none;
+    cursor: default;
+    margin-left: -1px;
+    background-color: #b886a4;
+}
+
+.section-container.tabs section:nth-of-type(1n+3) .title.expanded,
+.section-container.tabs .section:nth-of-type(1n+3) .title.expanded {
+    width: 75.2%;
+    -webkit-border-top-right-radius: 3px;
+    -moz-border-radius-topright: 3px;
+    border-top-right-radius: 3px;
+    border: 1px solid #ccc;
+    pointer-events: none;
+    cursor: default;
+    margin-left: -1px;
+    background-color: #900;
+}
+
+.section-container.tabs section:nth-of-type(1n+2) .title.expanded.details,
+.section-container.tabs .section:nth-of-type(1n+2) .title.expanded.details {
+    background-color: #f0f0f0;
+}
+
+.section-container.tabs section .title a,
+.section-container.tabs .section .title a {
+    width: 100%;
+}
+
+.section-container.tabs section .title.ideas a,
+.section-container.tabs .section .title.ideas a {
+    background: url(../images/bgPinkLight.png) center center;
+    color: #5d1c42;
+    font-weight: bold;
+    overflow: hidden;
+}
+
+.section-container.tabs section .title.projects a,
+.section-container.tabs .section .title.projects a {
+    background: url(../images/bgPurpleLight.png) center center;
+    color: #5d1c42;
+    font-weight: bold;
+    overflow: hidden;
+}
+
+.section-container.tabs section:nth-of-type(1n+1) .title,
+.section-container.tabs .section:nth-of-type(1n+1) .title {
+    border-top-left-radius: 4px;
+    background-color: #91b547;
+    overflow: hidden;
+}
+
+.section-container.tabs section:nth-of-type(1n+2) .title,
+.section-container.tabs .section:nth-of-type(1n+2) .title {
+    border-top-left-radius: 0;
+    background-color: #e66f97;
+    overflow: hidden;
+}
+
+.section-container.tabs section:nth-of-type(1n+3) .title,
+.section-container.tabs .section:nth-of-type(1n+3) .title {
+    background-color: #876aa0;
+    overflow: hidden;
+}
+
+.section-container.tabs section:nth-of-type(1n+4) .title,
+.section-container.tabs .section:nth-of-type(1n+4) .title {
+    border-top-right-radius: 4px;
+    border-right: 1px solid #cac8c8;
+    background-color: #72a5d2;
+    overflow: hidden;
+}
+
+.section-container.tabs section .content,
+.section-container.tabs .section .content {
+    border: 1px solid #cccccc;
+    margin: 0;
+    padding: 0;
+    z-index: 10;
+    top: -1px;
+}
+
+.section-container.tabs section.active .title,
+.section-container.tabs .section.active .title {
+    background-color: #fff;
+    z-index: 11;
+}
+
+.section-container.tabs section.active .content,
+.section-container.tabs .section.active .content {
+    position: relative;
+}
+
+.contentRes {
+    border: 1px solid #cccccc;
+    background-color: #fff;
+    margin: 0;
+    padding: 0;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+
+}
+
+@media only screen and (min-width: 48em) {
+    .section-container.auto {
+        border: 0;
+        position: relative;
+    }
+
+    .section-container.auto section,
+    .section-container.auto .section {
+        padding-top: 0;
+        border: 0;
+        position: static;
+    }
+
+    .section-container.auto section .title,
+    .section-container.auto .section .title {
+        width: auto;
+        border: 1px solid #cccccc;
+        border-right: 0;
+        border-bottom: 0;
+        position: absolute;
+        z-index: 1;
+    }
+
+    .section-container.auto section .title a,
+    .section-container.auto .section .title a {
+        width: 100%;
+    }
+
+    .section-container.auto section:last-child .title,
+    .section-container.auto .section:last-child .title {
+        border-right: 1px solid #cccccc;
+    }
+
+    .section-container.auto section .content,
+    .section-container.auto .section .content {
+        border: 1px solid #cccccc;
+        position: absolute;
+        z-index: 10;
+        top: -1px;
+    }
+
+    .section-container.auto section.active .title,
+    .section-container.auto .section.active .title {
+        background-color: white;
+        z-index: 11;
+        border-bottom: 0;
+    }
+
+    .section-container.auto section.active .content,
+    .section-container.auto .section.active .content {
+        position: relative;
+    }
+
+    .section-container.accordion .section {
+        padding-top: 0 !important;
+    }
+
+    .section-container.vertical-nav {
+        border: 1px solid #cccccc;
+        border-top: none;
+    }
+
+    .section-container.vertical-nav section,
+    .section-container.vertical-nav .section {
+        padding-top: 0 !important;
+    }
+
+    .section-container.vertical-nav section .title a,
+    .section-container.vertical-nav .section .title a {
+        display: block;
+        width: 100%;
+    }
+
+    .section-container.vertical-nav section .content,
+    .section-container.vertical-nav .section .content {
+        display: none;
+    }
+
+    .section-container.vertical-nav section.active .content,
+    .section-container.vertical-nav .section.active .content {
+        display: block;
+        position: absolute;
+        left: 100%;
+        top: -1px;
+        z-index: 999;
+        min-width: 12.5em;
+        border: 1px solid #cccccc;
+    }
+
+    .section-container.horizontal-nav {
+        position: relative;
+        background: #efefef;
+        border: 1px solid #cccccc;
+    }
+
+    .section-container.horizontal-nav section,
+    .section-container.horizontal-nav .section {
+        padding-top: 0;
+        border: 0;
+        position: static;
+    }
+
+    .section-container.horizontal-nav section .title,
+    .section-container.horizontal-nav .section .title {
+        width: auto;
+        border: 1px solid #cccccc;
+        border-left: 0;
+        top: -1px;
+        position: absolute;
+        z-index: 1;
+    }
+
+    .section-container.horizontal-nav section .title a,
+    .section-container.horizontal-nav .section .title a {
+        width: 100%;
+    }
+
+    .section-container.horizontal-nav section .content,
+    .section-container.horizontal-nav .section .content {
+        display: none;
+    }
+
+    .section-container.horizontal-nav section.active .content,
+    .section-container.horizontal-nav .section.active .content {
+        display: block;
+        position: absolute;
+        z-index: 999;
+        left: 0;
+        top: -2px;
+        min-width: 12.5em;
+        border: 1px solid #cccccc;
+    }
+}
+
+.latest-activity {
+    font-size: 13px;
+    text-align: left;
+    text-transform: none;
+}
+
+.latest-activity ul {
+    list-style: none none;
+}
+
+.latest-activity li {
+    vertical-align: top;
+    color: #525151;
+    padding: 0.750em;
+    border-bottom: 1px solid #dbdada;
+
+}
+
+.latest-activity li a {
+    color: #72a706;
+    vertical-align: top;
+}
+
+.latest-activity li:last-child {
+    border-bottom: 0;
+}
+
+.latest-activity li p {
+    color: #999;
+    margin: 0;
+    vertical-align: top;
+}
+
+.customScroll {
+    max-height: 451px;
+    margin-bottom: 20px;
+    overflow-y: hidden;
+    padding: 0 0 10px 1px;
+    background: url(../images/bgsld.png) repeat-y top right;
+}
+
+.customScroll.noBg {
+    background: none;
+    padding: 0;
+    margin: 0;
+ }

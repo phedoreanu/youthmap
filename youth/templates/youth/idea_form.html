@@ -1,0 +1,89 @@
+{% extends 'youth/dashboard.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load filters %}
+
+{% block css %}
+    {{ block.super }}
+    {#    <link rel="stylesheet" type="text/css" href="{% static 'suit/css/suit.css' %}">#}
+    {#    <link rel="stylesheet" type="text/css" href="{% static 'suit-redactor/redactor/redactor.css' %}" media="all">#}
+    <link rel="stylesheet" type="text/css" href="{% static 'youth/select2/css/select2.min.css' %}"/>
+    {#    <link rel="stylesheet" type="text/css" href="{% static 'youth/select2/css/extra.css' %}"/>#}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'youth/css/addIdeaForms.css' %}"/>
+    {#    <link rel="stylesheet" type="text/css" href="{% static 'youth/css/datepicker/lib/themes/default.css' %}"/>#}
+    {#    <link rel="stylesheet" type="text/css" href="{% static 'youth/css/datepicker/lib/themes/default.date.css' %}"/>#}
+
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>
+
+
+    {#     TODO form errors#}
+    {#    <link rel="stylesheet" type="text/css" href="{% static 'youth/bootstrap/css/bootstrap.min.css' %}"/>#}
+
+{% endblock css %}
+
+{% block script %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'youth/iCheck/jquery.icheck.min.js' %}"></script>
+
+    {#    <script type="text/javascript" src="{% static 'youth/js/datepicker/lib/picker.js' %}"></script>#}
+    {#    <script type="text/javascript" src="{% static 'youth/js/datepicker/lib/picker.date.js' %}"></script>#}
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var default_datepicker_options = {
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: 'dd/mm/yy',
+                yearRange: '1950:2014',
+                firstDay: 1
+            };
+            $("#id_start_date").datepicker(default_datepicker_options);
+            $("#id_end_date").datepicker(default_datepicker_options);
+
+            $('#id_country').change(function (e) {
+                $.get('/cities/' + this.value, function (data) {
+                    $('#id_city').empty();
+                    for (var i = 0; i < data.length; i++) {
+                        var city = data[i];
+                        $('<option>').val(city.pk).text(city.fields.name).appendTo('#id_city');
+                    }
+                });
+            });
+
+            $('input[type=radio]').iCheck({
+                radioClass: 'iradio_square-blue'
+            });
+        });
+    </script>
+
+    {#    <script type="text/javascript" src="{% static 'suit-redactor/redactor/redactor.min.js' %}"></script>#}
+{#    <script type="text/javascript" src="{% static 'youth/select2/js/select2.min.js' %}"></script>#}
+{% endblock script %}
+
+{% block inner_content %}
+    <div class="content-container container-23 noMarginLeft topBarRes">
+        <div class="myAccountTopBarMenuBtn active">
+            <span aria-hidden="true" class="svg" data-icon=""></span>
+            {% if form.instance.id == None %} Add {% else %} EDIT {% endif %}
+            a{{ form.model_name|startswith:'I O E' }} {{ form.model_name }}
+        </div>
+    </div>
+
+    <div class="companies-listings block brdLeft">
+        <div class="company-listing clearfix">
+            <div class="listing-body">
+
+                <div class="container-24">
+                    <div class="underTitle marginTop"><strong>Add your {{ form.model_name|lower }} for a better world:</strong></div>
+
+                    <form id="addIdea" method="post" autocomplete="off" enctype="multipart/form-data">
+                        <ul id="addIdeaForms">
+                            {% crispy form %}
+                        </ul>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock inner_content %}

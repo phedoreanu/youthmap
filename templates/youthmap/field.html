@@ -1,0 +1,20 @@
+{% load crispy_forms_field %}
+{% load crispy_forms_filters %}
+{% load l10n %}
+
+{% if field.is_hidden %}
+    {{ field }}
+{% else %}
+    <li>
+        <div class="blueTitle marginTop2">{{ field.label }}</div>
+        {% for choice in field.field.choices %}
+            <label class="radio{% if inline_class %}-{{ inline_class }}{% endif %}" style="float: left;">
+                <input type="radio"{% if choice.0|stringformat:"s" == field.value|stringformat:"s" %}
+                       checked="checked"{% endif %} name="{{ field.html_name }}"
+                       id="id_{{ field.html_name }}_{{ forloop.counter }}"
+                       value="{{ choice.0|unlocalize }}" {{ field.field.widget.attrs|flatatt }}>
+                <span style="margin:7px 12px 0 30px; color: #4d4d4d;">{{ choice.1|unlocalize }}</span>
+            </label>
+        {% endfor %}
+    </li>
+{% endif %}

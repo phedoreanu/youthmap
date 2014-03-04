@@ -1,0 +1,45 @@
+{% extends 'youth/dashboard.html' %}
+{% load static %}
+{% load navigation %}
+
+{% block css %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'youth/css/myAccountFields.css' %}"
+          media="screen, projection"/>
+{% endblock %}
+
+{% block inner_content %}
+    <!--TITLE BAR-->
+    <div class="content-container container-23 noMarginLeft topBarRes">
+        <a href="{% url 'profile' %}">
+            <div class="myAccountTopBarMenuBtn {% current 'profile' %}">
+                <span aria-hidden="true" class="svg" data-icon="&#xe013;"></span>
+                MY PROFILE
+            </div>
+        </a>
+        <a href="{% url 'profile_edit' %}">
+            <div class="myAccountTopBarMenuBtn {% current 'profile_edit' %} {% current 'profile_complete' %}">
+                <span aria-hidden="true" class="svg" data-icon="&#xe049;"></span>
+                EDIT PROFILE
+            </div>
+        </a>
+    </div>
+    <!--END TITLE BAR-->
+    <!--~~~-->
+    <div class="companies-listings block brdLeft">
+        {% block innner_profile_content %}
+            {% include 'youth/profile_detail_header.html' %}
+
+            <!--~~~-->
+            <!--=====LATEST ACTIVITY ===========================-->
+            {% if logs %}
+                <div class="container-24">
+                    <div class="blueTitle noBorder">Latest activity</div>
+                </div>
+
+                {% include 'youth/latest_activity.html' %}
+            {% endif %}
+            <!--===== END LATEST ACTIVITY ============-->
+        {% endblock %}
+    </div>
+{% endblock inner_content %}

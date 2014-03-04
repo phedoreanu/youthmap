@@ -1,0 +1,98 @@
+{% extends 'youth/dashboard.html' %}
+{% load static %}
+{% load navigation %}
+{% load thumbnail %}
+{% load filters %}
+
+{% block inner_content %}
+    <div class="companies-listings block">
+        <!--TITLE BAR-->
+        <div class="content-container container-23 noMarginLeft topBarRes noMarginZero">
+            <a href="{% url 'my_connections_following' %}">
+                <div class="myAccountTopBarMenuBtn {% current 'my_connections_following' %}">Following
+                    ({{ request.user.following_set.count }})
+                </div>
+            </a>
+            <a href="{% url 'my_connections_followers' %}">
+                <div class="myAccountTopBarMenuBtn {% current 'my_connections_followers' %}">Followers
+                    ({{ request.user.followers_set.count }})
+                </div>
+            </a>
+        </div>
+        <!--END TITLE BAR-->
+    </div>
+
+    {% if object_list %}
+        <div class="datagrid">
+        <table>
+            <thead>
+            <tr>
+                <th>{% block action_way %}
+                    You are following
+                {% endblock %}</th>
+                <th>Ideas</th>
+                <th>Projects</th>
+                <th>Resources</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!--~~~~~~-->
+            {% for object in object_list %}
+                <tr>
+                    <td>
+                        <div class="company-listing  noborder noPadding clearfix">
+                            <div class="listing-body">
+                                <div class="container-6 noMarginZero">
+                                    {% if object.photo %}
+                                        {% thumbnail object.photo '100' crop="center" format="PNG" as im %}
+                                            <a href="#" class="thbig marginBtm userMyAccountPic">
+                                                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                                            </a>
+                                        {% endthumbnail %}
+                                    {% else %}
+                                        <a href="#" class="thbig marginBtm userMyAccountPic">
+                                            <img src="{% static 'youth/images/members/no-pic.jpg' %}" width="70" height="70">
+                                        </a>
+                                    {% endif %}
+                                </div>
+                                <div class="container-15 marginLeft">
+                                    <div class="listing-title">
+                                        <a href="{% url 'display' object|to_class_name_lower object.id %}">
+                                            <h6>{{ object.owner.get_full_name }}</h6>
+                                        </a>
+                                    </div>
+                                    <div class="holderLeft">
+                                        <div class="underTitle location">Location:<a href="#">{{ object.city }}</a>
+                                        </div>
+                                        <div class="underTitle location">Field of activity:
+                                            {% for item in object.field_of_activity.all %}
+                                                <span>{{ item }}{% if not forloop.last %},{% endif %}</span>
+                                            {% endfor %}
+                                        </div>
+
+                                        {% block unfollow_form%}
+                                            <form method="post" id="follow_form_{{ forloop.counter0 }}" action="{% url 'unfollow' %}">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="follower-id" value="{{ object.owner.id }}"/>
+
+                                                <button type="submit"
+                                                        class="small grey button2 noMarginTop marginSemiBottom">
+                                                    <span aria-hidden="true" class="svg" data-icon=""></span>Unfollow
+                                                </button>
+                                            </form>
+                                        {% endblock %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{ object.owner.idea_set.count }}</td>
+                    <td>{{ object.owner.project_set.count }}</td>
+                    <td>{{ object.owner.metaresource_set.count }}</td>
+                </tr>
+            {% endfor %}
+            <!--~~~~~~-->
+            </tbody>
+        </table>
+        </div>{% endif %}
+{% endblock inner_content %}

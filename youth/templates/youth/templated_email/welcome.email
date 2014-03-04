@@ -1,0 +1,15 @@
+{% block subject %}{{username}} welcome to Youthmap!{% endblock %}
+{% block html %}
+    <p>Hi {{ full_name }},</p>
+
+    <p>You just signed up for Youthmap, using:
+    <dl>
+        <dt>username</dt>
+        <dd>{{ username }}</dd>
+        <dt>join date</dt>
+        <dd>{{ signup_date }}</dd>
+    </dl>
+    </p>
+
+    <p>Thanks, you rock!</p>
+{% endblock %}

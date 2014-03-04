@@ -1,0 +1,36 @@
+{% if educations %}
+    <div id="zl_wrapper1">
+        <ul class="zl_acc">
+            {% for edu in educations %}
+                <li>
+                    <h2>{{ edu.institution_name }}</h2>
+                    <strong>Diploma:</strong> {{ edu.diploma }}
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Specialisation:</strong> {{ edu.speciality }}
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Location:</strong> {{ edu.city }} <br/>
+                    <strong>Period:</strong> {{ edu.start_date|date }} - {{ edu.end_date|default:'present' }}
+                    <div>
+                        <h4 class="h4marginTop">Qualifications</h4>
+                        {{ edu.qualifications }}
+                        <h4 class="h4marginTop">Skills</h4>
+                        {{ edu.skills }}
+                        <h4 class="h4marginTop">Courses</h4>
+                        {{ edu.courses }}
+                        {% if edu.official_website %}
+                            <h4>Institution website</h4>
+                            <a href="{{ edu.official_website }}">{{ edu.official_website }}</a>
+                        {% endif %}
+
+                        <div class="content-container noMarginLeft floatRight">
+                            <a href="{{ edu.get_delete_url }}" class="lightDark button2 noMarginTop marginSemiBottom">
+                                <span aria-hidden="true" class="svg" data-icon="&#xe04c;"></span>Delete</a>
+                        </div>
+                        <div class="content-container noMarginLeft floatRight">
+                            <a href="{{ edu.get_update_url }}" class="lightDark button2 noMarginTop marginSemiBottom">
+                                <span aria-hidden="true" class="svg" data-icon="&#xe049;"></span>Edit</a>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}

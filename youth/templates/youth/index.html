@@ -1,0 +1,335 @@
+{% extends "youth/base_site.html" %}
+{% load i18n %}
+{% load staticfiles %}
+
+{% block title %}{{ title }} {% trans 'Youth Map' %}{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'youth/css/styles.css' %}" media="all">
+    <link rel="stylesheet" type="text/css" href="{% static 'youth/css/rs.css' %}" media="all">
+    <link rel="stylesheet" type="text/css" href="{% static 'youth/css/rs-settings.css' %}" media="all">
+{% endblock css %}
+
+{% block script %}
+    <script type="text/javascript" src="{% static 'youth/js/jquery.themepunch.plugins.js' %}"></script>
+    <script type="text/javascript" src="{% static 'youth/js/jquery.themepunch.revolution.js' %}"></script>
+    <script type="text/javascript" src="{% static 'youth/js/index.js' %}"></script>
+{% endblock script %}
+
+{% block maps %}
+    {#    {% include 'youth/gmaps.html' %}#}
+{% endblock maps %}
+
+{% block content %}
+    <div class="slider-wrapper sliderContent">
+    <div id="slider" class="revolution-slider">
+    <div class="container clearfix">
+    <div class="fullwidthbanner-container">
+    <div class="fullwidthbanner">
+    <ul class="clearfix">
+    <li data-transition="random" data-slotamount="10" data-masterspeed="300">
+        <img src="{% static 'youth/images/slider/revolution/2/bg.jpg' %}"/>
+
+        <div class="caption lft ltb"
+             data-x="550"
+             data-y="10"
+             data-speed="300"
+             data-start="1500"
+             data-easing="easeOutExpo" data-end="5500" data-endspeed="300"
+             data-endeasing="easeInSine"><img src="{% static 'youth/images/slider/revolution/2/mac.png' %}"/></div>
+
+        <div class="caption large_text sfr"
+             data-x="50"
+             data-y="35"
+             data-speed="300"
+             data-start="1800"
+             data-easing="easeOutBack" data-end="5500" data-endspeed="300"
+             data-endeasing="easeInBack"><img src="{% static 'youth/images/slider/revolution/2/title.png' %}"/></div>
+
+        <div class="caption large_text sfr slider-text"
+             style="color: #575757;font-weight: 400; font-size: 13px;line-height:18px; padding: 3px 9px;width:150px;float:left;"
+             data-x="40"
+             data-y="100"
+             data-speed="300"
+             data-start="2000"
+             data-easing="easeOutBack" data-end="5500" data-endspeed="300"
+             data-endeasing="easeInBack">YouthMap’s mission is to empower youth to become active
+            players in the society.<br/> By combining ideas, projects and resources online, they
+            can impact the world offline.
+        </div>
+
+        <div class="caption large_text sfr"
+             style="font-family: 'Open Sans',sans-serif;  font-weight: 600; font-size: 15px; padding: 3px 9px;color:#3c444f"
+             data-x="40"
+             data-y="165"
+             data-speed="300"
+             data-start="2200"
+             data-easing="easeOutBack" data-end="5500" data-endspeed="300"
+             data-endeasing="easeInBack">Categories of interest
+        </div>
+
+        <div class="caption large_text sfr"
+             data-x="40"
+             data-y="210"
+             data-speed="300"
+             data-start="2400"
+             data-easing="easeOutBack" data-end="5500" data-endspeed="300"
+             data-endeasing="easeInBack"><a href="{% url 'home' %}"><img
+                src="{% static 'youth/images/slider/revolution/2/culture.png' %}"/></a></div>
+
+        <div class="caption large_text sfr"
+             data-x="120"
+             data-y="210"
+             data-speed="300"
+             data-start="2400"
+             data-easing="easeOutBack" data-end="5500" data-endspeed="300"
+             data-endeasing="easeInBack"><a href="{% url 'home' %}"><img
+                src="{% static 'youth/images/slider/revolution/2/education.png' %}"/></a></div>
+
+        <div class="caption large_text sfr"
+             data-x="200"
+             data-y="210"
+             data-speed="300"
+             data-start="2400"
+             data-easing="easeOutBack" data-end="5500" data-endspeed="300"
+             data-endeasing="easeInBack"><a href="{% url 'home' %}"><img
+                src="{% static 'youth/images/slider/revolution/2/environment.png' %}"/></a></div>
+
+        <div class="caption large_text sfr"
+             data-x="280"
+             data-y="210"
+             data-speed="300"
+             data-start="2400"
+             data-easing="easeOutBack" data-end="5500" data-endspeed="300"
+             data-endeasing="easeInBack"><a href="{% url 'home' %}"><img
+                src="{% static 'youth/images/slider/revolution/2/health.png' %}"/></a></div>
+
+        <div class="caption large_text sfr"
+             data-x="360"
+             data-y="210"
+             data-speed="300"
+             data-start="2400"
+             data-easing="easeOutBack" data-end="5500" data-endspeed="300"
+             data-endeasing="easeInBack"><a href="{% url 'home' %}"><img
+                src="{% static 'youth/images/slider/revolution/2/media.png' %}"/></a></div>
+
+        <div class="caption large_text sfr"
+             data-x="40"
+             data-y="285"
+             data-speed="300"
+             data-start="2400"
+             data-easing="easeOutBack" data-end="5500" data-endspeed="300"
+             data-endeasing="easeInBack"><a href="{% url 'home' %}"><img
+                src="{% static 'youth/images/slider/revolution/2/technology.png' %}"/></a></div>
+
+        <div class="caption large_text sfr"
+             data-x="120"
+             data-y="285"
+             data-speed="300"
+             data-start="2400"
+             data-easing="easeOutBack" data-end="5500" data-endspeed="300"
+             data-endeasing="easeInBack"><a href="{% url 'home' %}"><img
+                src="{% static 'youth/images/slider/revolution/2/heritage.png' %}"/></a></div>
+
+        <div class="caption large_text sfr"
+             data-x="200"
+             data-y="285"
+             data-speed="300"
+             data-start="2400"
+             data-easing="easeOutBack" data-end="5500" data-endspeed="300"
+             data-endeasing="easeInBack"><a href="{% url 'home' %}"><img
+                src="{% static 'youth/images/slider/revolution/2/social.png' %}"/></a></div>
+
+        <div class="caption large_text sfr"
+             data-x="280"
+             data-y="285"
+             data-speed="300"
+             data-start="2400"
+             data-easing="easeOutBack" data-end="5500" data-endspeed="300"
+             data-endeasing="easeInBack"><a href="{% url 'home' %}"><img
+                src="{% static 'youth/images/slider/revolution/2/projects.png' %}"/></a></div>
+
+        <div class="caption large_text sfr"
+             data-x="360"
+             data-y="285"
+             data-speed="300"
+             data-start="2400"
+             data-easing="easeOutBack" data-end="5500" data-endspeed="300"
+             data-endeasing="easeInBack"><a href="{% url 'home' %}"><img
+                src="{% static 'youth/images/slider/revolution/2/other.png' %}"/></a></div>
+    </li>
+    <li data-transition="papercut" data-slotamount="1" data-masterspeed="300">
+        <img src="{% static 'youth/images/slider/revolution/3/bg.png' %}"/>
+
+        <div class="caption lfb ltb"
+             data-x="850"
+             data-y="10"
+             data-speed="300"
+             data-start="1400"
+             data-easing="easeOutExpo"><img src="{% static 'youth/images/slider/revolution/3/bubleR.png' %}"/></div>
+
+        <div class="caption lfb ltb"
+             data-x="450"
+             data-y="10"
+             data-speed="300"
+             data-start="1800"
+             data-easing="easeOutExpo"><img src="{% static 'youth/images/slider/revolution/3/bubleL.png' %}"/></div>
+
+        <div class="caption lfb ltb"
+             data-x="600"
+             data-y="82"
+             data-speed="300"
+             data-start="1000"
+             data-easing="easeOutExpo"><img src="{% static 'youth/images/slider/revolution/3/guy.png' %}"/></div>
+
+        <div class="caption large_text sfr"
+             data-x="40"
+             data-y="110"
+             data-speed="300"
+             data-start="1800"
+             data-easing="easeOutBack" data-endeasing="easeInBack"><img
+                src="{% static 'youth/images/slider/revolution/3/text.png' %}"/></div>
+
+        <div class="caption small_text sfr"
+             style="color: #fff; font-weight: 400; font-size: 15px; line-height:23px;padding: 3px 9px;width:190px;float:left;"
+             data-x="30"
+             data-y="195"
+             data-speed="300"
+             data-start="2000"
+             data-easing="easeOutBack" data-endeasing="easeInBack">Combine ideas with resources
+            and make the projects you want! Expand your capabilities<br/> with our user friendly
+            interface so you can easily find what you are looking for.
+        </div>
+    </li>
+    <li data-transition="3dcurtain-vertical" data-slotamount="10" data-masterspeed="300">
+
+        <img src="{% static 'youth/images/slider/revolution/1/bg.jpg' %}"/>
+
+        <div class="caption large_text sfr"
+             data-x="40"
+             data-y="80"
+             data-speed="300"
+             data-start="1800"
+             data-easing="easeOutBack" data-endeasing="easeInBack"><img
+                src="{% static 'youth/images/slider/revolution/1/text.png' %}"/></div>
+
+        <div class="caption large_text sfr"
+             style="color: #535a64; font-family: 'Open Sans',sans-serif; font-weight: 400; font-size: 14px; line-height:23px;padding: 3px 9px;width:150px;float:left"
+             data-x="30"
+             data-y="180"
+             data-speed="300"
+             data-start="2000"
+             data-easing="easeOutBack" data-endeasing="easeInBack">
+            YouthMap is more than an online platform for sharing ideas, projects and resources.
+            <br/>
+            It is a tool for changing the society for better.
+        </div>
+    </li>
+    </ul>
+    </div>
+    </div>
+
+    </div>
+    </div>
+    </div>
+    <!-- end of .map-wrapper -->
+
+    <div class="content-wrapper landingPageTopDarkBg">
+        <div class="zone-content equalize zone landingPageBlueBg clearfix">
+            <div class="welcome landingPageBlueBg block">
+                <div class="content-container container-18 noMarginLeft">
+                    <div class="landingPageBlueBgTitle">
+                        Welcome to Youth Map
+                    </div>
+                    <div class="welcome-text landingPage">We are an online tool for building projects by connecting
+                        ideas with resources. Use it online for results offline.
+                    </div>
+                </div>
+                <div class="content-container container-6 noMarginLeft">
+                    <a href="{% url 'home' %}">
+                        <div class="getStartedBtn">GET STARTED!</div>
+                    </a>
+                </div>
+                <!--~ -->
+            </div>
+            <!-- /welcome block -->
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+        <div class="zone-content equalize zone clearfix">
+            <div class="block-title landingPage small">
+                How it works?
+            </div>
+            <!--~~~~~~ROW 1 ~~~~~~-->
+            <div class="content-container container-24 noMarginLeft">
+                <div class="content-container container-16 noMarginLeft">
+                    <div class="subtitleLandingPage">IDEAS</div>
+                    <div class="welcome-text landingPage">Let’s suppose you have an idea on organizing a training
+                        course, but you do not have trainers, volunteers and location. All you need to do is register
+                        your idea to the “International projects” section, add the right tags and wait for your team to
+                        gather! If the idea is interesting, expect people to contact you! Or you can search and contact
+                        the resources or people you need by browsing our Resources section.
+                    </div>
+                </div>
+
+                <div class="content-container container-9">
+                    <div class="landingIcons"><img src="{% static 'youth/images/landing-page/idea.png' %}"/></div>
+                </div>
+            </div>
+            <!-- ~~~~~~~~/ROW 1 ~~~~~~-->
+            <div class="container-24 noMarginLeft">
+                <div class="separator"></div>
+            </div>
+
+            <!--~~~~~~ROW 2 ~~~~~~-->
+            <div class="content-container container-24">
+
+                <div class="content-container container-9  noMarginLeft">
+                    <div class="landingIcons"><img src="{% static 'youth/images/landing-page/monitor.png' %}"/></div>
+                </div>
+                <div class="content-container container-16">
+                    <div class="subtitleLandingPage">PROJECTS</div>
+                    <div class="welcome-text landingPage">Let’s suppose you started a project on environment. The
+                        project is already running, you have the funds and volunteers. But you need now another partner
+                        who will help you locally. All you need to do is to register your project on the “Environment”
+                        section and wait for the local partners to contact you! In the meantime you can search for
+                        people and resources around the location where your project will take place.
+                    </div>
+                </div>
+            </div>
+            <!-- ~~~~~~~~/ROW 2 ~~~~~~-->
+            <div class="container-24 noMarginLeft">
+                <div class="separator"></div>
+            </div>
+
+            <!--~~~~~~ROW 3 ~~~~~~-->
+            <div class="content-container container-24">
+                <div class="content-container container-16 noMarginLeft">
+                    <div class="subtitleLandingPage">RESOURCES</div>
+                    <div class="welcome-text landingPage">In order for your projects to become reality, you need
+                        resources. In this section you can find the right people, information and useful links which you
+                        can use for the implementation of your project. Moreover, in this section all the partner
+                        organizations and members present themselves. Contact them! Events and digital media will expand
+                        your current capabilities.
+                    </div>
+                </div>
+
+                <div class="content-container container-9">
+                    <div class="landingIcons"><img src="{% static 'youth/images/landing-page/map.png' %}"/></div>
+                </div>
+            </div>
+            <!-- ~~~~~~~~/ROW 3 ~~~~~~-->
+            <div class=" container-24 noMarginLeft">
+                <div class="separator"></div>
+                <a href="{% url 'home' %}">
+                    <div class="getStartedBtn big">GET STARTED NOW!</div>
+                </a>
+            </div>
+
+
+        </div>
+        <!-- end zone-content equalize zone clearfix -->
+    </div>
+    <!-- end of .content-wrapper -->
+{% endblock content %}

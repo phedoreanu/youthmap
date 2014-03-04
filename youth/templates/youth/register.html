@@ -1,0 +1,56 @@
+{% extends "youth/base_site.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ title }} {% trans 'Youth Map' %}{% endblock title %}
+
+{% block script %}
+    <script type="text/javascript" src="{% static 'youth/jquery.validation/jquery.validate.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'youth/js/register.js' %}"></script>
+{% endblock script %}
+
+{% block css %}
+    {#    <link rel="stylesheet" type="text/css" href="{% static 'youth/register.css' %}"/>#}
+{% endblock css %}
+
+{% block body %}
+    <div id="content" style="margin-top:0" xmlns="http://www.w3.org/1999/html">
+        <div class="content-wrap">
+            <div class="container clearfix">
+                <div class="col_three_fourth col_last"
+                     style="margin-bottom:20px; width:536px; margin-left:238px; margin-top:36px;">
+                    <img src="{% static 'youth/images/regtit.png' %}"/><br/>
+                    <span>Join a fast growing community, and share your projects and ideas for a better world</span><br/><br/>
+                    <a href=""><img src="{% static 'youth/images/fbsigb.png' %}" style="margin-right:15px"/></a>
+                    <a href=""><img src="{% static 'youth/images/twitsign.png' %}" style="margin-right:15px"/></a>
+                    <a href=""><img src="{% static 'youth/images/linkedsign.png' %}"/></a>
+
+                    {% if form.errors %}
+                       {{ form.errors }}
+                    {% endif %}
+
+                    <form method="post" id="register-step-1-form" class="register-step-1">
+                        {% csrf_token %}
+                        <span class="title-medium">Or sign up using your email:</span>
+                        <input type="text" id="email" name="email"
+                               style="margin-top:11px;width:344px;"
+                               placeholder="Email"/>
+                        <input type="password" id="password" name="password"
+                               style="margin-top:11px;width:344px;"
+                               placeholder="Password"/>
+                        <br/>
+                        <a>Forgot your password?</a></span>
+                        <br/>
+                        <br/>
+                        <button class="btn btn-success" type="button" id="continue">Continue</button>
+                    </form>
+
+                    <div id="registerStep2" class="hide">
+                        {% crispy form %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}

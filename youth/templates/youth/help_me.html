@@ -1,0 +1,344 @@
+{% extends 'youth/dashboard.html' %}
+{% load static %}
+
+{% block script %}
+    {#    {{ block.super }}#}
+    <script type="text/javascript" src="{% static 'youth/js/jquery.zlab.zlightaccordion-1.0-min.js' %}"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#zl_wrapper').zLightAccordion({
+                sectionTextColor: '#6daa38',
+                sectionActiveTextColor: '#6daa38',
+                iconSwitchUrl: 'ch_right_green.png',
+                iconSwitchUrl2: 'ch_down_green.png',
+                iconHeaderUrl: 'gear.png',
+                headerBcolor: '#97ce68',
+                headerFontSize: '16px',
+                headerPadding: '15px',
+                accordionWidth: '100%'
+            });
+            $('#zl_wrapper1').zLightAccordion({
+                sectionTextColor: '#6daa38',
+                sectionActiveTextColor: '#6daa38',
+                iconSwitchUrl: 'ch_right_green.png',
+                iconSwitchUrl2: 'ch_down_green.png',
+                iconHeaderUrl: 'gear.png',
+                headerBcolor: '#97ce68',
+                headerFontSize: '16px',
+                headerPadding: '15px',
+                accordionWidth: '100%'
+            });
+            $('#zl_wrapper2').zLightAccordion({
+                sectionTextColor: '#6daa38',
+                sectionActiveTextColor: '#6daa38',
+                iconSwitchUrl: 'ch_right_green.png',
+                iconSwitchUrl2: 'ch_down_green.png',
+                iconHeaderUrl: 'gear.png',
+                headerBcolor: '#97ce68',
+                headerFontSize: '16px',
+                headerPadding: '15px',
+                accordionWidth: '100%'
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block inner_content %}
+    <!--TITLE BAR-->
+    <div class="content-container container-23 noMarginLeft topBarRes">
+        <div class="myAccountTopBarMenuBtn active"><span aria-hidden="true" class="svg" data-icon=""></span>FREQUENTLY
+            ASKED QUESTIONS
+        </div>
+    </div>
+    <!--END TITLE BAR-->
+
+    <div class="company-listing clearfix brdLeft">
+        <div class="listing-body">
+            <div class="container-24 marginSemiBottom">
+                <div class="content-container container-18 noMarginLeft">
+                    <div class="blueTitle">Exploring Youth Map</div>
+                </div>
+            </div>
+
+            <!-- ACCORDEON open -->
+            <div class="container-24 marginSemiBottom">
+                <div class="container_p">
+                    <div id="zl_wrapper">
+                        <ul class="zl_acc">
+                            <!--+++++++-->
+                            <li class="noPadding">
+                                <h2>What is YouthMap?</h2>
+
+                                <div>
+                                    YouthMap is an online tool for building projects by connecting ideas with resources.
+                                    By using YouthMap you can:<br>
+                                    1. Have access to social ideas and resources<br>
+                                    2. Build your social projects easier<br>
+                                    3. Make positive social impact<br><br>
+
+                                </div>
+                            </li>
+                            <!--+++++++-->
+                            <!--+++++++-->
+                            <li class="noPadding">
+                                <h2>YouthMap’s philosophy</h2>
+
+                                <div>
+                                    We believe that a better world is possible. It all starts from ourselves and the way
+                                    we interact and communicate with the other around us. YouthMap offers the
+                                    possibility for people to interact and share their ideas and resources for a better
+                                    world.
+                                    Concerning values, we know that the current financial crisis is a moral crisis.
+                                    Behaviors based on consumerism, profit, exploitation, egoism are more common today
+                                    than in the past. In conjunction with them, a radical ideological cultural and
+                                    sexual revolution takes place, with beginning of 1960’s. Concepts such as equality
+                                    of men and women as opposed to complementary, sexual rights as opposed to moral
+                                    obligations as well as freedom opposed to responsible behavior, are the elements of
+                                    the current social transformations.<br><br> We believe in a new just order of the
+                                    world, based on moral and humane values that can bring stability. Therefore YouthMap
+                                    aims at bringing a positive change in the society by promoting the values in which
+                                    it believes.<br><br>
+
+                                </div>
+                            </li>
+                            <!--+++++++-->
+                            <!--+++++++-->
+                            <li class="noPadding">
+                                <h2>Affiliation</h2>
+
+                                <div>
+                                    YouthMap is a direct product of Youth Time Movement: <a href="www.youth-time.org">www.youth-time.org</a>,
+                                    which created and supports its activity.
+
+                                </div>
+                            </li>
+                            <!--+++++++-->
+                        </ul>
+                    </div>
+                    <!-- zl_wrapper close -->
+                </div>
+                <!-- container close-->
+            </div>
+            <!-- end ACCORDEON open -->
+        </div>
+    </div>
+
+    <div class="company-listing clearfix brdLeft">
+        <div class="listing-body">
+            <div class="container-24 marginSemiBottom">
+                <div class="content-container container-18 noMarginLeft">
+                    <div class="blueTitle">How it works?</div>
+                </div>
+            </div>
+
+            <!-- ACCORDEON open -->
+            <div class="container-24 marginSemiBottom">
+                <div class="container_p">
+                    <div id="zl_wrapper1">
+                        <ul class="zl_acc">
+                            <!--+++++++-->
+                            <li class="noPadding">
+                                <h2>Ideas</h2>
+
+                                <div> If somebody has an idea but needs resources to transform it into a project, he can
+                                    post it in this section.
+                                    <h4>Examples</h4>
+                                    - Organizing a day for cleaning rubbish from nature<br>
+                                    - Organizing a training course on web design<br>
+                                    - Recycling paper and transform it low price items for selling (cups, bags etc.)<br>
+                                </div>
+                            </li>
+                            <!--+++++++-->
+                            <!--+++++++-->
+                            <li class="noPadding">
+                                <h2>Projects</h2>
+
+                                <div>If somebody has a project but needs new ideas or resources to finish it, he can
+                                    post it in this section
+                                    <h4>Examples</h4>
+                                    - The team for cleaning the rubbish from nature is ready, we just need local
+                                    partners (NGO, recycling company) from the town of Sinaia, Carpathian mountains.<br>
+                                    - Training course on web design got the funds, we just need 2 experts on we design
+                                    and programming<br>
+                                    - Recycling paper project: the agreement with the factory has been signed, we need
+                                    volunteers for fundraising<br>
+                                    <br>
+                                </div>
+                            </li>
+                            <!--+++++++-->
+                            <!--+++++++-->
+                            <li class="noPadding">
+                                <h2>Resources</h2>
+
+                                <div> Catalog of organizations, Youthmap members, events, digital resources: here is the
+                                    place to present and make them public available so the community can benefit from
+                                    them.
+
+                                    <h4>Examples</h4>
+                                    - We need search for environmental NGO from Czech Republic<br>
+                                    - Event: Launching of a mobile application for volunteers<br>
+                                    - Online good practices database for fundraising<br><br>
+
+                                </div>
+                            </li>
+                            <!--+++++++-->
+                            <!--+++++++-->
+                            <li class="noPadding">
+                                <h2>Is the service free?</h2>
+
+                                <div> Yes, all is free. The only expectation from us is to see your projects
+                                    transforming the society for better. And of course, to spread the word about the
+                                    platform among your friends by using “Invite Promote” from Dashboard section.
+
+                                </div>
+                            </li>
+                            <!--+++++++-->
+                            <!--+++++++-->
+                            <li class="noPadding">
+                                <h2>What does YouthMap support?</h2>
+
+                                <div> Our main fields of activity covers the following social related domains: Culture,
+                                    Education, Environment, Health, New Media, Technology, Heritage, International
+                                    projects in connection with volunteering and social entrepreneurship. We do not
+                                    support projects connected with business, profit, politics or any ideological
+                                    manifestations (moderate or radical).
+                                </div>
+                            </li>
+                            <!--+++++++-->
+                        </ul>
+                    </div>
+                    <!-- zl_wrapper close -->
+                </div>
+                <!-- container close-->
+            </div>
+            <!-- end ACCORDEON open -->
+        </div>
+    </div>
+
+    <div class="company-listing clearfix brdLeft">
+        <div class="listing-body">
+            <div class="container-24 marginSemiBottom">
+                <div class="content-container container-18 noMarginLeft">
+                    <div class="blueTitle">Website navigation</div>
+                </div>
+            </div>
+
+            <!-- ACCORDEON open -->
+            <div class="container-24 marginSemiBottom">
+                <div class="container_p">
+                    <div id="zl_wrapper2">
+                        <ul class="zl_acc">
+                            <!--+++++++-->
+                            <li class="noPadding">
+                                <h2>The Filters</h2>
+
+                                <div>
+                                    They select the information on the map. All the ideas, projects and resources
+                                    connected with the filter will be displayed on the map.
+                                </div>
+                            </li>
+                            <!--+++++++-->
+                            <!--+++++++-->
+                            <li class="noPadding">
+                                <h2>Google Map</h2>
+
+                                <div>
+                                    YouthMap’s visual concept is to use Google maps to geographically display the
+                                    content. For this reason our website is called YouthMap.
+                                </div>
+                            </li>
+                            <!--+++++++-->
+                            <!--+++++++-->
+                            <li class="noPadding">
+                                <h2>Ideas section</h2>
+
+                                <div>
+                                    The place to present your idea or see other people’s ideas.
+                                </div>
+                            </li>
+                            <!--+++++++-->
+                            <!--+++++++-->
+                            <li class="noPadding">
+                                <h2>Project section</h2>
+
+                                <div>
+                                    The place to present your project or see other people’s projects
+                                </div>
+                            </li>
+                            <!--+++++++-->
+                            <!--+++++++-->
+                            <li class="noPadding">
+                                <h2>Resource section</h2>
+
+                                <div>
+                                    The place to present your resources or see other people’s resources. In this section
+                                    you can browse Organizations catalog (all the organizations which registered on the
+                                    website); YouthMap members (all the profiles registered), Events (all the actions
+                                    which will take place in the near future) and New Media (everything related to
+                                    online activity: blogs, webpages, music, photo, applications etc.)
+                                </div>
+                            </li>
+                            <!--+++++++-->
+                            <!--+++++++-->
+                            <li class="noPadding">
+                                <h2>Posting ideas/ projects/ resources</h2>
+
+                                <div>
+                                    You can do this by scrolling to the middle of Home page, Ideas, Project and
+                                    Resources to the colored field called: “What to do next?”
+                                </div>
+                            </li>
+                            <!--+++++++-->
+                            <!--+++++++-->
+                            <li class="noPadding">
+                                <h2>Dashboard navigation</h2>
+
+                                <div>
+                                    Dashboard is the place where you control your profile and the related features.
+                                </div>
+                            </li>
+                            <!--+++++++-->
+                            <!--+++++++-->
+                            <li class="noPadding">
+                                <h2>My profile</h2>
+
+                                <div>
+                                    Contains “Basic profile” (the one which you completed at registration) and “Complete
+                                    your profile” which is the full profile. We recommend for best results, to fully
+                                    complete your profile.
+                                </div>
+                            </li>
+                            <!--+++++++-->
+                            <!--+++++++-->
+                            <li class="noPadding">
+                                <h2>My favorites</h2>
+
+                                <div>
+                                    Here you can see and control your favorites: all the ideas and projects which you
+                                    set as favorite will be collected here.
+                                </div>
+                            </li>
+                            <!--+++++++-->
+                            
+                            <!--+++++++-->
+                            <li class="noPadding">
+                                <h2>Account settings</h2>
+
+                                <div>
+                                    From here you can control how your account works.
+                                </div>
+                            </li>
+                            <!--+++++++-->
+
+                        </ul>
+                    </div>
+                    <!-- zl_wrapper close -->
+                </div>
+                <!-- container close-->
+            </div>
+            <!-- end ACCORDEON open -->
+        </div>
+    </div>
+
+{% endblock inner_content %}

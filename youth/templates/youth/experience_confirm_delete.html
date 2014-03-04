@@ -1,0 +1,8 @@
+<p>Are you sure that you would like to delete this experience?</p>
+<ul>
+<form method="POST" action=".">
+    {% csrf_token %}
+        <li><input type="submit" value="Yes"/></li>
+</form>
+    <li>    <a href="{% url 'profile_complete' %}">No</a></li>
+</ul>

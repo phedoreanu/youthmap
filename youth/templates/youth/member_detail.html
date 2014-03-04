@@ -1,0 +1,190 @@
+{% extends 'youth/resources.html' %}
+{% load static %}
+{% load filters %}
+
+{% block css %}
+    {{ block.super }}
+
+    <style type="text/css">
+        .marginTopMyAccount {
+            margin: 0;
+        }
+    </style>
+{% endblock %}
+
+{% block script %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'youth/js/jquery.easing.1.3.js' %}"></script>
+    <script type="text/javascript" src="{% static 'youth/js/jquery.zlab.zlightaccordion-1.0-min.js' %}"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#zl_wrapper').zLightAccordion({
+                sectionTextColor: '#6daa38',
+                sectionActiveTextColor: '#6daa38',
+                iconSwitchUrl: 'ch_right_green.png',
+                iconSwitchUrl2: 'ch_down_green.png',
+                iconHeaderUrl: 'gear.png',
+                headerBcolor: '#97ce68',
+                headerFontSize: '16px',
+                headerPadding: '15px',
+                accordionWidth: '100%'
+            });
+            $('#zl_wrapper1').zLightAccordion({
+                sectionTextColor: '#6daa38',
+                sectionActiveTextColor: '#6daa38',
+                iconSwitchUrl: 'ch_right_green.png',
+                iconSwitchUrl2: 'ch_down_green.png',
+                iconHeaderUrl: 'gear.png',
+                headerBcolor: '#97ce68',
+                headerFontSize: '16px',
+                headerPadding: '15px',
+                accordionWidth: '100%'
+            });
+
+            $('#follow').click(function (e) {
+                var form = $('#follow_form');
+                $.post(form.attr('action'), form.serialize(), function (response, status) {
+                    $('#follow-title').text(response.message);
+                });
+            });
+        });
+    </script>
+
+{% endblock %}
+
+{% block maps %}
+    {% include 'youth/gmaps.html' with object_list=profile %}
+{% endblock maps %}
+
+{% block content %}
+    <div class="content-wrapper">
+        <div class="zone-content equalize zone clearfix">
+            <div class="content-container container-23 mainContainer">
+                <div class="content-container container-23 noMarginLeft topBar">
+                    <div class="content-container container-20 noMarginLeft">
+                        <div class="iconTitle"><span aria-hidden="true" class="svg" data-icon="&#xe00c;"></span>
+                            Youthmap members
+                        </div>
+                    </div>
+                    <div class="content-container container-5 noMarginLeft">
+                        <a href="{% url 'member_list' %}">
+                            <div class="backBtn"><span aria-hidden="true" class="svg" data-icon="&#xf0a8;"></span>
+                                Back to List
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <!-- ~~~~~ LEFT COLUMN ~~-->
+                <div class="content-container container-20 noMarginLeft">
+                    <div class="single-company block">
+                        <div class="company-info clearfix">
+                            <div class="company-info-description">
+                                <div class="breadcrumbs">
+                                    <a href="{% url 'home' %}"><i>Home</i></a>
+                                    <span></span>
+                                    <a href="{% url 'member_list' %}"><i>Youthmap members</i></a>
+                                </div>
+
+                                {% include 'youth/profile_detail_header.html' with following=0 %}
+
+                                {% if profile.experience_set.all %}
+                                    <div class="description">
+                                    <span class="descriptionTitle">Proffessional Experience</span><br/>
+                                    <!-- container open -->
+                                    <div class="container_p">
+
+                                        {% include 'youth/profile_experience.html' with experiences=profile.experience_set.all %}
+
+                                    </div>
+                                    <!-- container close-->
+                                    </div>{% endif %}
+
+                                {% if profile.education_set.all %}
+                                    <div class="description">
+                                    <span class="descriptionTitle">Education</span><br/>
+                                    <!-- container open -->
+                                    <div class="container_p">
+
+                                        {% include 'youth/profile_education.html' with educations=profile.education_set.all %}
+
+                                    </div>
+                                    <!-- container close-->
+                                    </div>{% endif %}
+                                <!--~~~-->
+                                <!--~~~-->
+                                {% if profile.about_me%}<div class="description">
+                                    <span class="descriptionTitle">About me</span><br/>
+                                    {{ profile.about_me }}
+                                </div>{% endif %}
+                                <!--~~~-->
+                                <!--~~~-->
+                                {% if profile.future_plans%}<div class="description">
+                                    <span class="descriptionTitle">Future plans</span><br/>
+                                    {{ profile.future_plans }}
+                                </div>{% endif %}
+                                <!--~~~-->
+                                <!--~~~-->
+                                {% comment %}<div class="description">
+                                    <div class="descriptionTitle">Tags</div>
+                                    <div data-alert class="alert-box tags">IT Specialist</div>
+                                    <div data-alert class="alert-box tags">Web designer</div>
+                                </div>
+                                <!--~~~-->
+                                <div style="clear:both;"></div>
+                                <div class="description">
+                                    <div class="descriptionTitle">Attachments</div>
+                                    <span aria-hidden="true" class="svgfooter" data-icon="&#xe019;"></span><a href="#">
+                                    CV.pdf</a>
+                                </div>{% endcomment %}
+                                <!--~~~-->
+                            </div>
+                        </div>
+                    </div>
+                    <!--/single-company-->
+                </div>
+
+                <div class="sidebarGray container-5">
+                    <div class="sidebarGrayContainer">
+                        <h3 class="block-title"><a href="#">Follow</a></h3>
+                        <a id="follow" class="medium button2">
+                            <span aria-hidden="true" class="svgSemi4Btn" data-icon=""></span>
+                            <span id="follow-title">
+                                {% if profile.owner.id in request.user.following_set|unpacked %}
+                                    Unfollow
+                                {% else %}
+                                    Follow
+                                {% endif %}
+                            </span>
+                        </a>
+
+                        <form method="post" id="follow_form" action="{% url 'follow' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="follower-id" value="{{ profile.owner.id }}"/>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="sidebarGray container-5">
+                    <div class="sidebarGrayContainer">
+                        <h3 class="block-title"><a href="#">Contact</a></h3>
+                        <span class="underTitle"><strong>{{ profile.owner.get_full_name }}</strong><br/>
+                            <i>{{ profile.title }}</i></span><br/>
+                        <span class="underTitle"><strong>Email</strong><br/><i>{{ profile.owner.email }}</i></span><br/>
+                        {#            <span class="underTitle"><strong>Telephone</strong><br/><i>{{ profile.telephone }}</i></span> <br/>#}
+                    </div>
+                </div>
+
+                <div class="sidebarGray container-5">
+                    <div class="sidebarGrayContainer">
+                        <h3 class="block-title" style="margin-bottom:10px;"><a href="#">Share</a></h3>
+                        <span class='st_facebook_hcount' displayText='Facebook'></span>
+                        <span class='st_twitter_hcount' displayText='Tweet'></span>
+                        <span class='st_linkedin_hcount' displayText='LinkedIn'></span>
+                        <span class='st_email_hcount' displayText='Email'></span>
+                    </div>
+                </div>
+            </div>
+            <!-- end of .content-container -->
+        </div><!-- end of .content-wrapper -->
+{% endblock content %}

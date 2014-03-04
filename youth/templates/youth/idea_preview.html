@@ -1,0 +1,220 @@
+{% extends "youth/home.html" %}
+{% load filters %}
+
+{% block title %}Preview your idea{% endblock %}
+
+{% block what_to_do %}{% endblock %}
+
+{% block articles %}{% endblock %}
+
+{% block content %}
+    <form action="{% url 'idea_add' %}" method="post" class="cbp-mc-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="content-wrapper">
+            <div class="zone-content equalize zone clearfix">
+                <div class="content-container container-23 mainContainer">
+                    <div class="content-container container-23 noMarginLeft topBar">
+                        <div class="content-container container-20 noMarginLeft">
+                            <div class="iconTitle"><span aria-hidden="true" class="svg" data-icon="&#xe01c;"></span>An
+                                {% for label in form|selected_labels:'field_of_activity' %}
+                                    {{ label }}
+                                {% endfor %}
+                                Idea
+                            </div>
+                        </div>
+                        <div class="content-container container-5 noMarginLeft">
+{#                            <a href="forms.html">#}
+                                <div class="backBtn"><span aria-hidden="true" class="svg" data-icon="&#xf0a8;"></span>
+                                    <input class="button success submit" type="submit" value="Edit" name="edit">
+{#                                    Back#}
+{#                                    to List#}
+                                </div>
+{#                            </a>#}
+                        </div>
+                    </div>
+                    <!-- ~~~~~ LEFT COLUMN ~~~~-->
+                    <div class="content-container container-20 noMarginLeft">
+                        <div class="single-company block">
+                            <div class="company-info clearfix">
+                                <div class="company-info-description">
+                                    <div class="breadcrumbs">
+                                        <a href="{% url 'home' %}"><i>Home</i></a>
+                                        <span></span>
+                                        <a href="{% url 'idea_list' %}"><i>Ideas</i></a>
+                                    </div>
+                                    <div class="block-title mainTitle"><h2>{{ form.title.value }}</h2>
+                                    </div>
+                                        <span class="underTitle">
+                                            A
+                                            {% for label in form|selected_labels:'field_of_activity' %}
+                                                <span>{{ label }},</span>
+                                            {% endfor %} Idea</a>
+                                        <span>{{ user.get_full_name }}</span> | Location: <span>{{ form|selected_label:'city' }}</span>
+                                         </span>
+                                    <!--~~~-->
+
+                                    {% if form.slogan.value%}<div class="description">
+                                        <span class="descriptionTitle">Idea slogan</span><br/>
+                                        {{ form.slogan.value }}
+                                    </div>{% endif %}
+
+                                    <div class="description">
+                                        <span class="descriptionTitle">Description</span><br/>
+                                        {{ form.description.value }}
+                                    </div>
+                                    <!--~~~-->
+                                    <!--~~~-->
+                                    {% if form.objectives.value%}<div class="description">
+                                        <span class="descriptionTitle">Objectives</span><br/>
+                                        {{ form.objectives.value }}
+
+                                    </div>{% endif %}
+                                    <!--~~~-->
+
+                                    <!--~~~-->
+                                    {% if form.background.value%}<div class="description">
+                                        <span class="descriptionTitle">Background</span><br/>
+                                        {{ form.background.value }}
+
+                                    </div>{% endif %}
+                                    <!--~~~-->
+                                    {% if form.milestones.value%}<div class="description">
+                                        <span class="descriptionTitle">Milestones</span><br/>
+                                        {{ form.milestones.value }}
+
+                                    </div>{% endif %}
+
+                                    {% if form|selected_labels:'resources' or form|selected_labels:'resources_needed' %}
+                                        <div class="description">
+                                            <span class="descriptionTitle">Resources</span><br/>
+                                            <span class="underTitle resourcesTitle need">
+                                                <strong>We have:</strong>
+                                                {% for label in form|selected_labels:'resources' %}
+                                                    <span>{{ label }},</span>
+                                                {% endfor %}
+                                            </span>
+                                            <br/>
+                                            <span class="underTitle resourcesTitle need">
+                                                <strong>We need:</strong>
+                                                {% for label in form|selected_labels:'resources_needed' %}
+                                                    <span>{{ label }},</span>
+                                                {% endfor %}
+                                            </span>
+                                        </div>
+                                    {% endif %}
+
+                                    {% if form.other_needs.value%}<div class="description">
+                                        <span class="descriptionTitle">Other Needs</span><br/>
+                                        {{ form.other_needs.value }}
+                                    </div>{% endif %}
+
+                                    {% if form|selected_labels:'tags' %}<div class="description">
+                                        <div class="descriptionTitle">Tags</div>
+                                        {% for label in form|selected_labels:'tags' %}
+                                            <div data-alert class="alert-box tags">{{ label }}</div>
+                                        {% endfor %}
+                                        <div style="clear:both;"></div>
+                                    </div>{% endif %}
+                                    <div style="clear:both;"></div>
+
+                                    {% if form.attachment %}
+                                        <div class="description">
+                                            <div class="descriptionTitle">Attachments</div>
+                                            <span aria-hidden="true" class="svgfooter" data-icon="&#xe019;"></span>
+                                            <a target="_blank"
+                                               href="{{ form.attachment.url }}">{{ form.attachment }}</a>
+                                        </div>
+                                    {% endif %}
+
+                                    <div class="description">
+                                        <input class="button success submit" type="submit" value="Save idea" name="save">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/single-company-->
+                    </div>
+
+                    <div class="sidebarGray container-5">
+                        <div class="sidebarGrayContainer">
+                            <h3 class="block-title"><a href="#">Idea Timeline</a></h3>
+
+                            <div class="progress"><span class="meter"></span></div>
+                            <div class="marunt">
+                            <p>{{ form.start_date.value }} - {{ form.end_date.value|default:'present' }}</p>
+
+                                {#                                <p><strong>{{ form.end_date|timeuntil }} left</strong></p>#}
+
+                                <p>Status:<a href="#"><strong>In progress</strong></a></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebarGray container-5">
+                        <div class="sidebarGrayContainer">
+                            <h3 class="block-title"><a href="#">Budget</a></h3>
+
+                            <div class="marunt"><p>{{ form.budget.value|default:'0' }} €</p></div>
+                        </div>
+                    </div>
+
+                    <div class="sidebarGray container-5">
+                        <div class="sidebarGrayContainer">
+                            <h3 class="block-title"><a href="#">Contact</a></h3>
+                        <span class="underTitle"><strong>{{ user.get_full_name }}</strong><br/>
+                            <i>{{ user.profile.title }}</i></span><br/>
+                            <span class="underTitle"><strong>Email</strong><br/><i>{{ user.email }}</i></span><br/>
+                            {#                        <span class="underTitle"><strong>Telephone</strong><br/><i>0040755989636</i></span> <br/>#}
+                        </div>
+                    </div>
+
+                    <div class="sidebarGray container-5">
+                        <div class="sidebarGrayContainer">
+                            <h3 class="block-title"><a href="#">Rate this idea</a></h3>
+
+                            <div id="testRater" class="stat">
+                                <label for="rating"></label>
+
+                                <div class="statVal">
+                                        <span class="ui-rater">
+                                            <span class="ui-rater-starsOff" style="width:90px;"><span
+                                                    class="ui-rater-starsOn" style="width:63px"></span></span>
+                                            <span class="ui-rater-rating">3.5</span>&#160;(<span
+                                                class="ui-rater-rateCount">2</span>)
+                                        </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebarGray container-5">
+                        <div class="sidebarGrayContainer">
+                            <h3 class="block-title" style="margin-bottom:10px;"><a href="#">Share</a></h3>
+                            <!-- Twiter share -->
+                            <a href="https://twitter.com/share" class="twitter-share-button" data-via="twitterapi"
+                               data-lang="en">Tweet</a>
+                            <script>!function (d, s, id) {
+                                var js, fjs = d.getElementsByTagName(s)[0];
+                                if (!d.getElementById(id)) {
+                                    js = d.createElement(s);
+                                    js.id = id;
+                                    js.src =
+                                            "https://platform.twitter.com/widgets.js";
+                                    fjs.parentNode.insertBefore(js, fjs);
+                                }
+                            }(document, "script", "twitter-wjs");</script>
+
+                            <!-- LinkedIn share -->
+                            <script type="text/javascript" src="http://platform.linkedin.com/in.js"></script>
+                            <script type="in/share" data-url="<?php the_permalink(); ?>" data-counter="right"></script>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- end of .content-container -->
+        </div>
+        <!-- end of .content-wrapper -->
+        {% for field in form %}{{ field.as_hidden }}{% endfor %}
+    </form>
+{% endblock content %}

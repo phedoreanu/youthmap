@@ -1,0 +1,70 @@
+{% extends 'youth/resources.html' %}
+{% load static %}
+
+{% block maps %}
+    {% include 'youth/gmaps.html' with object_list=event_list %}
+{% endblock maps %}
+
+{% block extra_action %}
+    <div class="content-container container-20 noMarginLeft">
+        <div class="iconTitleRes"><span aria-hidden="true" class="svg" data-icon="&#xe00c;"></span>Resources
+        </div>
+    </div>
+
+    {% comment %}<div class="container-5 noMarginLeft">
+        <a href="{% url 'calendar' %}">
+            <div class="calendarBtn"><span aria-hidden="true" class="svg" data-icon=""></span>Events calendar</div>
+        </a>
+    </div>{% endcomment %}
+    <div class="container-5 noMarginLeft">
+        <a href="{% url 'event_add' %}">
+            <div class="addBtn"><span aria-hidden="true" class="svg" data-icon=""></span>Add an event</div>
+        </a>
+    </div>
+{% endblock extra_action %}
+
+{% block inner_list %}
+    {% for e in event_list %}
+        <div class="company-listing clearfix">
+            <div class="listing-body">
+                <div class="container-3 noMargin">
+                    <div class="calendar">{{ e.start_date|date:'M' }}<p>{{ e.start_date|date:'d' }}</p></div>
+                </div>
+                <div class="container-21 marginLeft">
+                    <div class="listing-title">
+                        <a href="{% url 'event' e.id %}"><h6>{{ e.title }}</h6></a>
+                    </div>
+                    <div class="holderLeft">
+
+                        <div class="underTitle lineHeight date"><strong>{{ e.start_date|date }}
+                            - {{ e.end_date|date|default:'present' }}</strong><br/></div>
+                        <div class="underTitle location lineHeight">Location: <span>{{ e.city }}</span></div>
+                        <div class="underTitle location lineHeight">Field of activity:
+                            {% for item in e.field_of_activity.all %}
+                                <span>{{ item }}{% if not forloop.last %},{% endif %}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="listing-text">{{ e.description }}
+                        <span class="listing-read-more"><a href="{% url 'event' e.id %}">
+                            <span aria-hidden="true" class="svg" data-icon="&#xf0a9;"></span>More</a></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    {% if is_paginated %}
+        <div class="pagination">
+            <div class="pagination-buttons">
+                {% for page in page_obj.paginator.page_range %}
+                    <a {% if page_obj.number == page %}class="current-page"{% endif %}
+                       href="{% url 'events' %}?page={{ page }}">
+                        {{ page }}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="separator"></div>
+    {% endif %}
+{% endblock %}

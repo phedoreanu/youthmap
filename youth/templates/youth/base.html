@@ -1,0 +1,169 @@
+{% extends 'youth/base_site.html' %}
+{% load static %}
+{% load current from navigation %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'youth/css/dropdown/dropdown.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'youth/css/tabs.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'youth/css/customSelectBox.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'youth/css/jquery.jscrollpane.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'youth/css/jquery-selectbox.css' %}"/>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="{% static 'youth/js/dropdown/dropdown.js' %}"></script>
+    <script type="text/javascript" src="{% static 'youth/js/jScrollPane.js' %}"></script>
+    <script type="text/javascript" src="{% static 'youth/js/SelectBox.js' %}"></script>
+    <script type="text/javascript" src="{% static 'youth/js/jquery.tweet.js' %}"></script>
+    <script type="text/javascript" src="{% static 'youth/js/jflickrfeed.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'youth/js/superfish.js' %}"></script>
+    <script type="text/javascript" src="{% static 'youth/js/jquery.mobilemenu.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'youth/js/jquery.placeholder.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'youth/js/tooltip.js' %}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var activities = [];
+
+            $.get('{% url 'get_activities' %}', function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    var activity = data[i];
+                    $('<option>').val(activity.pk).text(activity.fields.name).appendTo('#category-selector-advanced');
+                    $('<option>').val(activity.pk).text(activity.fields.name).appendTo('#field_of_activity');
+
+                    var row_width = $('#industries-tabs').width();
+                    var element = Math.round(row_width / (120 + 45));
+                    if (i == element || i == data.length - 1)
+                        var li_class = 'class=" brdRight"';
+                    if (i == element + 1)
+                        var li_class = 'class=" brdTop"';
+
+                    activities.push('<li ' + li_class + ' >' +
+                            '<a href="#" id="activity_' + activity.fields.name + '" ' +
+                            'title="' + activity.fields.tooltip + '" rel="tooltip">' +
+                            '<span aria-hidden="true" class="svgMap" data-icon="' + activity.fields.svg_icon + '"></span>' +
+                            activity.fields.name + '</a></li>');
+                }
+
+                var industries = $('#industries-tabs-ul');
+                industries.append(activities.join(''));
+                industries.find('a').click(function (event) {
+                    event.preventDefault();
+                    $.goMap.clearInfo();
+                    /* Getting current marker group name. Link ID's and marker group names must coincide. */
+                    var markerGroup = $(this).attr('id');
+                    /* Changing current active tab. */
+                    {#             $('#industries-tabs ul li').removeClass('active');#}
+                    {#             $(this).parent().addClass('active');#}
+                    /* Hiding all the markers on the map. */
+                    for (var i in $.goMap.markers) {
+                        if (this[i] !== 0) {
+                            $.goMap.showHideMarker($.goMap.markers[i], false);
+                        }
+                    }
+                    /* Revealing markers from the corresponding group. */
+                    $.goMap.showHideMarkerByGroup(markerGroup, true);
+                });
+                init_tooltip();
+
+                $("select.custom").each(function () {
+                    var sb = new SelectBox({
+                        selectbox: $(this),
+                        height: 150,
+                        width: 200
+                    });
+                });
+            });
+        });
+    </script>
+    <script type="text/javascript" src="{% static 'youth/js/scripts.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+    <!-- Menu Bar -->
+    <div class="search-wrapper clearfix">
+        <div class="zone-search zone clearfix">
+            <div class="search block">
+                <div class="default-search clearfix">
+                    <div class="alignRight">
+                        <div class="searchBtn"><a href="#" id="advanced-search-button">Search</a></div>
+                    </div>
+                    <div class="main-menu block" style="margin-bottom:-5px;">
+                        <ul id="sf-menu">
+                            <li class="{% current 'home' %}">
+                                <a href="{% url 'home' %}">HOME</a>
+                            </li>
+                            <li class="{% current 'idea_list' %}{% current 'idea' %}{% current 'idea_add' %}">
+                                <a href="{% url 'idea_list' %}">IDEAS</a>
+                            </li>
+                            <li class="{% current 'project_list' %}{% current 'project' %}{% current 'project_add' %}">
+                                <a href="{% url 'project_list' %}">PROJECTS</a>
+                            </li>
+                            <li class="{% current 'resources' %}{% current 'member_list' %}{% current 'events' %}{% current 'media' %}
+                            {% current 'organisation_add' %}{% current 'event_add' %}{% current 'media_resource_add' %}
+                            {% current 'organisation' %}{% current 'organisations' %}{% current 'profile' %}{% current 'mediaresource' %}{% current 'event' %}">
+                                <a href="{% url 'resources' %}">RESOURCES</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <form id="advanced-search" class="advanced-search search-collapsed clearfix"
+                      action="{% url 'search' %}" method="post" autocomplete="off">
+                    {% csrf_token %}
+                    <input type="text" class="input-region text-input-black" name="q" tabindex="1"
+                           placeholder="Enter keyword" id="search-keyword"/>
+                    <input type="text" class="input-city text-input-black" placeholder="Location" tabindex="2"
+                           name="w"/>
+                    <select style="display: none" class="custom" id="category-selector-advanced" name="foa"
+                            placeholder="Field of activity" tabindex="3">
+                        <option value="">Field of activity</option>
+                        <option value="">All</option>
+                    </select>
+                    <input type="submit" class="submit" value="search" name="search"/>
+                </form>
+            </div>
+        </div>
+        <!-- end of .zone-search -->
+    </div>
+    <!-- end of menu bar -->
+
+    {% block maps %}
+        {#        <div style="height: 60px;"></div>#}
+    {% endblock maps %}
+
+    <!-- ICONS -->
+    <div class="industries-tabs-wrapper">
+        <div class="zone-industries-tabs zone clearfix">
+            {% block icons %}
+                <div class="industries-tabs-container container-24">
+                    <div id="industries-tabs" class="industries-tabs block">
+                        <ul id="industries-tabs-ul" class="clearfix">
+                            <li>
+                                <p>Browse by:</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            {% endblock icons %}
+        </div>
+        <!-- end of .zone-industries-tabs -->
+    </div>
+    <!-- end of ICONS -->
+
+    <div class="content-wrapper">
+        <div class="zone-content equalize zone clearfix">
+            {% block content %}
+                <div class="content-container container-17"></div>
+            {% endblock content %}
+
+            <div class="sidebar-container container-7">
+                {% block what_to_do %}
+                {% endblock %}
+
+                {% block articles %}
+                    {% include 'youth/articles.html' %}
+                {% endblock %} 
+            </div>
+        </div>
+    </div>
+{% endblock body %}

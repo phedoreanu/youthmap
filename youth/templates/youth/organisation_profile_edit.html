@@ -1,0 +1,294 @@
+{% extends 'youth/profile.html' %}
+{% load static %}
+{% load filters %}
+{% load thumbnail %}
+
+{% block css %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'youth/select2/css/select2.min.css' %}"/>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'youth/css/bootstrap3/jquery.fileupload.css' %}"/>
+{% endblock %}
+
+{% block script %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'youth/js/fileupload/jquery.ui.widget.js' %}"></script>
+    <script type="text/javascript" src="{% static 'youth/js/fileupload/load-image.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'youth/js/fileupload/canvas-to-blob.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'youth/js/fileupload/jquery.iframe-transport.js' %}"></script>
+    <script type="text/javascript" src="{% static 'youth/js/fileupload/jquery.fileupload.js' %}"></script>
+    <script type="text/javascript" src="{% static 'youth/js/fileupload/jquery.fileupload-process.js' %}"></script>
+    <script type="text/javascript" src="{% static 'youth/js/fileupload/jquery.fileupload-image.js' %}"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#id_country').change(function (e) {
+                $.get('/cities/' + this.value, function (data) {
+                    var city_dom_id = '#id_city';
+                    $(city_dom_id).empty();
+                    for (var i = 0; i < data.length; i++) {
+                        var city = data[i];
+                        $('<option>').val(city.pk).text(city.fields.name).appendTo(city_dom_id);
+                    }
+                });
+            });
+
+            {% for label in form.instance.field_of_activity.all %}
+                {% if label|safe == 'Other' %}
+                    $('#other-li').show();
+                {% endif %}
+            {% endfor %}
+
+            $('#id_field_of_activity').on('change', function (e, choice) {
+                var data = $(this).select2('data');
+                var other = false;
+                $.each(data, function (index, element) {
+                    if (element.text.toLowerCase() == 'other') {
+                        other = true;
+                    }
+                });
+                if (other) {
+                    {#                    $('#id_other_field_of_activity').show();#}
+                    $('#other-li').show();
+                } else {
+                    $('#other-li').hide();
+                    $('#id_other_field_of_activity').val('');
+                }
+            });
+
+            $('#upload-button').click(function () {
+                $('#id_photo').trigger('click');
+            });
+
+            $('#id_photo').fileupload({
+                {#                fileInput:$(this),#}
+                replaceFileInput: false,
+                url: 'localhost',
+                dataType: 'json',
+                autoUpload: false,
+                acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+                maxFileSize: 5000000, // 5 MB
+                // Enable image resizing, except for Android and Opera,
+                // which actually support image resizing, but fail to
+                // send Blob objects via XHR requests:
+                disableImageResize: /Android(?!.*Chrome)|Opera/
+                        .test(window.navigator.userAgent),
+                previewMaxWidth: 98,
+                previewMaxHeight: 120,
+                previewCrop: true
+            }).on('fileuploadadd',function (e, data) {
+                        data.context = $('#file-upload-name').empty();
+                        $.each(data.files, function (index, file) {
+                            var node = $('<span/>').append(file.name).prepend('<br/>');
+                            node.appendTo(data.context);
+
+                            if ($('#2nd-upload-submit').attr('id') == null) {
+                                $('#upload-button').after('<button id="2nd-upload-submit" type="submit" class="medium blue button2 marginSemiTop">' +
+                                        '<span aria-hidden="true" class="green svgSemi4Btn" data-icon="&#xe04b;"></span>' +
+                                        'Upload</button>'
+                                );
+                            }
+                        });
+                    }).on('fileuploadprocessalways', function (e, data) {
+                        var index = data.index,
+                                file = data.files[index],
+                                node = $(data.context.children()[index]);
+
+                        {#                        $('#fileupload').val(file.name);#}
+                        if (file.preview) {
+                            $('#profile-photo').empty().append(file.preview);
+                        }
+                        if (file.error) {
+                            node.append($('<span class="text-danger"/>').text(file.error));
+                        }
+                    });
+        });
+
+    </script>
+
+{% endblock %}
+
+{% block innner_profile_content %}
+    <div class="company-listing clearfix">
+        <div class="listing-body">
+            <div class="editing-btns">
+                <a href="{% url 'profile_edit' %}">
+                    <div class="profileStepActive">1.Organisation Profile</div>
+                </a>
+                <a href="{% url 'profile_complete' %}">
+                    <div class="profileStepActiveNormal">2.Complete your profile</div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <form id="basic-profile-form" method="post" autocomplete="off" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="company-listing clearfix">
+            <div class="listing-body">
+                <div class="container-24">
+                    <div class="blueTitle">Organisation Logo</div>
+                </div>
+                <div class="container-24">
+                    <div class="container-4 noMargin">
+                        {% if form.instance.photo %}
+                            {% thumbnail form.instance.photo '100' crop="center" format="PNG" as im %}
+                                <span class="thbig marginBtm userMyAccountPic" id="profile-photo">
+                                    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                                </span>
+                            {% endthumbnail %}
+                        {% else %}
+                            <span class="thbig marginBtm userMyAccountPic" id="profile-photo">
+                                <img src="{% static 'youth/images/members/no-pic.jpg' %}">
+                            </span>
+                        {% endif %}
+                    </div>
+                    <div class="container-20 marginLeft uploadDiv">
+                        <div class="centeredDiv">
+                            <a id="upload-button" class="medium green button2 marginSemiTop">
+                                <span aria-hidden="true" class="green svgSemi4Btn" data-icon=""></span>Browse image
+                            </a>
+                            <input class="fileinput-button" id="id_photo" type="file" name="photo">
+                            <span id="file-upload-name"></span>
+                            {% if form.instance.photo %}
+                                <br/>
+                                <label>
+                                    <span class="descriptionTitle">Delete current picture</span>
+                                    <input id="photo-clear_id" name="photo-clear" type="checkbox">
+                                </label>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="company-listing clearfix">
+            <div class="listing-body">
+                <div class="container-24">
+                    <div class="blueTitle">Organisation Information</div>
+                    {#                    {{ form.errors }}#}
+                </div>
+                <div class="container-24">
+                    <ul id="form-section-myAccount">
+                        {% comment %}<li>
+                            <label class="left-column">
+                                <div class="fieldTitle">First name</div>
+                                <input type="text" name="first_name" title="Your last name!"
+                                       value="{{ form.first_name.value }}" tabindex="1">
+                            </label>
+                        </li>
+                        <li>
+                            <label class="right-column">
+                                <div class="fieldTitle">Last name</div>
+                                <input type="text" name="last_name" title="Your last name!"
+                                       value="{{ form.last_name.value }}" tabindex="2">
+                            </label>
+                        </li>{% endcomment %}
+                        <li>
+                            <label>
+                                <div class="fieldTitle">Name<strong class="field_required">
+                                    {% if form.title.field.required %}*{% endif %}
+                                    {% for error in form.title.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </strong></div>
+                                {{ form.title }}
+                            </label>
+                        </li>
+                        <li>
+                            <label class="left-column">
+                                <div class="fieldTitle">Country<strong class="field_required">
+                                    {% if form.country.field.required %}*{% endif %}
+                                    {% for error in form.country.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </strong></div>
+                                {{ form.country }}
+                            </label>
+                        </li>
+                        <li>
+                            <label class="right-column">
+                                <div class="fieldTitle">City<strong class="field_required">
+                                    {% if form.city.field.required %}*{% endif %}
+                                    {% for error in form.city.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </strong></div>
+                                {{ form.city }}
+                            </label>
+                        </li>
+                        <li>
+                            <label class="marginSemiTop">
+                                <div class="fieldTitle">Values<strong class="field_required">
+                                    {% if form.values.field.required %}*{% endif %}
+                                    {% for error in form.values.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </strong></div>
+                                {{ form.values }}
+                            </label>
+
+                        </li>
+                        <li>
+                            <label class="left-column">
+                                <div class="fieldTitle">Website<strong class="field_required">
+                                    {% if form.website.field.required %}*{% endif %}
+                                    {% for error in form.website.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </strong></div>
+                                <input type="text" name="website" title="Website"
+                                       value="{{ form.website.value }}">
+                            </label>
+                        </li>
+                        <li>
+                            <label class="right-column">
+                                <div class="fieldTitle">Yeah of foundation<strong class="field_required">
+                                    {% if form.year.field.required %}*{% endif %}
+                                    {% for error in form.year.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </strong></div>
+                                {{ form.year }}
+                            </label>
+                        </li>
+                        <li>
+                            <label class="marginSemiTop">
+                                <div class="fieldTitle">Activity field<strong class="field_required">
+                                    {% if form.field_of_activity.field.required %}*{% endif %}
+                                    {% for error in form.field_of_activity.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </strong></div>
+                                {{ form.field_of_activity }}
+                            </label>
+
+                        </li>
+                        <li id="other-li" style="display: none;">
+                            <label class="marginSemiTop">
+                                <div class="fieldTitle">Other field of activity</div>
+                                {{ form.other_field_of_activity }}
+                            </label>
+
+                        </li>
+                        <div style="clear:both;"></div>
+
+                    </ul>
+                    <!-- END OF REGISTER FORM -->
+                </div>
+            </div>
+        </div>
+        <!--~~~-->
+        <!--~~~-->
+        <div class="company-listing clearfix">
+            <div class="listing-body">
+                <div class="container-24">
+                    <div class="centeredDiv">
+                        <button class="medium green button2 save marginSemiTop" type="submit" id="save">SAVE</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock innner_profile_content %}

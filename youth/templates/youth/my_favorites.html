@@ -1,0 +1,29 @@
+{% extends 'youth/dashboard.html' %}
+{% load static %}
+{% load navigation %}
+
+{#{% block css %}#}
+{#    {{ block.super }}#}
+{#        <link rel="stylesheet" type="text/css" href="{% static 'youth/css/myAccountFields.css' %}" media="screen, projection"/>#}
+{#{% endblock %}#}
+
+{% block inner_content %}
+    <div class="content-container container-23 noMarginLeft topBarRes">
+        <div class="myAccountTopBarMenuBtn active">My Favorites</div>
+    </div>
+
+    {% comment %}<div class="company-listing myFavorites marginTopFavorites clearfix">
+        <div class="listing-body">
+            <div class="listing-rating">
+                <a href="#" class="lightDark button2 noMarginTop marginSemiBottom"><span
+                        aria-hidden="true" class="svg" data-icon=""></span>Delete</a>
+            </div>
+            <div class="listing-title myfavorites">
+                <a href="#">Food Security Program with Program
+                    with Program with Haiti Outreach Ministries</a></div>
+            <span class="underTitle marginBottom">A Education <a href="#">Project</a> by <a
+                    href="#">Eras Asocciation</a> | Location: Paris,France
+            </span>
+        </div>
+    </div>{% endcomment %}
+{% endblock inner_content %}

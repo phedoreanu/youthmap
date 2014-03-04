@@ -1,0 +1,109 @@
+{% extends "youth/home.html" %}
+{% load filters %}
+
+{% block title %}Preview your media resource{% endblock %}
+
+{% block what_to_do %}{% endblock %}
+
+{% block articles %}{% endblock %}
+
+{% block content %}
+    <form method="post" class="add-idea">
+        {% csrf_token %}
+        <div class="content-wrapper">
+            <div class="zone-content equalize zone clearfix">
+                <div class="content-container container-23 mainContainer">
+                    <div class="content-container container-23 noMarginLeft topBar">
+                        <div class="content-container container-20 noMarginLeft">
+                            <div class="iconTitle"><span aria-hidden="true" class="svg" data-icon="&#xe00c;"></span>
+                                New Media Resource
+                            </div>
+                        </div>
+                        <div class="content-container container-5 noMarginLeft">
+                            <div class="backBtn"><span aria-hidden="true" class="svg" data-icon="&#xf0a8;"></span>
+                                <input class="button success submit" type="submit" value="Edit" name="edit">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ~~~~~ LEFT COLUMN ~~~~-->
+                    <div class="content-container container-20 noMarginLeft">
+                        <div class="single-company block">
+                            <div class="company-info clearfix">
+                                <div class="company-info-description">
+                                    <div class="breadcrumbs">
+                                        <a href="{% url 'home' %}"><i>Home</i></a>
+                                        <span></span>
+                                        <a href="{% url 'media' %}"><i>New Media</i></a>
+                                    </div>
+
+                                    <div class="company-listingResDetail clearfix">
+                                        <div class="listing-body">
+                                            <div class="container-20 noMarginLeft">
+                                                <div class="block-title mainTitle"><h2>{{ form.title.value }}</h2></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="description">
+                                        <span class="descriptionTitle">Description</span><br/>
+                                        {{ form.description.value }}
+                                    </div>
+
+                                    <!--~~~-->
+                                    <div class="description">
+                                        <span class="descriptionTitle">Partners</span><br/>
+                                        {{ form.partners.value }}
+                                    </div>
+
+                                    <!--~~~-->
+                                    <div class="description">
+                                        <span class="descriptionTitle">Similar</span><br/>
+                                        {{ form.similar.value }}
+                                    </div>
+                                    <!--~~~-->
+                                    <div class="description">
+                                        <span class="descriptionTitle">Website</span><br/>
+                                        {{ form.link.value|urlize }}
+                                    </div>
+
+                                    <div class="description">
+                                        <input class="button success submit" type="submit" value="Save media resource"
+                                               name="save"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/single-company-->
+                    </div>
+
+                    <div class="sidebarGray container-5">
+                        <div class="sidebarGrayContainer">
+                            <h3 class="block-title" style="margin-bottom:10px;"><a href="#">Share</a></h3>
+                            <!-- Twiter share -->
+                            <a href="https://twitter.com/share" class="twitter-share-button" data-via="twitterapi"
+                               data-lang="en">Tweet</a>
+                            <script>!function (d, s, id) {
+                                var js, fjs = d.getElementsByTagName(s)[0];
+                                if (!d.getElementById(id)) {
+                                    js = d.createElement(s);
+                                    js.id = id;
+                                    js.src =
+                                            "https://platform.twitter.com/widgets.js";
+                                    fjs.parentNode.insertBefore(js, fjs);
+                                }
+                            }(document, "script", "twitter-wjs");</script>
+
+                            <!-- LinkedIn share -->
+                            <script type="text/javascript" src="http://platform.linkedin.com/in.js"></script>
+                            <script type="in/share" data-url="<?php the_permalink(); ?>" data-counter="right"></script>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- end of .content-container -->
+        </div>
+        <!-- end of .content-wrapper -->
+        {% for field in form %}{{ field.as_hidden }}{% endfor %}
+    </form>
+{% endblock content %}

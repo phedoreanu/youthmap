@@ -1,0 +1,267 @@
+{% extends 'youth/profile.html' %}
+{% load static %}
+{% load filters %}
+{% load thumbnail %}
+{% load crispy_forms_filters %}
+
+{% block css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'youth/select2/css/select2.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'youth/css/bootstrap3/jquery.fileupload.css' %}"/>
+{% endblock %}
+
+{% block script %}
+    {{ block.super }}
+
+    <script type="text/javascript" src="{% static 'youth/iCheck/jquery.icheck.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'youth/js/fileupload/jquery.ui.widget.js' %}"></script>
+    <script type="text/javascript" src="{% static 'youth/js/fileupload/load-image.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'youth/js/fileupload/canvas-to-blob.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'youth/js/fileupload/jquery.iframe-transport.js' %}"></script>
+    <script type="text/javascript" src="{% static 'youth/js/fileupload/jquery.fileupload.js' %}"></script>
+    <script type="text/javascript" src="{% static 'youth/js/fileupload/jquery.fileupload-process.js' %}"></script>
+    <script type="text/javascript" src="{% static 'youth/js/fileupload/jquery.fileupload-image.js' %}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#date_of_birth").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: 'dd/mm/yy',
+                yearRange: '1950:2014',
+                firstDay: 1
+            });
+
+            $('#id_country').change(function (e) {
+                $.get('/cities/' + this.value, function (data) {
+                    var city_dom_id = '#id_city';
+                    $(city_dom_id).empty();
+                    for (var i = 0; i < data.length; i++) {
+                        var city = data[i];
+                        $('<option>').val(city.pk).text(city.fields.name).appendTo(city_dom_id);
+                    }
+                });
+            });
+
+            $('input[type=radio]').iCheck({
+                radioClass: 'iradio_square-blue'
+            });
+
+            $('#upload-button').click(function () {
+                $('#id_photo').trigger('click');
+            });
+
+            $('#id_photo').fileupload({
+                {#                fileInput:$(this),#}
+                replaceFileInput: false,
+                url: 'localhost',
+                dataType: 'json',
+                autoUpload: false,
+                acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+                maxFileSize: 5000000, // 5 MB
+                // Enable image resizing, except for Android and Opera,
+                // which actually support image resizing, but fail to
+                // send Blob objects via XHR requests:
+                disableImageResize: /Android(?!.*Chrome)|Opera/
+                        .test(window.navigator.userAgent),
+                previewMaxWidth: 98,
+                previewMaxHeight: 120,
+                previewCrop: true
+            }).on('fileuploadadd',function (e, data) {
+                        data.context = $('#file-upload-name').empty();
+                        $.each(data.files, function (index, file) {
+                            var node = $('<span/>').append(file.name).prepend('<br/>');
+                            node.appendTo(data.context);
+
+                            $('#upload-button').after('<button type="submit" class="medium blue button2 marginSemiTop">' +
+                                    '<span aria-hidden="true" class="green svgSemi4Btn" data-icon="&#xe04b;"></span>' +
+                                    'Upload</button>'
+                            );
+                        });
+                    }).on('fileuploadprocessalways', function (e, data) {
+                        var index = data.index,
+                                file = data.files[index],
+                                node = $(data.context.children()[index]);
+
+                        {#                        $('#fileupload').val(file.name);#}
+                        if (file.preview) {
+                            $('#profile-photo').empty().append(file.preview);
+                        }
+                        if (file.error) {
+                            node.append($('<span class="text-danger"/>').text(file.error));
+                        }
+                    });
+
+        });
+    </script>
+
+{% endblock %}
+
+{% block innner_profile_content %}
+    <div class="company-listing clearfix">
+        <div class="listing-body">
+            <div class="editing-btns">
+                <a href="{% url 'profile_edit' %}">
+                    <div class="profileStepActiveLeft">1.Basic Profile</div>
+                </a>
+                <a href="{% url 'profile_complete' %}">
+                    <div class="profileStepActiveNormalRight">2.Complete your profile</div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <form id="basic-profile-form" method="post" autocomplete="off" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="company-listing clearfix">
+            <div class="listing-body">
+                <div class="container-24">
+                    <div class="blueTitle">Profile Picture</div>
+                </div>
+                <div class="container-24">
+                    <div id="files" class="container-4 noMargin">
+                        {% if form.instance.photo %}
+                            {% thumbnail form.instance.photo '100' format="PNG" as im %}
+                                <span class="thbig marginBtm userMyAccountPic" id="profile-photo">
+                                    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                                </span>
+                            {% endthumbnail %}
+                        {% else %}
+                            <span class="thbig marginBtm userMyAccountPic" id="profile-photo">
+                                <img src="{% static 'youth/images/members/no-pic.jpg' %}">
+                            </span>
+                        {% endif %}
+                    </div>
+                    <div class="container-20 marginLeft uploadDiv">
+                        <div class="centeredDiv">
+                            <a id="upload-button" class="medium green button2 marginSemiTop">
+                                <span aria-hidden="true" class="green svgSemi4Btn" data-icon=""></span>Browse image
+                            </a>
+                            <input class="fileinput-button" id="id_photo" type="file" name="photo">
+                            <span id="file-upload-name"></span>
+                            {% if form.instance.photo %}
+                                <br/>
+                                <label>
+                                    <span class="descriptionTitle">Delete current picture</span>
+                                    <input id="photo-clear_id" name="photo-clear" type="checkbox">
+                                </label>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="company-listing clearfix">
+            <div class="listing-body">
+                <div class="container-24">
+                    <div class="blueTitle">Personal Information</div>
+                </div>
+                <div class="container-24">
+                    <ul id="form-section-myAccount">
+                        <li>
+                            <label class="left-column">
+                                <div class="fieldTitle">First name<strong class="field_required">{% if form.first_name.field.required %}*{% endif %}
+                                    {% for error in form.first_name.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </strong></div>
+                                <input type="text" name="first_name" title="Your last name!"
+                                       value="{{ form.first_name.value }}" tabindex="1">
+                            </label>
+                        </li>
+                        <li>
+                            <label class="right-column">
+                                <div class="fieldTitle">Last name<strong class="field_required">{% if form.last_name.field.required %}*{% endif %}
+                                    {% for error in form.last_name.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </strong></div>
+                                <input type="text" name="last_name" title="Your last name!"
+                                       value="{{ form.last_name.value }}" tabindex="2">
+                            </label>
+                        </li>
+                        <li>
+                            <label class="left-column marginSemiTop">
+                                <div class="fieldTitleAdd">Date of birth</div>
+                                <input class="inputIconCalendar" type="text" name="date_of_birth" id="date_of_birth"
+                                       value="{{ form.date_of_birth.value|default:'' }}" tabindex="3"/>
+                            </label>
+                            <label class="right-column">
+                                <div class="fieldTitle">Your title (ex. Vounteer, Director)<strong class="field_required">{% if form.title.field.required %}*{% endif %}
+                                    {% for error in form.title.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </strong></div>
+                                {{ form.title }}
+                            </label>
+                        </li>
+                        <div style="clear:both;"></div>
+                        <li>
+                            <label class="left-column">
+                                <div class="fieldTitle">Country<strong class="field_required">{% if form.country.field.required %}*{% endif %}
+                                    {% for error in form.country.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </strong></div>
+                                {{ form.country }}
+                            </label>
+                        </li>
+                        <li>
+                            <label class="right-column">
+                                <div class="fieldTitle">City<strong class="field_required">{% if form.city.field.required %}*{% endif %}
+                                    {% for error in form.city.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </strong></div>
+                                {{ form.city }}
+                            </label>
+                        </li>
+                        <li>
+                            <label class="left-column">
+                                <div class="fieldTitle">Personal link</div>
+                                {{ form.website }}
+                            </label>
+                            <label class="right-column">
+                                <div class="fieldTitle">Interests</div>
+                                {{ form.interests }}
+                            </label>
+                        </li>
+                        {{ form.gender|as_crispy_field }}
+                        <div style="clear:both;"></div>
+                        <li>
+                            <label>
+                                <div class="fieldTitle">{{ form.tags.label }}</div>
+                                {{ form.tags }}
+                            </label>
+                        </li>
+
+                    </ul>
+                    <!-- END OF REGISTER FORM -->
+                </div>
+            </div>
+        </div>
+        <!--~~~-->
+        <!--~~~-->
+        <div class="company-listing clearfix">
+            <div class="listing-body">
+                {#                <div class="container-24">#}
+                {#                    <div class="blueTitle">Availability</div>#}
+                {#                </div>#}
+                <div class="container-24">
+                    {#                    <div class="underTitle"><strong>Check the type of work you do</strong></div>#}
+                    <ul id="form-section-myAccount">
+                        {{ form.availability|as_crispy_field:'youthmap' }}
+                    </ul>
+                    <div class="centeredDiv">
+                        <button class="medium green button2 save marginSemiTop" type="submit" id="save">SAVE</button>
+                        <button class="medium dark button2 marginSemiTop" type="submit" id="complete_profile"
+                                formaction="{% url 'profile_complete' %}">
+                            COMPLETE YOUR PROFILE
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock innner_profile_content %}

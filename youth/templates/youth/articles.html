@@ -1,0 +1,66 @@
+{% load static %}
+{% load thumbnail %}
+
+<!-- POP UP YOUTUBE PLAYER -->
+<script type="text/javascript" src="{% static 'youth/js/jquery-video-lightning.js' %}"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.get('{% url 'get_countries' %}', function (data) {
+            for (var i = 0; i < data.length; i++) {
+                var country = data[i];
+                $('<option>').val(country.pk).text(country.fields.name).appendTo('#country');
+            }
+        });
+
+        $(".video-link").jqueryVideoLightning({
+            autoplay: 1,
+            backdrop_color: "#ddd",
+            backdrop_opacity: 0.6,
+            glow: 20,
+            glow_color: "#000"
+        });
+    });
+</script>
+<!-- POP UP YOUTUBE PLAYER -->
+
+<div class="recently-added">
+    <div class="block-title2 recentAdded">
+        <h3>Recent Articles</h3>
+    </div>
+    <ul class="entries-list">
+        {% for article in article_list %}
+            <li class="clearfix">
+                {% if article.photo %}
+                    {% thumbnail article.photo '100' crop="center" format="PNG" as im %}
+                        <a href="{{ article.get_absolute_url }}" class="thumbnail">
+                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                        </a>
+                    {% endthumbnail %}
+                {% else %}
+                    <a href="{{ article.get_absolute_url }}" class="thumbnail">
+                        <img src="{% static 'youth/images/no-pic-article.jpg' %}" width="44" height="44">
+                    </a>
+                {% endif %}
+
+                <div class="entry-excerpt">
+                    <a href="{{ article.get_absolute_url }}" class="entry-title">{{ article }}</a><br/>
+
+                    <div class="entry-title more">
+                        <a href="{{ article.get_absolute_url }}"><span aria-hidden="true" class="svg"
+                                                                       data-icon="&#xf0a9;"></span>Read more</a>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+
+</div>
+<div class="recently-added">
+    <div class="block-title2 recentAdded">
+        <h3>How YouthMap works</h3>
+    </div>
+    <span class="video-link" data-video-id="y=kVy41Y67DuM"><div class="bannerHowItWorks"></div></span>
+    <a href="{% static 'youth/User_manual.pdf' %}" target="_blank">
+        <div class="bannerHowItWorks pdf"></div>
+    </a>
+</div>

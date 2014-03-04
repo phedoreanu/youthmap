@@ -1,0 +1,234 @@
+{% extends "youth/organisations.html" %}
+{% load thumbnail %}
+{% load filters %}
+
+{% block script %}
+    {{ block.super }}
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#follow').click(function (e) {
+                var form = $('#follow_form');
+                $.post(form.attr('action'), form.serialize(), function (response, status) {
+                    $('#follow-title').text(response.message);
+                });
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block maps %}
+    {% include 'youth/gmaps.html' with object_list=organisation %}
+{% endblock maps %}
+
+{% block content %}
+    <div class="content-wrapper">
+    <div class="zone-content equalize zone clearfix">
+    <div class="content-container container-23 mainContainer">
+    <div class="content-container container-23 noMarginLeft topBar">
+        <div class="content-container container-20 noMarginLeft">
+            <div class="iconTitle"><span aria-hidden="true" class="svg" data-icon="&#xe00c;"></span>
+                {% comment %} A
+                            {% for label in organisation.field_of_activity.all %}
+                                {{ label }}
+                            {% endfor %}
+                            Organisation{% endcomment %}
+                Organisation catalog
+            </div>
+        </div>
+        <div class="content-container container-5 noMarginLeft">
+            <a href="{% url 'organisations' %}">
+                <div class="backBtn"><span aria-hidden="true" class="svg" data-icon="&#xf0a8;"></span>Back
+                    to List
+                </div>
+            </a>
+        </div>
+    </div>
+    <!-- ~~~~~ LEFT COLUMN ~~~~-->
+    <div class="content-container container-20 noMarginLeft">
+        <div class="single-company block">
+            <div class="company-info clearfix">
+                <div class="company-info-description">
+                    <div class="breadcrumbs">
+                        <a href="{% url 'home' %}"><i>Home</i></a>
+                        <span></span>
+                        <a href="{% url 'organisations' %}"><i>Organisations</i></a>
+                    </div>
+
+                    <div class="company-listingResDetail clearfix">
+                        <div class="listing-body">
+                            <div class="container-20 noMarginLeft">
+                                <div class="block-title mainTitle"><h2>{{ organisation.title }}</h2></div>
+                                {#                                            <div class="slogan">This organisation slogan goes here</div>#}
+                                <div class="holderLeft">
+                                    <div class="underTitle location lineHeight">Location:
+                                        <span>{{ organisation.city }}</span></div>
+                                    <div class="underTitle location">Field of activity:
+                                        {% for label in organisation.field_of_activity.all %}
+                                            <span>{{ label }}{% if not forloop.last %},{% endif %}</span>
+                                        {% endfor %}
+                                        <span>{{ organisation.other_field_of_activity }}</span>
+                                    </div>
+                                    <div class="underTitle location">Year of foundation:
+                                        <span>{{ organisation.year }}</span>
+                                    </div>
+
+                                    {% if organisation.owner == request.user %}
+                                        <div class="content-container noMarginLeft marginTop2">
+                                        <a href="{% url 'organisation_update' organisation.pk %}"
+                                           class="lightDark button2 noMarginTop">
+                                            <span aria-hidden="true" class="svg" data-icon=""></span>Edit this
+                                            organisation</a>
+                                        </div>{% endif %}
+                                </div>
+                                <div class="holderLeft">
+                                    <div class="underTitle location lineHeight">
+                                                    <span aria-hidden="true" class="svgSemi"
+                                                          data-icon="&#xe042;"></span>Followers:
+                                        <span>{{ organisation.owner.followers_set.count }}</span>
+                                    </div>
+                                    <div class="underTitle location lineHeight">
+                                                    <span aria-hidden="true" class="svgSemi"
+                                                          data-icon="&#xe02c;"></span>Members:
+                                        <span>{{ organisation.number_of_members }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            {% if organisation.photo %}
+                                <div class="container-4">
+                                    {% thumbnail organisation.photo '100' crop="center" format="PNG" as im %}
+                                        <span class="thbig marginTop userAccountPic">
+                                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                                        </span>
+                                    {% endthumbnail %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!--~~~-->
+                    {% if organisation.values%}<div class="description">
+                        <span class="descriptionTitle">Values</span><br/>
+                        {{ organisation.values }}
+                    </div>{% endif %}
+                    <!--~~~-->
+                    {% if organisation.mission%}<div class="description">
+                        <span class="descriptionTitle">Mission</span><br/>
+                        {{ organisation.mission }}
+                    </div>{% endif %}
+                    <!--~~~-->
+                    {% if organisation.objectives%}<div class="description">
+                        <span class="descriptionTitle">Objectives</span><br/>
+                        {{ organisation.objectives }}
+
+                    </div>{% endif %}
+                    <!--~~~-->
+                    <!--~~~-->
+                    {% if organisation.target_group%}<div class="description">
+                        <span class="descriptionTitle">Target group</span><br/>
+                        {{ organisation.target_group }}
+                    </div>{% endif %}
+                    <!--~~~-->
+                    {% if organisation.activities%}<div class="description">
+                        <span class="descriptionTitle">Activities</span><br/>
+                        {{ organisation.activities }}
+                    </div>{% endif %}
+                    <!--~~~-->
+                    {% if organisation.achievements%}<div class="description">
+                        <span class="descriptionTitle">Achievements</span><br/>
+                        {{ organisation.achievements }}
+                    </div>{% endif %}
+
+                    {% if organisation.partners%}<div class="description">
+                        <span class="descriptionTitle">Partners</span><br/>
+                        {{ organisation.partners }}
+                    </div>{% endif %}
+
+                    {% if organisation.number_of_members%}<div class="description">
+                        <span class="descriptionTitle">Number of members</span><br/>
+                        {{ organisation.number_of_members }}
+                    </div>{% endif %}
+
+                    {% if organisation.get_level_of_activity_display%}<div class="description">
+                        <span class="descriptionTitle">Level of activity</span><br/>
+                        {{ organisation.get_level_of_activity_display }}
+                    </div>{% endif %}
+
+                    {% if organisation.website%}<div class="description">
+                        <span class="descriptionTitle">Website</span><br/>
+                        <a href="{{ organisation.website }}" target="_blank">
+                            {{ organisation.website }}
+                        </a>
+                    </div>{% endif %}
+
+                    <div style="clear:both;"></div>
+                    {% if organisation.attachment %}
+                        <div class="description">
+                            <div class="descriptionTitle">Attachments</div>
+                            <span aria-hidden="true" class="svgfooter" data-icon="&#xe019;"></span>
+                            <a target="_blank"
+                               href="{{ organisation.attachment.url }}">{{ organisation.attachment }}</a>
+                        </div>
+                    {% endif %}
+
+                    {% if organisation.tags.all%}<div class="description">
+                        <div class="descriptionTitle">Tags</div>
+                        {% for label in organisation.tags.all %}
+                            <div data-alert class="alert-box tags">{{ label }}</div>
+                        {% endfor %}
+                        <div style="clear:both;"></div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <!--/single-company-->
+    </div>
+
+    {% if organisation.user %}
+        <div class="sidebarGray container-5">
+        <div class="sidebarGrayContainer">
+            <h3 class="block-title">Follow</h3>
+            <a id="follow" class="medium button2">
+                <span aria-hidden="true" class="svgSemi4Btn" data-icon=""></span>
+                <span id="follow-title">
+                    {% if organisation.user.id in request.user.following_set|unpacked %}
+                        Unfollow
+                    {% else %}
+                        Follow
+                    {% endif %}
+                </span>
+            </a>
+
+            <form method="post" id="follow_form" action="{% url 'follow' %}">
+                {% csrf_token %}
+                <input type="hidden" name="follower-id" value="{{ organisation.user.id }}"/>
+            </form>
+        </div>
+        </div>{% endif %}
+
+    <div class="sidebarGray container-5">
+        <div class="sidebarGrayContainer">
+            <h3 class="block-title">Contact</h3>
+                        <span class="underTitle"><strong>{{ organisation.contact_person_name }}</strong><br/>
+                            <i>{{ organisation.official_position }}</i></span><br/>
+            <span class="underTitle"><strong>Email</strong><br/><i>{{ organisation.email }}</i></span><br/>
+            <span class="underTitle"><strong>Telephone</strong><br/><i>{{ organisation.telephone }}</i></span> <br/>
+        </div>
+    </div>
+
+    <div class="sidebarGray container-5">
+        <div class="sidebarGrayContainer">
+            <h3 class="block-title" style="margin-bottom:10px;">Share</h3>
+            <span class='st_facebook_hcount' displayText='Facebook'></span>
+            <span class='st_twitter_hcount' displayText='Tweet'></span>
+            <span class='st_linkedin_hcount' displayText='LinkedIn'></span>
+            <span class='st_email_hcount' displayText='Email'></span>
+        </div>
+    </div>
+
+    </div>
+    </div>
+    <!-- end of .content-container -->
+    </div><!-- end of .content-wrapper -->
+{% endblock content %}

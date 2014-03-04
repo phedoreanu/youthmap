@@ -1,0 +1,137 @@
+{% extends 'youth/home.html' %}
+{% load static %}
+{% load filters %}
+
+{% block css %}
+    {{ block.super }}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'youth/css/jquery.mCustomScrollbar.css' %}"/>
+{% endblock %}
+
+{% block script %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'youth/js/jquery.mCustomScrollbar.min.js' %}"></script>
+
+    <script>
+        $(document).ready(function () {
+            $(this).foundation();
+
+            {% if project_list|length  %}
+                $("#project_list").addClass('customScroll').mCustomScrollbar({
+                    advanced: {
+                        updateOnContentResize: true
+                    }
+                });
+            {% endif %}
+        });
+    </script>
+{% endblock %}
+
+{% block maps %}
+    {% include 'youth/gmaps.html' with object_list=project_list %}
+{% endblock maps %}
+
+{% block content %}
+    <div class="content-container container-17">
+        <div class="content-container container-23 noMarginLeft topBarProjects">
+            <div class="content-container container-20 noMarginLeft">
+                <div class="iconTitle projectSmallTitle">
+                    <span aria-hidden="true" class="svg" data-icon="&#xe006;"></span>Projects
+                </div>
+            </div>
+        </div>
+
+        <!--END TITLE BAR-->
+        <section>
+            <div class="content contentRes" data-section-content>
+                <!--===== DIV INTRO ===========================-->
+                <div class="content-container container-24 welcomeBorder projects noMargin fullWidth">
+                    <div class="content-container container-5 marginTop">
+                        <a href="#" class="thbig">
+                            <img src="{% static 'youth/images/bigLeftPicture/student.jpg' %}">
+                        </a>
+                    </div>
+                    <!--~~~-->
+                    <div class="content-container container-19 marginTop">
+                        <div class="welcome block">
+                            <div class="block-title">
+                                <h2>It’s all about projects</h2>
+                            </div>
+
+                            <div class="welcome-text">When you have a running project but still need inspiration (ideas)
+                                or tools (resources), here is the place to come. You can post your project so other
+                                people can contact you or you can search for other people projects. At the end it’s all
+                                about projects!
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!--=====IDEAS LIST ===========================-->
+                <div id="project_list">{% if project_list %}
+                    <div class="content-container container-24 marginTop">
+                        <div class="block-title2">
+                            <h2>SEE OTHER PEOPLE PROJECTS</h2></div>
+                    </div>
+                {% endif %}
+                    <div class="companies-listings block">
+                        {% for project in project_list %}
+                            <div class="company-listing clearfix">
+                                <div class="listing-body">
+                                    <div class="listing-title">
+                                        <a href="{% url 'project' project.id %}">{{ project.title }}</a>
+                                    </div>
+                                <span class="underTitle">
+                                    A{{ project.field_of_activity.all.0.name|startswith:'I O E' }}
+
+                                    {% for label in project.field_of_activity.all %}
+                                        <span>{{ label }}{% if not forloop.last %},{% endif %}</span>
+                                    {% endfor %}
+                                    Project by
+                                    {% if project.owner.profile %}
+                                        <a href="{% url 'profile' project.owner.profile.id %}">{{ project.owner.get_full_name }}</a>
+                                    {% elif project.owner.organisation %}
+                                        <a href="{% url 'organisation' project.owner.organisation.id %}">{{ project.owner.organisation.title }}</a>
+                                    {% endif %} | Location: <span>{{ project.city }}</span>
+                                </span>
+
+                                    <div class="listing-text">{{ project.description|truncatechars:290 }}</div>
+                                <span class="listing-read-more">
+                                    <a href="{% url 'project' project.id %}">
+                                        <span aria-hidden="true" class="svg" data-icon="&#xf0a9;"></span>
+                                        More</a>
+                                </span>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                        {% if is_paginated %}
+                            <div class="pagination">
+                                <div class="pagination-buttons">
+                                    {% for page in page_obj.paginator.page_range %}
+                                        <a {% if page_obj.number == page %}class="current-page"{% endif %}
+                                           href="{% url 'project_list' %}?page={{ page }}">
+                                            {{ page }}
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="separator"></div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock content %}
+
+{% block what_to_do %}
+    <div class="whatToDo projects marginSemiBottom">
+        <img src="{% static 'youth/images/callToAction/project.png' %}">
+
+        <div class="whatToDoTitle"><h2>What to do next?</h2></div>
+        <p>If you have a project ready, upload it and share it with us</p>
+
+        <div class="wtd-btn"><a href="{% url 'project_add' %}" class="btn">Add a project</a></div>
+    </div>
+{% endblock %}

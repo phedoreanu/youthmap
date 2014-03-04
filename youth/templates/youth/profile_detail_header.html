@@ -1,0 +1,154 @@
+{% load static %}
+{% load filters %}
+{% load thumbnail %}
+
+<div class="company-listing noBorder clearfix">
+    <div class="listing-body marginTopMyAccount">
+        <div class="container-4 noMargin">
+            {% if profile.photo %}
+                {% thumbnail profile.photo '100' format="PNG" as im %}
+                    <span {% comment %}href="{% url 'profile' profile.id %}"{% endcomment %} class="thbig userMyAccountPic marginBtm">
+                        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                    </span>
+                {% endthumbnail %}
+{#                <span class="thbig marginBtm userMyAccountPic">#}
+{#                    <img src="{{ profile.photo.url }}">#}
+{#                </span>#}
+            {% else %}
+                <span class="thbig marginBtm userMyAccountPic">
+                    <img src="{% static 'youth/images/members/no-pic.jpg' %}">
+                </span>
+            {% endif %}
+        </div>
+        <div class="container-20 marginLeft">
+            {% if profile.owner.organisation%}
+                <div class="block-title mainTitle">
+                    <h2>{{ profile.title }}</h2>
+                </div>
+                <div class="sloganMembers">&nbsp;</div>
+            {% else %}
+                <div class="block-title mainTitle">
+                    <h2>{{ profile.owner.get_full_name }}</h2>
+                </div>
+                <div class="sloganMembers">{{ profile.title }}</div>
+            {% endif %}
+
+            <div class="underTitle location lineHeight">Field of activity:
+                {% for item in profile.field_of_activity.all %}
+                    <span>{{ item }}{% if not forloop.last %},{% endif %}</span>
+                {% endfor %}
+                {% if profile.other_field_of_activity%}<span>, {{ profile.other_field_of_activity }}</span>{% endif %}
+            </div>
+
+            <div class="holderLeft">
+                <div class="underTitle location lineHeight">
+                    {{ profile.get_gender_display }}{% if profile.date_of_birth %},
+                        {{ profile.date_of_birth|timesince|upto:',' }}
+                        old{% endif %}
+                </div>
+                <div class="underTitle location lineHeight">Location: <span>{{ profile.city }}</span></div>
+                <div class="underTitle location lineHeight">Member
+                    since: {{ profile.owner.date_joined|date:'F Y' }}</div>
+            </div>
+            <div class="holderLeft ">
+                <div class="underTitle location lineHeight lineHeight">
+                    <span aria-hidden="true" class="svgSemi" data-icon="&#xe01c;"></span>Ideas added:
+                    <span>{{ profile.owner.idea_set.count }}</span>
+                </div>
+                <div class="underTitle location lineHeight lineHeight">
+                    <span aria-hidden="true" class="svgSemi" data-icon="&#xf0f6;"></span>Projects added:
+                    <span>{{ profile.owner.project_set.count }}</span>
+                </div>
+                <div class="underTitle location lineHeight lineHeight">
+                    <span aria-hidden="true" class="svgSemi" data-icon="&#xe00c;"></span>Resources added:
+                    <span>{{ profile.owner.metaresource_set.count }}</span>
+                </div>
+
+            </div>
+            <div class="holderLeft">
+                <div class="underTitle location lineHeight lineHeight">
+                    <span aria-hidden="true" class="svgSemi" data-icon="&#xe043;"></span>Profile
+                    views: <span>{{ profile.views }}</span>
+                </div>
+                <div class="underTitle location lineHeight lineHeight">
+                    <span aria-hidden="true" class="svgSemi" data-icon="&#xe042;"></span>Following:
+                    <span>{{ profile.owner.following_set.count }}</span>
+                </div>
+                <div class="underTitle location lineHeight lineHeight">
+                    <span aria-hidden="true" class="svgSemi" data-icon="&#xe042;"></span>Followers:
+                    <span>{{ profile.owner.followers_set.count }}</span>
+                </div>
+            </div>
+            {% comment %}<div class="content-container container-20 noMarginLeft">
+                <div class="block-title mainTitle">
+                    <h2>{{ profile.owner.get_full_name }}</h2>
+                </div>
+                <div class="sloganMembers">{{ profile.title }}</div>
+            </div>
+            {% if request.user.id == profile.owner.id %}
+                <div class="content-container noMarginLeft floatRight">
+                    <a href="{% url 'profile_edit' %}" class="small green button2 noMarginTop marginSemiBottom">
+                        <span aria-hidden="true" class="svg" data-icon="&#xe049;"></span>
+                        Edit
+                    </a>
+                </div>
+            {% endif %}
+
+            <div class="holderLeft">
+                {% if profile.date_of_birth %}
+                    <div class="underTitle location">{{ profile.date_of_birth|timesince|upto:',' }} old</div>{% endif %}
+
+                <div class="underTitle location">Location: <span>{{ profile.city }}</span></div>
+                <div class="underTitle location">Field of activity:
+                    {% for item in profile.field_of_activity.all %}
+                        <span>{{ item }}{% if not forlooprofile.last %},{% endif %}</span>
+                    {% endfor %}
+                    <span>{{ profile.other_field_of_activity }}</span>
+                </div>
+                <div class="underTitle location">Member
+                    since: {{ profile.owner.date_joined|date:'F Y' }}</div>
+            </div>
+
+            <div class="holderLeft ">
+                <div class="underTitle location lineHeight">
+                    <span aria-hidden="true" class="svgSemi" data-icon="&#xe01c;"></span>
+                    Ideas added: {{ profile.owner.idea_set.count }}
+                </div>
+                <div class="underTitle location lineHeight">
+                    <span aria-hidden="true" class="svgSemi" data-icon="&#xf0f6;"></span>
+                    Projects added: {{ profile.owner.project_set.count }}
+                </div>
+                <div class="underTitle location lineHeight">
+                    <span aria-hidden="true" class="svgSemi" data-icon="&#xe00c;"></span>
+                    Resources added: {{ profile.owner.metaresource_set.count }}
+                </div>
+            </div>
+
+            <div class="holderLeft">
+                <div class="underTitle location lineHeight">
+                    <span aria-hidden="true" class="svgSemi" data-icon="&#xe043;"></span>
+                    Profile views: {{ profile.views }}
+                </div>
+                <div class="underTitle location lineHeight">
+                    <span aria-hidden="true" class="svgSemi" data-icon="&#xe042;"></span>
+                    Following:
+                    {% if following %}
+                        <a href="{% url 'my_connections_following' %}">{{ profile.owner.following_set.count }}</a>
+                    {% else %}
+                        <span>{{ profile.owner.following_set.count }}</span>
+                    {% endif %}
+                </div>
+                <div class="underTitle location lineHeight">
+                    <span aria-hidden="true" class="svgSemi" data-icon="&#xe042;"></span>
+                    Followers:
+                    {% if following %}
+                        <a href="{% url 'my_connections_followers' %}"> {{ profile.owner.followers_set.count }} </a>
+                    {% else %}
+                        <span>{{ profile.owner.followers_set.count }}</span>
+                    {% endif %}
+                </div>
+            </div>{% endcomment %}
+        </div>
+        <!--/container-20-->
+    </div>
+</div>

@@ -1,0 +1,149 @@
+{% extends 'youth/home.html' %}
+{% load static %}
+{% load filters %}
+
+{% block css %}
+    {{ block.super }}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'youth/css/jquery.mCustomScrollbar.css' %}"/>
+{% endblock %}
+
+{% block script %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'youth/js/jquery.mCustomScrollbar.min.js' %}"></script>
+
+    <script>
+        $(document).ready(function () {
+            $(this).foundation();
+
+            {% if idea_list|length > 3 %}
+                $("#idea_list").addClass('customScroll').mCustomScrollbar({
+                    advanced: {
+                        updateOnContentResize: true
+                    }
+                });
+            {% endif %}
+        });
+    </script>
+{% endblock %}
+
+{% block maps %}
+    {% include 'youth/gmaps.html' with object_list=idea_list %}
+{% endblock maps %}
+
+{% block content %}
+    <div class="content-container container-17">
+        <!-- TABS-->
+        <div class="section-container tabs" data-section="tabs">
+            <section>
+                <p class="title ideas" data-section-title>
+                    <a href="#">
+                        <span aria-hidden="true" class="svg" data-icon="&#xe01c;"></span>Ideas
+                    </a>
+                </p>
+
+                <div class="content" data-section-content>
+
+                    <!--===== DIV INTRO ===========================-->
+                    <div class="content-container container-24 welcomeBorder ideas noMargin fullWidth">
+                        <div class="content-container container-5 marginTop">
+                            <a href="#" class="thbig"><img
+                                    src="{% static 'youth/images/bigLeftPicture/idea.jpg' %}"></a>
+                        </div>
+                        <!--~~~-->
+                        <div class="content-container container-19 marginTop">
+                            <div class="welcome block">
+                                <div class="block-title">
+                                    <h2>IDEAS CAN CHANGE THE WORLD</h2>
+                                </div>
+
+                                <div class="welcome-text">In this section you can present your idea or you can
+                                    search for other people ideas. If you submitted an idea, you just need to
+                                    wait to be contacted. In the meantime you can search for other people ideas.
+                                    The next step would be to find the right resources and turn your idea into a
+                                    real project!
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!--=====IDEAS LIST ===========================-->
+                    <div id="idea_list">{% if idea_list %}
+                        <div class="content-container container-24 marginTop">
+                            <div class="block-title2"><h2>SEE OTHER PEOPLE IDEAS</h2></div>
+                        </div>
+                    {% endif %}
+                        <div class="companies-listings block">
+                            {% for idea in idea_list %}
+                                <div class="company-listing clearfix">
+                                    <div class="listing-body">
+                                        <div class="listing-title">
+                                            <a href="{% url 'idea' idea.id %}">{{ idea.title }}</a>
+                                        </div>
+                                    <span class="underTitle">
+                                        A{{ idea.field_of_activity.all.0.name|startswith:'I O E' }}
+                                        {% for label in idea.field_of_activity.all %}
+                                            <span>{{ label }}{% if not forloop.last %},{% endif %}</span>
+                                        {% endfor %}
+                                        Idea
+                                        by
+                                        {% if idea.owner.profile %}
+                                            <a href="{% url 'profile' idea.owner.profile.id %}">{{ idea.owner.get_full_name }}</a>
+                                        {% elif idea.owner.organisation %}
+                                            <a href="{% url 'organisation' idea.owner.organisation.id %}">{{ idea.owner.organisation.title }}</a>
+                                        {% endif %}| Location: <span>{{ idea.city }}</span>
+                                    </span>
+
+                                        <div class="listing-text">{{ idea.description|truncatechars:290 }}</div>
+                                    <span class="listing-read-more">
+                                        <a href="{% url 'idea' idea.id %}">
+                                            <span aria-hidden="true" class="svg" data-icon="&#xf0a9;"></span>
+                                            More</a>
+                                    </span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                            {% if is_paginated %}
+                                <div class="pagination">
+                                    <div class="pagination-buttons">
+                                        {% for page in page_obj.paginator.page_range %}
+                                            <a {% if page_obj.number == page %}class="current-page"{% endif %}
+                                               href="{% url 'idea_list' %}?page={{ page }}">
+                                                {{ page }}
+                                            </a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="separator"></div>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                    <!--===== END IDEAS LIST ============-->
+                </div>
+            </section>
+            <section>
+                <p class="title expanded"></p>
+
+                <div class="content" data-section-content>
+                    <p>Content of section 2.</p>
+                </div>
+            </section>
+        </div>
+        <!--==================== /TABS ===========================-->
+        <!-- END TABS-->
+    </div>
+{% endblock content %}
+
+{% block what_to_do %}
+    <div class="whatToDo addIdea">
+        <img src="{% static 'youth/images/callToAction/bulb.png' %}">
+
+        <div class="whatToDoTitle"><h2>What to do next?</h2></div>
+        <p>If you have a great idea on how to change the world, share it with US!</p>
+
+        <div class="wtd-btn"><a href="{% url 'idea_add' %}" class="btn">Add an idea</a></div>
+    </div>
+{% endblock %}
