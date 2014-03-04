@@ -3,7 +3,7 @@ youthmap
 
 Idea sharing and much more!
 
-[Demo](http://youthmap-phedoreanu.rhcloud.com/youthmap/)
+[Demo](http://www.youthmap.org/)
 
 This project uses:
 
@@ -12,5 +12,3 @@ This project uses:
 - Django Suit
 - Django Crispy-form
 - Django Cities-light
-
-Project hosted at https://www.openshift.com/
