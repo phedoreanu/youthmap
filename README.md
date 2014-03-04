@@ -7,7 +7,7 @@ Idea sharing and much more!
 
 This project uses:
  
-- Django (https://www.djangoproject.com/)
+- Django
 - South
 - Django Suit
 - Django Crispy-form
