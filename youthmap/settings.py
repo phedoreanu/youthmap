@@ -14,7 +14,7 @@ DEBUG = not ON_ROSTI
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    ('Adrian Fedoreanu', 'adrian.fedoreanu@gmail.com'),
+    ('Adrian Fedoreanu', 'phedoreanu@yahoo.com'),
 )
 
 MANAGERS = ADMINS
